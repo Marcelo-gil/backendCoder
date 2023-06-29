@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="well well-sm">
+                <form id="loginForm" class="form-horizontal mt-5" method="post">
+                    <fieldset>
+                        <legend class="p-3 mb-2 bg-primary text-white">Login</legend>
+                        <div class="form-group">
+                            <div class="col-md-12 mt-5">
+                                <label>Email</label>
+                                <input name="email" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="sr-only">Contraseña</label>
+                                <input name="password" type="password" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 text-center mt-3">
+                                <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                
+                <a href="/api/users/github"><button class="btn btn-primary btn-lg">Ingresar con github</button></a>
+                <br/>
+                <br/>
+                <p>¿No estás registrado? <a href="/register">Regístrate aquí</a></p>
+                <p>¿Olvidaste tu contraseña? <a href="/reset">Restaurala aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/login.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
