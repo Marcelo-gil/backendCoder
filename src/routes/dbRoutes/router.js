@@ -1,6 +1,6 @@
-import { Router as expressRouter } from 'express';
-import { passportStrategiesEnum } from '../../config/enums.js';
-import passport from 'passport';
+import { Router as expressRouter } from "express";
+import { passportStrategiesEnum } from "../../config/enums.js";
+import passport from "passport";
 
 export default class Router {
     constructor() {
@@ -10,9 +10,9 @@ export default class Router {
 
     getRouter() {
         return this.router;
-    };
+    }
 
-    init() { }
+    init() {}
 
     get(path, policies, passportStrategy, ...callbacks) {
         this.router.get(
@@ -59,10 +59,9 @@ export default class Router {
             passport.authenticate(strategy, function (err, user, info) {
                 if (err) return next(err);
 
-                if (!user)
-                    return res.redirect('/login') 
-                
-                const userCopy = { ...user};
+                if (!user) return res.redirect("/login");
+
+                const userCopy = { ...user };
                 delete userCopy.password;
 
                 req.user = userCopy;
@@ -71,20 +70,19 @@ export default class Router {
         } else {
             next();
         }
-    }
+    };
 
     handlePolicies = (policies) => (req, res, next) => {
-        if (policies[0] === 'PUBLIC') return next();
+        if (policies[0] === "PUBLIC") return next();
 
         const user = req.user;
-        if(typeof user === "undefined") return res.redirect('/login');
-        if (!policies.includes(user.role.toUpperCase())){
-            return res.status(403).json({ message: 'Forbidden' })
+        if (typeof user === "undefined") return res.redirect("/login");
+        if (!policies.includes(user.role.toUpperCase())) {
+            return res.status(403).json({ message: "Forbidden" });
         }
 
-        
         next();
-    }
+    };
 
     generateCustomReponse = (req, res, next) => {
         res.sendSuccess = (data) => {
@@ -97,7 +95,7 @@ export default class Router {
             res.status(400).json({ error });
         };
         next();
-    }
+    };
 
     applyCallbacks(callbacks) {
         return callbacks.map((callback) => async (...params) => {
@@ -106,6 +104,6 @@ export default class Router {
             } catch (error) {
                 params[1].status(500).json({ error: error.message });
             }
-        })
+        });
     }
 }

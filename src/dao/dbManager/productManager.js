@@ -5,7 +5,7 @@ export default class ProductManager {
         console.log("Working products with DB");
     }
 
-     getProducts = async (limit, page, query, sort) => {
+    getProducts = async (limit, page, query, sort) => {
         let locQuery;
         if (!query) {
             locQuery = {};

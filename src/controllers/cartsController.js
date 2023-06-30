@@ -1,17 +1,15 @@
-import { 
-    addCarts as addCartsService, 
+import {
+    addCarts as addCartsService,
     getCarts as getCartsService,
     getCartById as getCartByIdService,
     updateCart as updateCartService,
     updateCartOne as updateCartOneService,
     updateCartPost as updateCartPostService,
     deleteCart as deleteCartService,
-    deleteCartProduct as deleteCartProductService
-} from '../services/cartsService.js'
+    deleteCartProduct as deleteCartProductService,
+} from "../services/cartsService.js";
 
-import { 
-    getProductById as getProductByIdService
-} from '../services/productsService.js'
+import { getProductById as getProductByIdService } from "../services/productsService.js";
 
 const getCarts = async (req, res) => {
     try {
@@ -23,9 +21,9 @@ const getCarts = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
-const getCartById =  async (req, res) => {
+const getCartById = async (req, res) => {
     try {
         const cid = req.params.cid;
         const cart = await getCartByIdService(cid);
@@ -36,7 +34,7 @@ const getCartById =  async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const addCarts = async (req, res) => {
     try {
@@ -57,20 +55,18 @@ const addCarts = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const updateCartPost = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
-    
+
     try {
         const resul = await getProductByIdService(pid);
-        
+
         if (!resul.status) {
-            
             res.send(resul);
         } else {
-            
             const cart = await updateCartPostService(cid, pid);
             if (cart) {
                 res.send({
@@ -86,7 +82,7 @@ const updateCartPost = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const updateCartOne = async (req, res) => {
     const cid = req.params.cid;
@@ -112,20 +108,19 @@ const updateCartOne = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const updateCart = async (req, res) => {
     const cid = req.params.cid;
     const products = req.body;
     const pid = products[0].id;
-    
+
     try {
         const resul = await getProductByIdService(pid);
-        
+
         if (!resul.status) {
             res.send(resul);
         } else {
-            
             const cart = await updateCartService(cid, products);
             if (cart) {
                 res.send({
@@ -142,7 +137,7 @@ const updateCart = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const deleteCart = async (req, res) => {
     const pid = req.params.pid;
@@ -166,7 +161,7 @@ const deleteCart = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const deleteCartProduct = async (req, res) => {
     const cid = req.params.cid;
@@ -192,7 +187,7 @@ const deleteCartProduct = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 export {
     addCarts,
@@ -202,5 +197,5 @@ export {
     updateCartOne,
     updateCart,
     deleteCart,
-    deleteCartProduct
-}
+    deleteCartProduct,
+};

@@ -1,12 +1,12 @@
-import { 
-    addProducts as addProductsService, 
+import {
+    addProducts as addProductsService,
     getProducts as getProductsService,
     getProductById as getProductByIdService,
     updateProduct as updateProductService,
-    deleteProduct as deleteProductService
-} from '../services/productsService.js'
+    deleteProduct as deleteProductService,
+} from "../services/productsService.js";
 
-import invalidProduct from '../dao/dbManager/validProductManager.js';
+import invalidProduct from "../dao/dbManager/validProductManager.js";
 
 import ProductManager from "../dao/dbManager/productManager.js";
 const productManager = new ProductManager();
@@ -17,16 +17,11 @@ const getProducts = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const query = req.query.query || undefined;
         const sort = req.query.sort || undefined;
-    
+
         try {
-            const result = await getProductsService(
-                limit,
-                page,
-                query,
-                sort
-            );
+            const result = await getProductsService(limit, page, query, sort);
             const products = [...result.docs];
-    
+
             res.send({
                 status: "success",
                 payload: products,
@@ -41,8 +36,8 @@ const getProducts = async (req, res) => {
         } catch (error) {
             res.status(500).send({ status: "error", error: error.message });
         }
-    }
-}
+    };
+};
 
 const getProductById = async (req, res) => {
     try {
@@ -55,7 +50,7 @@ const getProductById = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const addProducts = async (req, res) => {
     const productNew = req.body;
@@ -68,7 +63,7 @@ const addProducts = async (req, res) => {
             const result = await addProductsService(productNew);
             const io = req.app.get("socketio");
             const resultProducts = await getProductsService(999, 1);
-            
+
             const arrayProducts = [...resultProducts.docs];
             io.emit("showProducts", arrayProducts);
 
@@ -80,7 +75,7 @@ const addProducts = async (req, res) => {
             });
         }
     }
-}
+};
 
 const updateProduct = async (req, res) => {
     const pid = req.params.pid;
@@ -114,7 +109,7 @@ const updateProduct = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 const deleteProduct = async (req, res) => {
     const pid = req.params.pid;
@@ -144,7 +139,7 @@ const deleteProduct = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-}
+};
 
 export {
     addProducts,
@@ -152,4 +147,4 @@ export {
     getProductById,
     updateProduct,
     deleteProduct,
-}
+};

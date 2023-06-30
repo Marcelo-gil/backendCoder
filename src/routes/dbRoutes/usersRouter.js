@@ -1,27 +1,68 @@
-import Router from './router.js';
-import { loginUser, registerUser, failLoginUser, githubUser, githubCallbackUser, resetUser, logoutUser } from '../../controllers/usersController.js'
+import Router from "./router.js";
+import {
+    loginUser,
+    registerUser,
+    failLoginUser,
+    githubUser,
+    githubCallbackUser,
+    resetUser,
+    logoutUser,
+} from "../../controllers/usersController.js";
 
-import passport from 'passport';
-import { passportStrategiesEnum } from '../../config/enums.js';
+import passport from "passport";
+import { passportStrategiesEnum } from "../../config/enums.js";
 
 export default class UsersRouter extends Router {
     init() {
-        this.post('/login', ['PUBLIC'], passportStrategiesEnum.NOTHING, loginUser )
+        this.post(
+            "/login",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            loginUser
+        );
 
-        this.post('/register', ['PUBLIC'], passportStrategiesEnum.NOTHING, registerUser)
+        this.post(
+            "/register",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            registerUser
+        );
 
-        this.get('/fail-login', ['PUBLIC'], passportStrategiesEnum.NOTHING,failLoginUser);
+        this.get(
+            "/fail-login",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            failLoginUser
+        );
 
-        this.get('/github', ['PUBLIC'], passportStrategiesEnum.NOTHING,passport.authenticate(
-            'github', { scope: ['user:email'] }
-        ), githubUser)
+        this.get(
+            "/github",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            passport.authenticate("github", { scope: ["user:email"] }),
+            githubUser
+        );
 
-        this.get('/github-callback', ['PUBLIC'], passportStrategiesEnum.NOTHING,  passport.authenticate(
-            'github', { failureRedirect: '/login' }
-        ), githubCallbackUser)
+        this.get(
+            "/github-callback",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            passport.authenticate("github", { failureRedirect: "/login" }),
+            githubCallbackUser
+        );
 
-        this.post('/reset',  ['PUBLIC'], passportStrategiesEnum.NOTHING, resetUser)
+        this.post(
+            "/reset",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            resetUser
+        );
 
-        this.get('/logout', ['PUBLIC'], passportStrategiesEnum.NOTHING, logoutUser)
+        this.get(
+            "/logout",
+            ["PUBLIC"],
+            passportStrategiesEnum.NOTHING,
+            logoutUser
+        );
     }
 }

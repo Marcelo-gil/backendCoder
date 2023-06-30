@@ -1,47 +1,46 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const userCollection = 'users';
+const userCollection = "users";
 
 const userSchema = new mongoose.Schema({
     first_name: {
-        type: String
+        type: String,
     },
     last_name: {
-        type: String
+        type: String,
     },
     email: {
         type: String,
-        unique: true
+        unique: true,
     },
     age: Number,
     password: {
-        type: String
+        type: String,
     },
     role: {
         type: String,
-        default: 'USER'
+        default: "USER",
     },
     carts: {
         type: [
             {
-                cart:{
+                cart: {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: 'carts',
-                }
-            }
+                    ref: "carts",
+                },
+            },
         ],
-        default: []
-    }
+        default: [],
+    },
 });
 
-userSchema.pre('find',function () {
-    this.populate('carts.cart');
+userSchema.pre("find", function () {
+    this.populate("carts.cart");
 });
 
 userSchema.pre("findOne", function () {
     this.populate("carts.cart");
 });
-
 
 const userModel = mongoose.model(userCollection, userSchema);
 

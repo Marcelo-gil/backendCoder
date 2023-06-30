@@ -1,5 +1,3 @@
-const PRIVATE_KEY = 'coder39760'
+const PRIVATE_KEY = "coder39760";
 
-export {
-    PRIVATE_KEY
-}
+export { PRIVATE_KEY };

@@ -1,5 +1,5 @@
 import fs from "fs";
-import invalidProduct from '../dao/dbManager/validProductManager.js';
+import invalidProduct from "../dao/dbManager/validProductManager.js";
 
 export default class ProductManager {
     constructor(path) {

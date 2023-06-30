@@ -1,8 +1,8 @@
 //Import del dao de manejo de datos con archivos
 
-import mongoProductDao from './dbManager/productManager.js'
-import mongoUserDao from './dbManager/userManager.js'
-import mongoCartDao from './dbManager/cartManager.js'
+import mongoProductDao from "./dbManager/productManager.js";
+import mongoUserDao from "./dbManager/userManager.js";
+import mongoCartDao from "./dbManager/cartManager.js";
 
 //Crear las instancia de manejo de datos con archivos
 

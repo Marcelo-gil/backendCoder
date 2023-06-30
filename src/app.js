@@ -1,23 +1,23 @@
 import express from "express";
-import './dao/dbManager/dbConfig.js'
+import "./dao/dbManager/dbConfig.js";
 import productsRouter from "./routes/dbRoutes/productsRouter.js";
 import cartsRouter from "./routes/dbRoutes/cartsRouter.js";
 import UsersRouter from "./routes/dbRoutes/usersRouter.js";
 
-import SessionsRouter from './routes/dbRoutes/sessionsRouter.js'
+import SessionsRouter from "./routes/dbRoutes/sessionsRouter.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import ViewsRouter from "./routes/viewsRouter.js";
-import {__dirname} from "./utils.js";
+import { __dirname } from "./utils.js";
 
 import ProductManager from "./dao/dbManager/productManager.js";
 import MessageManager from "./dao/dbManager/messageManager.js";
-import session from 'express-session';
-import initializePassport from './config/passportConfig.js';
-import passport from 'passport';
-import cookieParser from 'cookie-parser';
+import session from "express-session";
+import initializePassport from "./config/passportConfig.js";
+import passport from "passport";
+import cookieParser from "cookie-parser";
 
-import config from './config/config.js';
+import config from "./config/config.js";
 
 const secrets = config.secrets;
 
@@ -38,11 +38,13 @@ app.use(cookieParser());
 
 initializePassport();
 
-app.use(session({
-    secret: secrets,
-    resave: true,
-    saveUninitialized: true
-}));
+app.use(
+    session({
+        secret: secrets,
+        resave: true,
+        saveUninitialized: true,
+    })
+);
 app.use(passport.initialize());
 
 app.engine("handlebars", handlebars.engine());
@@ -51,9 +53,9 @@ app.set("view engine", "handlebars");
 
 app.use("/", viewsRouter.getRouter());
 
-app.use('/api/users', usersRouter.getRouter());
+app.use("/api/users", usersRouter.getRouter());
 
-app.use('/api/sessions', sessionsRouter.getRouter());
+app.use("/api/sessions", sessionsRouter.getRouter());
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
@@ -61,7 +63,6 @@ app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send("Error no controlado");
 });
-
 
 const server = app.listen(8080, () => console.log("Server running"));
 
@@ -76,7 +77,6 @@ io.on("connection", async () => {
     const arrayProducts = [...result.docs];
     io.emit("showProducts", arrayProducts);
 });
-
 
 const messages = [];
 io.on("connection", (socket) => {

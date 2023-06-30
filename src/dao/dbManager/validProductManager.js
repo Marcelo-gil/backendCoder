@@ -19,10 +19,7 @@ function invalidProduct(product, origin) {
         }
     }
 
-    if (
-        product.status !== undefined &&
-        typeof product.status !== "boolean"
-    ) {
+    if (product.status !== undefined && typeof product.status !== "boolean") {
         return [false, "Status Invalido, faltan campos"];
     } else {
         return [true, "Producto valido"];

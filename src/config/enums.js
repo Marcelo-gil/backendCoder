@@ -1,8 +1,6 @@
 const passportStrategiesEnum = {
-    JWT: 'jwt',
-    NOTHING: 'na'
-}
+    JWT: "jwt",
+    NOTHING: "na",
+};
 
-export {
-    passportStrategiesEnum 
-}
+export { passportStrategiesEnum };
