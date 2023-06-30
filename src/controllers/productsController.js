@@ -3,9 +3,13 @@ import {
     getProducts as getProductsService,
     getProductById as getProductByIdService,
     updateProduct as updateProductService,
-    deleteProduct as deleteProductService,
-    invalidProduct as invalidProductService
+    deleteProduct as deleteProductService
 } from '../services/productsService.js'
+
+import invalidProduct from '../dao/dbManager/validProductManager.js';
+
+import ProductManager from "../dao/dbManager/productManager.js";
+const productManager = new ProductManager();
 
 const getProducts = async (req, res) => {
     async (req, res) => {
@@ -56,14 +60,15 @@ const getProductById = async (req, res) => {
 const addProducts = async (req, res) => {
     const productNew = req.body;
 
-    const validProduct = invalidProductService(productNew, "add");
+    const validProduct = invalidProduct(productNew, "add");
     if (!validProduct[0]) {
         res.status(400).send({ status: "error", error: validProduct[1] });
     } else {
         try {
             const result = await addProductsService(productNew);
             const io = req.app.get("socketio");
-            const resultProducts = await getProducts(999, 1);
+            const resultProducts = await getProductsService(999, 1);
+            
             const arrayProducts = [...resultProducts.docs];
             io.emit("showProducts", arrayProducts);
 
@@ -81,7 +86,7 @@ const updateProduct = async (req, res) => {
     const pid = req.params.pid;
     const productUpdate = req.body;
 
-    productsManager.invalidProduct(productUpdate, "update");
+    invalidProduct(productUpdate, "update");
 
     try {
         const product = await updateProductService(pid, productUpdate);

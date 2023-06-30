@@ -69,6 +69,7 @@ export default class CartManager {
      */
     updateCart = async (cid, products) => {
         const cart = await this.getCartById(cid);
+        
         const productsToPush = [];
         products.forEach((productEach) => {
             let product = cart.products.find(
@@ -93,7 +94,6 @@ export default class CartManager {
 
     updateCartPost = async (cid, pid) => {
         const cart = await this.getCartById(cid);
-
         let product = cart.products.find(
             (pcart) => pcart.product._id.toString() === pid
         );

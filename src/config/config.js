@@ -4,5 +4,6 @@ dotenv.config();
 
 export default {
     persistence: process.env.PERSISTENCE,
-    mongoUrl: process.env.MONGOURL
+    mongoUrl: process.env.MONGOURL,
+    secrets: process.env.SECRETS
 }

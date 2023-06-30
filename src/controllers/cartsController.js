@@ -62,12 +62,15 @@ const addCarts = async (req, res) => {
 const updateCartPost = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
-
+    
     try {
         const resul = await getProductByIdService(pid);
-        if (resul.status) {
+        
+        if (!resul.status) {
+            
             res.send(resul);
         } else {
+            
             const cart = await updateCartPostService(cid, pid);
             if (cart) {
                 res.send({
@@ -91,7 +94,7 @@ const updateCartOne = async (req, res) => {
     const qty = Number(req.body.quantity);
     try {
         const resul = await getProductByIdService(pid);
-        if (resul.status) {
+        if (!resul.status) {
             res.send(resul);
         } else {
             const cart = await updateCartOneService(cid, pid, qty);
@@ -114,12 +117,15 @@ const updateCartOne = async (req, res) => {
 const updateCart = async (req, res) => {
     const cid = req.params.cid;
     const products = req.body;
-    pid = products._id;
+    const pid = products[0].id;
+    
     try {
         const resul = await getProductByIdService(pid);
-        if (resul.status) {
+        
+        if (!resul.status) {
             res.send(resul);
         } else {
+            
             const cart = await updateCartService(cid, products);
             if (cart) {
                 res.send({
@@ -168,7 +174,7 @@ const deleteCartProduct = async (req, res) => {
 
     try {
         const resul = await getProductByIdService(pid);
-        if (resul.status) {
+        if (!resul.status) {
             res.send(resul);
         } else {
             const cart = await deleteCartProductService(cid, pid);

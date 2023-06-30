@@ -1,17 +1,12 @@
 import { PRODUCTSDAO } from "../dao/index.js";
 
-const invalidProduct = (product, origin) =>{
-    const result = PRODUCTSDAO.invalidProduc(product, origin);
-    return result;
-}
-
 const addProducts = async (product) => {
     const result = await PRODUCTSDAO.addProducts(product);
     return result;
 }
 
-const getProducts = async () => {
-    const products = await PRODUCTSDAO.getAll(limit,
+const getProducts = async (limit, page, query, sort) => {
+    const products = await PRODUCTSDAO.getProducts(limit,
         page,
         query,
         sort);
@@ -37,6 +32,5 @@ export {
     getProducts,
     getProductById,
     updateProduct,
-    deleteProduct,
-    invalidProduct
+    deleteProduct
 }

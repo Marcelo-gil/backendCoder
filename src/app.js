@@ -17,6 +17,10 @@ import initializePassport from './config/passportConfig.js';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
+import config from './config/config.js';
+
+const secrets = config.secrets;
+
 const productManager = new ProductManager();
 const messageManager = new MessageManager();
 
@@ -35,13 +39,11 @@ app.use(cookieParser());
 initializePassport();
 
 app.use(session({
-    secret: "CoderSecrets",
+    secret: secrets,
     resave: true,
     saveUninitialized: true
 }));
 app.use(passport.initialize());
-
-
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
@@ -75,11 +77,10 @@ io.on("connection", async () => {
     io.emit("showProducts", arrayProducts);
 });
 
-const messages = [];
 
+const messages = [];
 io.on("connection", (socket) => {
     console.log("Chat conectado");
-
     const cargarDatos = async () => {
         const historyMessages = await messageManager.getMessages();
         historyMessages.forEach((element) => {

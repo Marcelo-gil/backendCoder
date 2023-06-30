@@ -1,61 +1,9 @@
 import fs from "fs";
+import invalidProduct from '../dao/dbManager/validProductManager.js';
 
 export default class ProductManager {
     constructor(path) {
         this.path = path;
-    }
-
-    /**
-     * Valida los campos de un producto
-     * @param {*} product  Objeto del Producto
-     * @returns True producto Invalido
-     */
-    invalidProduct(product, origin) {
-        if (origin === "add") {
-            if (
-                !product.title ||
-                !product.description ||
-                !product.code ||
-                product.price == undefined ||
-                product.stock == undefined ||
-                !product.category
-            ) {
-                throw new Error("producto invalido, faltan campos");
-            }
-        }
-
-        if (product.status !== undefined && typeof product.status !== "boolean")
-            throw new Error("Estatus Invalido");
-
-        if (product.title !== undefined && product.title.trim().length === 0)
-            throw new Error("Debe Ingresar un Titulo");
-
-        if (
-            product.description !== undefined &&
-            product.description.trim().length === 0
-        )
-            throw new Error("Debe Ingresar la Descripción");
-
-        if (product.code !== undefined && product.code.trim().length === 0)
-            throw new Error("Debe Ingresar el Codigo");
-
-        if (
-            (product.price !== undefined && isNaN(product.price)) ||
-            product.price <= 0
-        )
-            throw new Error("Debe Ingresar un Precio Valido");
-
-        if (
-            (product.stock !== undefined && isNaN(product.stock)) ||
-            product.stock <= 0
-        )
-            throw new Error("El Stock debe ser mayor a Cero");
-
-        if (
-            product.category !== undefined &&
-            product.category.trim().length === 0
-        )
-            throw new Error("Debe Ingresar la categoria ");
     }
 
     getProducts = async () => {
@@ -100,7 +48,8 @@ export default class ProductManager {
         if (product.status === undefined) {
             product.status = true;
         }
-        this.invalidProduct(product, "add");
+
+        invalidProduct(product, "add");
 
         try {
             const products = await this.getProducts();
@@ -137,7 +86,7 @@ export default class ProductManager {
      * @returns
      */
     updateProduct = async (idProduct, productUpdate) => {
-        this.invalidProduct(productUpdate, "update");
+        invalidProduct(productUpdate, "update");
 
         try {
             const products = await this.getProducts();
