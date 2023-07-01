@@ -3,27 +3,22 @@ import "./dao/dbManager/dbConfig.js";
 import productsRouter from "./routes/dbRoutes/productsRouter.js";
 import cartsRouter from "./routes/dbRoutes/cartsRouter.js";
 import UsersRouter from "./routes/dbRoutes/usersRouter.js";
-
 import SessionsRouter from "./routes/dbRoutes/sessionsRouter.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import ViewsRouter from "./routes/viewsRouter.js";
 import { __dirname } from "./utils.js";
-
-import ProductManager from "./dao/dbManager/productManager.js";
+import realtimeManager from "./dao/dbManager/realtimeManager.js";
 import MessageManager from "./dao/dbManager/messageManager.js";
 import session from "express-session";
 import initializePassport from "./config/passportConfig.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-
 import config from "./config/config.js";
 
 const secrets = config.secrets;
 
-const productManager = new ProductManager();
 const messageManager = new MessageManager();
-
 const usersRouter = new UsersRouter();
 const sessionsRouter = new SessionsRouter();
 const viewsRouter = new ViewsRouter();
@@ -32,8 +27,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(`${__dirname}/public`));
+
 app.use(cookieParser());
 
 initializePassport();
@@ -52,7 +47,7 @@ app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
 
 app.use("/", viewsRouter.getRouter());
-
+app.use("/realtimeproducts", viewsRouter.getRouter());
 app.use("/api/users", usersRouter.getRouter());
 
 app.use("/api/sessions", sessionsRouter.getRouter());
@@ -72,10 +67,7 @@ app.set("socketio", io);
 
 io.on("connection", async () => {
     console.log("Cliente Conectado");
-
-    const result = await productManager.getProducts(999, 1);
-    const arrayProducts = [...result.docs];
-    io.emit("showProducts", arrayProducts);
+    io.emit("showProducts", realtimeManager);
 });
 
 const messages = [];

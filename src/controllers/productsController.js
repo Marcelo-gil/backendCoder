@@ -22,6 +22,11 @@ const getProducts = async (req, res) => {
             const result = await getProductsService(limit, page, query, sort);
             const products = [...result.docs];
 
+            const resultIo = await getProductsService(999, 1);
+            const arrayProducts = [...resultIo.docs];
+            const io = req.app.get('socketio');
+            io.emit("showProducts", arrayProducts);
+
             res.send({
                 status: "success",
                 payload: products,
