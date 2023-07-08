@@ -9,8 +9,6 @@ import {
     deleteCartProduct as deleteCartProductService,
 } from "../services/cartsService.js";
 
-import { getProductById as getProductByIdService } from "../services/productsService.js";
-
 const getCarts = async (req, res) => {
     try {
         const cart = await getCartsService();
@@ -42,13 +40,11 @@ const addCarts = async (req, res) => {
             products: [],
         };
         const newCart = await addCartsService(cart);
-        if (newCart) {
-            res.send({
-                status: "success",
-                message: "Carrito Creado Correctamente",
-                payload: newCart,
-            });
-        }
+        res.send({
+            status: "success",
+            message: "Carrito Creado Correctamente",
+            payload: newCart,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -62,20 +58,12 @@ const updateCartPost = async (req, res) => {
     const pid = req.params.pid;
 
     try {
-        const resul = await getProductByIdService(pid);
-
-        if (!resul.status) {
-            res.send(resul);
-        } else {
-            const cart = await updateCartPostService(cid, pid);
-            if (cart) {
-                res.send({
-                    status: "success",
-                    message: "Producto agregado al Carrito Correctamente",
-                    payload: cart,
-                });
-            }
-        }
+        const cart = await updateCartPostService(cid, pid);
+        res.send({
+            status: "success",
+            message: "Producto agregado al Carrito Correctamente",
+            payload: cart,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -89,19 +77,12 @@ const updateCartOne = async (req, res) => {
     const pid = req.params.pid;
     const qty = Number(req.body.quantity);
     try {
-        const resul = await getProductByIdService(pid);
-        if (!resul.status) {
-            res.send(resul);
-        } else {
-            const cart = await updateCartOneService(cid, pid, qty);
-            if (cart) {
-                res.send({
-                    status: "success",
-                    message: "Producto actualizado en el Carrito Correctamente",
-                    payload: cart,
-                });
-            }
-        }
+        const cart = await updateCartOneService(cid, pid, qty);
+        res.send({
+            status: "success",
+            message: "Producto actualizado en el Carrito Correctamente",
+            payload: cart,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -116,21 +97,13 @@ const updateCart = async (req, res) => {
     const pid = products[0].id;
 
     try {
-        const resul = await getProductByIdService(pid);
-
-        if (!resul.status) {
-            res.send(resul);
-        } else {
-            const cart = await updateCartService(cid, products);
-            if (cart) {
-                res.send({
-                    status: "success",
-                    message:
-                        "Productos actualizados en el Carrito Correctamente",
-                    payload: cart,
-                });
-            }
-        }
+        const cart = await updateCartService(cid, pid, products);
+        res.send({
+            status: "success",
+            message:
+                "Productos actualizados en el Carrito Correctamente",
+            payload: cart,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -143,18 +116,11 @@ const deleteCart = async (req, res) => {
     const pid = req.params.pid;
     try {
         const cart = await deleteCartService(pid);
-        if (cart.deletedCount === 0) {
-            res.status(400).send({
-                status: "error",
-                error: "Carrito Inexistente",
-            });
-        } else {
-            res.send({
-                status: "success",
-                message: "Carrito Eliminado Correctamente",
-                payload: cart,
-            });
-        }
+        res.send({
+            status: "success",
+            message: "Carrito Eliminado Correctamente",
+            payload: cart,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -168,19 +134,12 @@ const deleteCartProduct = async (req, res) => {
     const pid = req.params.pid;
 
     try {
-        const resul = await getProductByIdService(pid);
-        if (!resul.status) {
-            res.send(resul);
-        } else {
-            const cart = await deleteCartProductService(cid, pid);
-            if (cart) {
-                res.send({
-                    status: "success",
-                    message: "Producto Borrado del Carrito Correctamente",
-                    payload: cart,
-                });
-            }
-        }
+        const cart = await deleteCartProductService(cid, pid);
+        res.send({
+            status: "success",
+            message: "Producto Borrado del Carrito Correctamente",
+            payload: cart,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",

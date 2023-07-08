@@ -6,11 +6,6 @@ import {
     deleteProduct as deleteProductService,
 } from "../services/productsService.js";
 
-import invalidProduct from "../dao/dbManager/validProductManager.js";
-
-import ProductManager from "../dao/dbManager/productManager.js";
-const productManager = new ProductManager();
-
 const getProducts = async (req, res) => {
     async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
@@ -60,20 +55,19 @@ const getProductById = async (req, res) => {
 const addProducts = async (req, res) => {
     const productNew = req.body;
 
-    const validProduct = invalidProduct(productNew, "add");
-    if (!validProduct[0]) {
-        res.status(400).send({ status: "error", error: validProduct[1] });
-    } else {
-        try {
-            const result = await addProductsService(productNew);
-            const io = req.app.get("socketio");
-            const resultProducts = await getProductsService(999, 1);
+    try {
+        const result = await addProductsService(productNew);
+        const io = req.app.get("socketio");
+        const resultProducts = await getProductsService(999, 1);
 
-            const arrayProducts = [...resultProducts.docs];
-            io.emit("showProducts", arrayProducts);
+        const arrayProducts = [...resultProducts.docs];
+        io.emit("showProducts", arrayProducts);
 
-            res.send({ status: "success", payload: result });
-        } catch (error) {
+        res.send({ status: "success", payload: result });
+    } catch (error) {
+        if (error.message === "Producto invalido") {
+            res.status(400).send({ status: "error", error: error.message });
+        } else {
             res.status(500).send({
                 status: "error",
                 error: "Ocurrio un error: " + error.message,
@@ -86,28 +80,20 @@ const updateProduct = async (req, res) => {
     const pid = req.params.pid;
     const productUpdate = req.body;
 
-    invalidProduct(productUpdate, "update");
 
     try {
         const product = await updateProductService(pid, productUpdate);
-        if (product) {
-            const io = req.app.get("socketio");
-            const result = await getProductsService(999, 1);
-            const arrayProducts = [...result.docs];
+        const io = req.app.get("socketio");
+        const result = await getProductsService(999, 1);
+        const arrayProducts = [...result.docs];
 
-            io.emit("showProducts", arrayProducts);
+        io.emit("showProducts", arrayProducts);
 
-            res.send({
-                status: "success",
-                message: "Producto Actualizado Correctamente",
-                payload: product,
-            });
-        } else {
-            res.status(400).send({
-                status: "error",
-                error: "Ocurrio un error: " + "Producto Inexistente",
-            });
-        }
+        res.send({
+            status: "success",
+            message: "Producto Actualizado Correctamente",
+            payload: product,
+        });
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -120,25 +106,19 @@ const deleteProduct = async (req, res) => {
     const pid = req.params.pid;
     try {
         const product = await deleteProductService(pid);
-        if (product.deletedCount === 0) {
-            res.status(400).send({
-                status: "error",
-                error: "Producto Inexistente",
-            });
-        } else {
-            const io = req.app.get("socketio");
-            const result = await getProductsService(999, 1);
-            const arrayProducts = [...result.docs];
+        const io = req.app.get("socketio");
+        const result = await getProductsService(999, 1);
+        const arrayProducts = [...result.docs];
 
-            io.emit("showProducts", arrayProducts);
+        io.emit("showProducts", arrayProducts);
 
-            res.send({
-                status: "success",
-                message: "Producto Eliminado Correctamente",
-                payload: product,
-            });
-        }
+        res.send({
+            status: "success",
+            message: "Producto Eliminado Correctamente",
+            payload: product,
+        });
     } catch (error) {
+        
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,

@@ -11,35 +11,40 @@ import variablesAmbiente from "../config/config.js";
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
-
     let user = {};
-    if (
-        email === variablesAmbiente.adminEmail &&
-        password === variablesAmbiente.adminPassword
-    ) {
-        user = {
-            first_name: "Coder",
-            last_name: "House",
-            email: variablesAmbiente.adminEmail,
-            age: 18,
-            role: "ADMIN",
-        };
-    } else {
-        user = await getByEmailUserService(email);
-        if (!user) return res.sendClientError("incorrect credentials");
+    try {
+        if (
+            email === variablesAmbiente.adminEmail &&
+            password === variablesAmbiente.adminPassword
+        ) {
+            user = {
+                first_name: "Coder",
+                last_name: "House",
+                email: variablesAmbiente.adminEmail,
+                age: 18,
+                role: "ADMIN",
+            };
+        } else {
+            user = await getByEmailUserService(email);
 
-        const comparePassword = isValidPassword(user, password);
-
-        if (!comparePassword) {
-            return res.sendClientError("incorrect credentials");
+            const comparePassword = isValidPassword(user, password);
+            if (!comparePassword) {
+                return res.sendClientError("incorrect credentials");
+            }
         }
-    }
-    const accessToken = generateToken(user);
+        const accessToken = generateToken(user);
 
-    res.cookie("coderCookieToken", accessToken, {
-        maxAge: 60 * 60 * 1000,
-        httpOnly: true,
-    }).send({ status: "success" });
+        res.cookie("coderCookieToken", accessToken, {
+            maxAge: 60 * 60 * 1000,
+            httpOnly: true,
+        }).send({ status: "success" });
+    } catch (error) {
+        res.status(400).send({
+            status: "error",
+            error: "Ocurrio un error: " + error.message,
+        });
+    }
+
 };
 
 const registerUser = async (req, res) => {
@@ -137,10 +142,13 @@ const getUsers = async (req, res) => {
 
 const getByEmailUser = async (req, res) => {
     const { email } = req.body;
+    try {
+        const user = await getByEmailUserService(email);
 
-    const user = await getByEmailUserService(email);
-
-    return user;
+        return user;
+    } catch (error) {
+        res.status(500).send({ status: "error", error: error.message });
+    }
 };
 
 const updateOneUser = async () => {

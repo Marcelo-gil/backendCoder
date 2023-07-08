@@ -20,13 +20,13 @@ function invalidProduct(product, origin) {
     }
 
     if (product.status !== undefined && typeof product.status !== "boolean") {
-        return [false, "Status Invalido, faltan campos"];
+        return [false, "Producto invalido, Status Invalido, faltan campos"];
     } else {
         return [true, "Producto valido"];
     }
 
     if (product.title !== undefined && product.title.trim().length === 0) {
-        return [false, "Debe Ingresar un Titulo"];
+        return [false, "Producto invalido, Debe Ingresar un Titulo"];
     } else {
         return [true, "Producto valido"];
     }
@@ -35,13 +35,13 @@ function invalidProduct(product, origin) {
         product.description !== undefined &&
         product.description.trim().length === 0
     ) {
-        return [false, "Debe Ingresar la Descripción"];
+        return [false, "Producto invalido, Debe Ingresar la Descripción"];
     } else {
         return [true, "Producto valido"];
     }
 
     if (product.code !== undefined && product.code.trim().length === 0) {
-        return [false, "Debe Ingresar el código"];
+        return [false, "Producto invalido, Debe Ingresar el código"];
     } else {
         return [true, "Producto valido"];
     }
@@ -50,7 +50,7 @@ function invalidProduct(product, origin) {
         (product.price !== undefined && isNaN(product.price)) ||
         product.price <= 0
     ) {
-        return [false, "Debe Ingresar  un Precio Valido"];
+        return [false, "Producto invalido, Debe Ingresar  un Precio Valido"];
     } else {
         return [true, "Producto valido"];
     }
@@ -59,7 +59,7 @@ function invalidProduct(product, origin) {
         (product.stock !== undefined && isNaN(product.stock)) ||
         product.stock <= 0
     ) {
-        return [false, "El Stock debe ser mayor a Cero"];
+        return [false, "Producto invalido, El Stock debe ser mayor a Cero"];
     } else {
         return [true, "Producto valido"];
     }
@@ -68,7 +68,7 @@ function invalidProduct(product, origin) {
         product.category !== undefined &&
         product.category.trim().length === 0
     ) {
-        return [false, "Debe Ingresar la categoria"];
+        return [false, "Producto invalido, Debe Ingresar la categoria"];
     } else {
         return [true, "Producto valido"];
     }
