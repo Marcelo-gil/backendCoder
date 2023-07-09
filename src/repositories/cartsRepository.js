@@ -40,6 +40,12 @@ const deleteCartProduct = async (cid, pid) => {
     return result;
 };
 
+const updateTicketPurchase = async (cid, user) => {
+    const result = await CARTSDAO.updateTicketPurchase(cid, user);
+    return result;
+};
+
+
 export {
     addCarts,
     getCarts,
@@ -49,4 +55,5 @@ export {
     updateCartPost,
     deleteCart,
     deleteCartProduct,
+    updateTicketPurchase
 };

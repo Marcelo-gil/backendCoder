@@ -1,4 +1,10 @@
 import { cartModel } from "../models/cartModel.js";
+import ProductManager from "./productManager.js";
+import TicketManager from "./ticketManager.js";
+//import postEmail from "../emalService/postEmail.js";
+
+const productManager = new ProductManager();
+const ticketManager = new TicketManager();
 
 export default class CartManager {
     constructor() {
@@ -130,5 +136,46 @@ export default class CartManager {
             { $pull: { products: { product: pid } } }
         );
         return result;
+    };
+
+    updateTicketPurchase = async (cid, user) => {
+        const cart = await this.getCartById(cid);
+        const ticketProducts = [];
+        let amount = 0
+        const cartOriginal = [...cart.products];
+        for (const productCart of cartOriginal) {
+            const product=await productManager.getProductById(productCart.product._id.toString())
+            if (product.stock>=productCart.quantity){
+                product.stock = product.stock-productCart.quantity;
+                const result = await productManager.updateProduct(productCart.product._id.toString(),product);
+                if (result){
+                    const index=cart.products.indexOf(productCart);
+                    ticketProducts.push(product);
+                    cart.products.splice(index, 1);
+                    await this.deleteCartProduct(cid,productCart.product._id.toString());
+                    amount=amount+(productCart.quantity*product.price);
+                }
+            }
+        }
+
+         if (ticketProducts.length===0){
+            return { status: "Error", error: "No se Proceso ningun producto", carrito: cart.products };
+        }else {
+            const today = new Date();
+            const fechaHora = today.toLocaleString();
+            
+            const codeUnic=Date.now() + Math.floor(Math.random() * 100000 + 1);
+            const ticket = await ticketManager.updateTicket(codeUnic, fechaHora, amount, user, ticketProducts)
+            /* const messageEmail1=" Ticket ID: "+ticket.id;
+            const messageEmail2=" Fecha: "+fechaHora;
+            const subjectEmail="Ticket Exitoso";
+            const result = postEmail(ticket, user, messageEmail1, messageEmail2 , subjectEmail) */
+
+            if (cart.products.length===0){
+                return { status: "Success", payload: ticket, ticketProducts: ticketProducts};
+            }else {
+                return { status: "Success", error: "Quedan productos en el carrito por falta de stock", carrito: cart.products, payload: ticket, ticketProducts: ticketProducts };
+            }
+        }
     };
 }

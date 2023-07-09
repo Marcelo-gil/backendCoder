@@ -7,11 +7,14 @@ import {
     updateCartPost as updateCartPostRepository,
     deleteCart as deleteCartRepository,
     deleteCartProduct as deleteCartProductRepository,
+    updateTicketPurchase as updateTicketPurchaseRepository,
 } from "../repositories/cartsRepository.js";
 
 import {
     getProductById as getProductByIdRepository,
 } from "../repositories/productsRepository.js";
+
+import emailService from "../emalService/emailService.js";
 
 const getCarts = async () => {
     const carts = await getCartsRepository();
@@ -97,6 +100,24 @@ const deleteCartProduct = async (cid, pid) => {
     return result;
 };
 
+const updateTicketPurchase = async(cid, user) => {
+    const result = await updateTicketPurchaseRepository(cid, user);
+    
+    //console.log(result)
+    
+     if (result.status !== "success") {
+        throw new TypeError("No se pudo crear el ticket"+result.error)
+    } else {
+        const ticket = result.ticket
+        const messageEmail1=" Ticket ID: "+ticket.id;
+        const messageEmail2=" Fecha: "+ticket.purchase_datetime;
+        const subjectEmail="Ticket Exitoso";
+        const resultEmail = emailService(ticket, user, messageEmail1, messageEmail2 , subjectEmail)
+    };
+ 
+    return result;
+
+};
 export {
     addCarts,
     getCarts,
@@ -106,4 +127,5 @@ export {
     updateCartPost,
     deleteCart,
     deleteCartProduct,
+    updateTicketPurchase
 };

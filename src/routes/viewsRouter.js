@@ -73,7 +73,7 @@ export default class ViewsRouter extends Router {
 
         this.get(
             "/chat",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            ["USER"],
             passportStrategiesEnum.JWT,
             chatView
         );

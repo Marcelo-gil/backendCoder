@@ -21,14 +21,14 @@ function invalidProduct(product, origin) {
 
     if (product.status !== undefined && typeof product.status !== "boolean") {
         return [false, "Producto invalido, Status Invalido, faltan campos"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
 
     if (product.title !== undefined && product.title.trim().length === 0) {
         return [false, "Producto invalido, Debe Ingresar un Titulo"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
 
     if (
@@ -36,14 +36,14 @@ function invalidProduct(product, origin) {
         product.description.trim().length === 0
     ) {
         return [false, "Producto invalido, Debe Ingresar la Descripción"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
 
     if (product.code !== undefined && product.code.trim().length === 0) {
         return [false, "Producto invalido, Debe Ingresar el código"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
 
     if (
@@ -51,8 +51,8 @@ function invalidProduct(product, origin) {
         product.price <= 0
     ) {
         return [false, "Producto invalido, Debe Ingresar  un Precio Valido"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
 
     if (
@@ -60,8 +60,8 @@ function invalidProduct(product, origin) {
         product.stock <= 0
     ) {
         return [false, "Producto invalido, El Stock debe ser mayor a Cero"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
 
     if (
@@ -69,8 +69,9 @@ function invalidProduct(product, origin) {
         product.category.trim().length === 0
     ) {
         return [false, "Producto invalido, Debe Ingresar la categoria"];
-    } else {
-        return [true, "Producto valido"];
+    /* } else {
+        return [true, "Producto valido"]; */
     }
+    return [true, "Producto valido"];
 }
 export default invalidProduct;

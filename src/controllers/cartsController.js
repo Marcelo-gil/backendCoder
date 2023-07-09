@@ -7,6 +7,7 @@ import {
     updateCartPost as updateCartPostService,
     deleteCart as deleteCartService,
     deleteCartProduct as deleteCartProductService,
+    updateTicketPurchase as updateTicketPurchaseService,
 } from "../services/cartsService.js";
 
 const getCarts = async (req, res) => {
@@ -148,6 +149,23 @@ const deleteCartProduct = async (req, res) => {
     }
 };
 
+const updateTicketPurchase = async (req, res) => {
+    const cid = req.params.cid;
+    const user = req.user;
+    try {
+        const ticket = await updateTicketPurchaseService(cid, user);
+        res.send({
+            status: "success",
+            message: "Ticket conformado Correctamente",
+            payload: ticket,
+        });
+    } catch (error) {
+        res.status(400).send({
+            status: "error",
+            error: "Ocurrio un error: " + error.message,
+        });
+    }    
+};
 export {
     addCarts,
     getCarts,
@@ -157,4 +175,5 @@ export {
     updateCart,
     deleteCart,
     deleteCartProduct,
+    updateTicketPurchase
 };

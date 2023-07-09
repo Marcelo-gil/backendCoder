@@ -1,7 +1,7 @@
 import express from "express";
 import "./dao/dbManager/dbConfig.js";
-import productsRouter from "./routes/dbRoutes/productsRouter.js";
-import cartsRouter from "./routes/dbRoutes/cartsRouter.js";
+import ProductsRouter from "./routes/dbRoutes/productsRouter.js";
+import CartsRouter from "./routes/dbRoutes/cartsRouter.js";
 import UsersRouter from "./routes/dbRoutes/usersRouter.js";
 import SessionsRouter from "./routes/dbRoutes/sessionsRouter.js";
 import { Server } from "socket.io";
@@ -22,7 +22,8 @@ const messageManager = new MessageManager();
 const usersRouter = new UsersRouter();
 const sessionsRouter = new SessionsRouter();
 const viewsRouter = new ViewsRouter();
-
+const cartsRouter = new CartsRouter();
+const productsRouter = new ProductsRouter();
 const app = express();
 
 app.use(express.json());
@@ -51,8 +52,8 @@ app.use("/realtimeproducts", viewsRouter.getRouter());
 app.use("/api/users", usersRouter.getRouter());
 
 app.use("/api/sessions", sessionsRouter.getRouter());
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/api/products", productsRouter.getRouter());
+app.use("/api/carts", cartsRouter.getRouter());
 
 app.use((err, req, res, next) => {
     console.log(err);
