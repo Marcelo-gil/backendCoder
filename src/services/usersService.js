@@ -38,7 +38,7 @@ const getByEmailUser = async (email) => {
     return user;
 };
 
-const updateOneUser = async () => {
+const updateOneUser = async (email, user) => {
     const result = await updateOneUserRepository(email, user);
     return result;
 };

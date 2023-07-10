@@ -10,6 +10,8 @@ import {
     updateTicketPurchase as updateTicketPurchaseService,
 } from "../services/cartsService.js";
 
+import {updateOneUser as updateOneUserService} from "../services/usersService.js";
+
 const getCarts = async (req, res) => {
     try {
         const cart = await getCartsService();
@@ -25,8 +27,17 @@ const getCarts = async (req, res) => {
 const getCartById = async (req, res) => {
     try {
         const cid = req.params.cid;
-        const cart = await getCartByIdService(cid);
-        res.send(cart);
+        const user=req.user
+        const found = user.carts.find(element => element.cart._id === cid);
+        if (found===undefined) {
+            res.status(400).send({
+                status: "error",
+                error: "El carrito No correspone al Usuario"
+            })
+        } else {
+            const cart = await getCartByIdService(cid);
+            res.send(cart);
+        }
     } catch (error) {
         res.status(400).send({
             status: "error",
@@ -36,11 +47,18 @@ const getCartById = async (req, res) => {
 };
 
 const addCarts = async (req, res) => {
+    const user=req.user;
+    const email = user.email;
     try {
         const cart = {
             products: [],
         };
         const newCart = await addCartsService(cart);
+
+        user.carts.push({cart: newCart._id.toString()});
+
+        const updateUser=await updateOneUserService(email,user);
+
         res.send({
             status: "success",
             message: "Carrito Creado Correctamente",

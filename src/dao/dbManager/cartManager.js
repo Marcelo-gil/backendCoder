@@ -1,10 +1,11 @@
 import { cartModel } from "../models/cartModel.js";
 import ProductManager from "./productManager.js";
 import TicketManager from "./ticketManager.js";
-//import postEmail from "../emalService/postEmail.js";
+import UserManager from "./userManager.js";
 
 const productManager = new ProductManager();
 const ticketManager = new TicketManager();
+const userManager = new UserManager();
 
 export default class CartManager {
     constructor() {
@@ -26,7 +27,6 @@ export default class CartManager {
         if (!cart) {
             return { status: "Error", error: "Carrito no encontrado" };
         }
-
         return cart;
     };
 

@@ -69,7 +69,8 @@ const realtimeproductsView = async (req, res) => {
 };
 
 const chatView = async (req, res) => {
-    res.render("chat");
+    const user = req.user;
+    res.render("chat", { users: user });
 };
 
 export {

@@ -1,7 +1,7 @@
 import { ticketModel } from "../models/ticketModel.js";
-import ProductManager from "./productManager.js";
+//import ProductManager from "./productManager.js";
  
-const productManager = new ProductManager();
+//const productManager = new ProductManager();
 
 export default class TicketManager {
     constructor() {

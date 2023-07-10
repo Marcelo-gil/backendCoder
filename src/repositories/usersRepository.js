@@ -16,7 +16,7 @@ const getByEmailUser = async (email) => {
     return user;
 };
 
-const updateOneUser = async () => {
+const updateOneUser = async (email, user) => {
     const result = await USERSDAO.updateOne(email, user);
     return result;
 };
