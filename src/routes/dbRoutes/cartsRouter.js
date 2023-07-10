@@ -17,7 +17,7 @@ export default class CartsRouter extends Router {
     init() {
         this.get(
             "/",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            ["ADMIN"],
             passportStrategiesEnum.JWT,
             getCarts
         );

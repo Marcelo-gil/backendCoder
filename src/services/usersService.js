@@ -9,17 +9,17 @@ import emailService from "../emalService/emailService.js";
 const saveUser = async (user) => {
     const result = await saveUserRepository(user);
     if (result){
-
-        const userCopy = { ...user };
-        delete userCopy.password;
         const ticket = {};
         const today = new Date();
         const fechaHora = today.toLocaleString();
-        const messageEmail1="Te has registrado en nuestra API: "+user.id;
+        const messageEmail1=user.first_name.trim()+" Te has registrado en nuestra API";
         const messageEmail2=" Fecha: "+fechaHora;
         const subjectEmail="¡Nuevo usuario!";
-        const resultEmail =  async () => emailService(ticket, userCopy, messageEmail1, messageEmail2 , subjectEmail)
-        console.log(resultEmail);
+        try {
+            await emailService(ticket, user.email, messageEmail1, messageEmail2 , subjectEmail)
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     return result;

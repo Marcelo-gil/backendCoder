@@ -159,7 +159,7 @@ export default class CartManager {
         }
 
          if (ticketProducts.length===0){
-            return { status: "Error", error: "No se Proceso ningun producto", carrito: cart.products };
+            return { status: "error", error: "No se Proceso ningun producto", carrito: cart.products };
         }else {
             const today = new Date();
             const fechaHora = today.toLocaleString();
@@ -172,9 +172,9 @@ export default class CartManager {
             const result = postEmail(ticket, user, messageEmail1, messageEmail2 , subjectEmail) */
 
             if (cart.products.length===0){
-                return { status: "Success", payload: ticket, ticketProducts: ticketProducts};
+                return { status: "success", payload: ticket, ticketProducts: ticketProducts};
             }else {
-                return { status: "Success", error: "Quedan productos en el carrito por falta de stock", carrito: cart.products, payload: ticket, ticketProducts: ticketProducts };
+                return { status: "success", error: "Quedan productos en el carrito por falta de stock", carrito: cart.products, payload: ticket, ticketProducts: ticketProducts };
             }
         }
     };

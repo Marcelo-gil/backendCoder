@@ -106,13 +106,17 @@ const updateTicketPurchase = async(cid, user) => {
     //console.log(result)
     
      if (result.status !== "success") {
-        throw new TypeError("No se pudo crear el ticket"+result.error)
+        throw new TypeError("No se pudo crear el ticket "+result.error)
     } else {
-        const ticket = result.ticket
-        const messageEmail1=" Ticket ID: "+ticket.id;
+        const ticket = result.payload;
+        const messageEmail1=" Ticket ID: "+ticket._id;
         const messageEmail2=" Fecha: "+ticket.purchase_datetime;
         const subjectEmail="Ticket Exitoso";
-        const resultEmail = emailService(ticket, user, messageEmail1, messageEmail2 , subjectEmail)
+        try {
+            await emailService(ticket, user.email, messageEmail1, messageEmail2 , subjectEmail)
+        } catch (error) {
+            console.log(error.message);
+        }
     };
  
     return result;
