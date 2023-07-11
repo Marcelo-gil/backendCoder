@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -11,5 +11,5 @@ export default {
     gmail_account: process.env.GMAIL_ACCOUNT,
     gmail_password: process.env.GMAIL_PASSWORD,
     frontend_account: process.env.FRONTEND_ACCOUNT,
-    frontend_external_account: process.env.FRONTEND_EXTERNAL_ACCOUNT
-}
+    frontend_external_account: process.env.FRONTEND_EXTERNAL_ACCOUNT,
+};

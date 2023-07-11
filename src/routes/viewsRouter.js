@@ -71,11 +71,6 @@ export default class ViewsRouter extends Router {
             realtimeproductsView
         );
 
-        this.get(
-            "/chat",
-            ["USER"],
-            passportStrategiesEnum.JWT,
-            chatView
-        );
+        this.get("/chat", ["USER"], passportStrategiesEnum.JWT, chatView);
     }
 }

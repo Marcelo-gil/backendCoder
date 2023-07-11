@@ -45,7 +45,6 @@ const updateTicketPurchase = async (cid, user) => {
     return result;
 };
 
-
 export {
     addCarts,
     getCarts,
@@ -55,5 +54,5 @@ export {
     updateCartPost,
     deleteCart,
     deleteCartProduct,
-    updateTicketPurchase
+    updateTicketPurchase,
 };

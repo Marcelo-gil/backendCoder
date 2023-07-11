@@ -141,40 +141,65 @@ export default class CartManager {
     updateTicketPurchase = async (cid, user) => {
         const cart = await this.getCartById(cid);
         const ticketProducts = [];
-        let amount = 0
+        let amount = 0;
         const cartOriginal = [...cart.products];
         for (const productCart of cartOriginal) {
-            const product=await productManager.getProductById(productCart.product._id.toString())
-            if (product.stock>=productCart.quantity){
-                product.stock = product.stock-productCart.quantity;
-                const result = await productManager.updateProduct(productCart.product._id.toString(),product);
-                if (result){
-                    const index=cart.products.indexOf(productCart);
+            const product = await productManager.getProductById(
+                productCart.product._id.toString()
+            );
+            if (product.stock >= productCart.quantity) {
+                product.stock = product.stock - productCart.quantity;
+                const result = await productManager.updateProduct(
+                    productCart.product._id.toString(),
+                    product
+                );
+                if (result) {
+                    const index = cart.products.indexOf(productCart);
                     ticketProducts.push(product);
                     cart.products.splice(index, 1);
-                    await this.deleteCartProduct(cid,productCart.product._id.toString());
-                    amount=amount+(productCart.quantity*product.price);
+                    await this.deleteCartProduct(
+                        cid,
+                        productCart.product._id.toString()
+                    );
+                    amount = amount + productCart.quantity * product.price;
                 }
             }
         }
 
-         if (ticketProducts.length===0){
-            return { status: "error", error: "No se Proceso ningun producto", carrito: cart.products };
-        }else {
+        if (ticketProducts.length === 0) {
+            return {
+                status: "error",
+                error: "No se Proceso ningun producto",
+                carrito: cart.products,
+            };
+        } else {
             const today = new Date();
             const fechaHora = today.toLocaleString();
-            
-            const codeUnic=Date.now() + Math.floor(Math.random() * 100000 + 1);
-            const ticket = await ticketManager.updateTicket(codeUnic, fechaHora, amount, user, ticketProducts)
-            /* const messageEmail1=" Ticket ID: "+ticket.id;
-            const messageEmail2=" Fecha: "+fechaHora;
-            const subjectEmail="Ticket Exitoso";
-            const result = postEmail(ticket, user, messageEmail1, messageEmail2 , subjectEmail) */
 
-            if (cart.products.length===0){
-                return { status: "success", payload: ticket, ticketProducts: ticketProducts};
-            }else {
-                return { status: "success", error: "Quedan productos en el carrito por falta de stock", carrito: cart.products, payload: ticket, ticketProducts: ticketProducts };
+            const codeUnic =
+                Date.now() + Math.floor(Math.random() * 100000 + 1);
+            const ticket = await ticketManager.updateTicket(
+                codeUnic,
+                fechaHora,
+                amount,
+                user,
+                ticketProducts
+            );
+
+            if (cart.products.length === 0) {
+                return {
+                    status: "success",
+                    payload: ticket,
+                    ticketProducts: ticketProducts,
+                };
+            } else {
+                return {
+                    status: "success",
+                    error: "Quedan productos en el carrito por falta de stock",
+                    carrito: cart.products,
+                    payload: ticket,
+                    ticketProducts: ticketProducts,
+                };
             }
         }
     };

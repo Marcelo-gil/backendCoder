@@ -10,7 +10,7 @@ import {
     updateTicketPurchase as updateTicketPurchaseService,
 } from "../services/cartsService.js";
 
-import {updateOneUser as updateOneUserService} from "../services/usersService.js";
+import { updateOneUser as updateOneUserService } from "../services/usersService.js";
 
 const getCarts = async (req, res) => {
     try {
@@ -27,13 +27,13 @@ const getCarts = async (req, res) => {
 const getCartById = async (req, res) => {
     try {
         const cid = req.params.cid;
-        const user=req.user
-        const found = user.carts.find(element => element.cart._id === cid);
-        if (found===undefined) {
+        const user = req.user;
+        const found = user.carts.find((element) => element.cart._id === cid);
+        if (found === undefined) {
             res.status(400).send({
                 status: "error",
-                error: "El carrito No correspone al Usuario"
-            })
+                error: "El carrito No correspone al Usuario",
+            });
         } else {
             const cart = await getCartByIdService(cid);
             res.send(cart);
@@ -47,7 +47,7 @@ const getCartById = async (req, res) => {
 };
 
 const addCarts = async (req, res) => {
-    const user=req.user;
+    const user = req.user;
     const email = user.email;
     try {
         const cart = {
@@ -55,9 +55,9 @@ const addCarts = async (req, res) => {
         };
         const newCart = await addCartsService(cart);
 
-        user.carts.push({cart: newCart._id.toString()});
+        user.carts.push({ cart: newCart._id.toString() });
 
-        const updateUser=await updateOneUserService(email,user);
+        const updateUser = await updateOneUserService(email, user);
 
         res.send({
             status: "success",
@@ -119,8 +119,7 @@ const updateCart = async (req, res) => {
         const cart = await updateCartService(cid, pid, products);
         res.send({
             status: "success",
-            message:
-                "Productos actualizados en el Carrito Correctamente",
+            message: "Productos actualizados en el Carrito Correctamente",
             payload: cart,
         });
     } catch (error) {
@@ -182,7 +181,7 @@ const updateTicketPurchase = async (req, res) => {
             status: "error",
             error: "Ocurrio un error: " + error.message,
         });
-    }    
+    }
 };
 export {
     addCarts,
@@ -193,5 +192,5 @@ export {
     updateCart,
     deleteCart,
     deleteCartProduct,
-    updateTicketPurchase
+    updateTicketPurchase,
 };

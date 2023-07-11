@@ -4,22 +4,21 @@ const ticketCollection = "ticket";
 
 const ticketSchema = new mongoose.Schema({
     code: {
-        type: String
+        type: String,
     },
     purchase_datetime: {
-        type: String
+        type: String,
     },
     amount: {
-        type: Number
-    }, 
+        type: Number,
+    },
     purchaser: {
-        type: String
+        type: String,
     },
     products: {
         type: Array,
         default: [],
-    }
+    },
 });
-
 
 export const ticketModel = mongoose.model(ticketCollection, ticketSchema);

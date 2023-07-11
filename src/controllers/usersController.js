@@ -44,7 +44,6 @@ const loginUser = async (req, res) => {
             error: "Ocurrio un error: " + error.message,
         });
     }
-
 };
 
 const registerUser = async (req, res) => {

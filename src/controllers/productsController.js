@@ -19,7 +19,7 @@ const getProducts = async (req, res) => {
 
             const resultIo = await getProductsService(999, 1);
             const arrayProducts = [...resultIo.docs];
-            const io = req.app.get('socketio');
+            const io = req.app.get("socketio");
             io.emit("showProducts", arrayProducts);
 
             res.send({
@@ -80,7 +80,6 @@ const updateProduct = async (req, res) => {
     const pid = req.params.pid;
     const productUpdate = req.body;
 
-
     try {
         const product = await updateProductService(pid, productUpdate);
         const io = req.app.get("socketio");
@@ -118,7 +117,6 @@ const deleteProduct = async (req, res) => {
             payload: product,
         });
     } catch (error) {
-        
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,

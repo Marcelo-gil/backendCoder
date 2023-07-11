@@ -15,11 +15,11 @@ import initializePassport from "./config/passportConfig.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
-import cors from 'cors'; 
+import cors from "cors";
 
 const secrets = config.secrets;
-const frontend_account = config.frontend_account
-const frontend_external_account =config.frontend_external_account
+const frontend_account = config.frontend_account;
+const frontend_external_account = config.frontend_external_account;
 
 const messageManager = new MessageManager();
 const usersRouter = new UsersRouter();
@@ -31,9 +31,11 @@ const productsRouter = new ProductsRouter();
 const app = express();
 
 if (frontend_external_account) {
-    app.use(cors({
-        origin: [frontend_account]
-    }));
+    app.use(
+        cors({
+            origin: [frontend_account],
+        })
+    );
 }
 
 app.use(express.json());
