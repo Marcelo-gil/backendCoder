@@ -17,6 +17,7 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 import cors from "cors";
+import errorHandler from "./middlewares/errors/index.js";
 
 const secrets = config.secrets;
 const frontend_account = config.frontend_account;
@@ -67,7 +68,10 @@ app.use("/api/users", usersRouter.getRouter());
 app.use("/api/sessions", sessionsRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartsRouter.getRouter());
-app.use("/mockingProducts", mockingProductsRouter)
+app.use("/mockingProducts", mockingProductsRouter);
+
+app.use(errorHandler);
+
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send("Error no controlado");

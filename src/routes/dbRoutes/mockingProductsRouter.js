@@ -3,14 +3,18 @@ import {
     addProducts,
     getProducts,
     getProductById,
-    //updateProduct,
-    //deleteProduct,
-} from "../../controllers/mockingProductsController.js";
+    updateProduct,
+    deleteProduct,
+} from "../../controllers/mockingProductController.js";
 
-const router = Router();
+import toAsyncRouter from "async-express-decorator";
 
-router.get("/",getProducts);
-router.get("/:pid",getProductById);
-router.post("/",addProducts);
+const router = toAsyncRouter(Router());
+
+router.get("/", getProducts);
+router.get("/:pid", getProductById);
+router.post("/", addProducts);
+router.put("/:pid", updateProduct);
+router.delete("/:pid", deleteProduct);
 
 export default router;

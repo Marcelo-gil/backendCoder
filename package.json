@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Marcelo-gil/Backend#readme",
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
+    "async-express-decorator": "^1.1.0",
     "bcrypt": "^5.1.0",
     "bootstrap": "^5.2.3",
     "commander": "^10.0.1",

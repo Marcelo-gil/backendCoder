@@ -13,7 +13,6 @@ form.addEventListener("submit", (e) => {
         },
     })
         .then((result) => {
-            console.log(result);
             if (result.status === 200) {
                 window.location.replace("/");
             } else {
