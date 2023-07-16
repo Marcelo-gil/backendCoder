@@ -4,6 +4,7 @@ import ProductsRouter from "./routes/dbRoutes/productsRouter.js";
 import CartsRouter from "./routes/dbRoutes/cartsRouter.js";
 import UsersRouter from "./routes/dbRoutes/usersRouter.js";
 import SessionsRouter from "./routes/dbRoutes/sessionsRouter.js";
+import mockingProductsRouter from "./routes/dbRoutes/mockingProductsRouter.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import ViewsRouter from "./routes/viewsRouter.js";
@@ -66,7 +67,7 @@ app.use("/api/users", usersRouter.getRouter());
 app.use("/api/sessions", sessionsRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartsRouter.getRouter());
-
+app.use("/mockingProducts", mockingProductsRouter)
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send("Error no controlado");
