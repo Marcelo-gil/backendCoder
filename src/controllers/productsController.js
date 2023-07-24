@@ -5,6 +5,7 @@ import {
     updateProduct as updateProductService,
     deleteProduct as deleteProductService,
 } from "../services/productsService.js";
+import { getLogger } from "../utils/logger.js";
 
 const getProducts = async (req, res) => {
     async (req, res) => {
@@ -34,6 +35,10 @@ const getProducts = async (req, res) => {
                 nextLink: result.nextLink,
             });
         } catch (error) {
+            getLogger().error(
+                "[controllers/productsController.js] /getProducts " +
+                    error.message
+            );
             res.status(500).send({ status: "error", error: error.message });
         }
     };
@@ -45,6 +50,10 @@ const getProductById = async (req, res) => {
         const product = await getProductByIdService(pid);
         res.send(product);
     } catch (error) {
+        getLogger().error(
+            "[controllers/productsController.js] /getProductById " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -66,8 +75,16 @@ const addProducts = async (req, res) => {
         res.send({ status: "success", payload: result });
     } catch (error) {
         if (error.message === "Producto invalido") {
+            getLogger().warning(
+                "[controllers/productsController.js] /addProducts " +
+                    error.message
+            );
             res.status(400).send({ status: "error", error: error.message });
         } else {
+            getLogger().error(
+                "[controllers/productsController.js] /addProducts " +
+                    error.message
+            );
             res.status(500).send({
                 status: "error",
                 error: "Ocurrio un error: " + error.message,
@@ -94,6 +111,10 @@ const updateProduct = async (req, res) => {
             payload: product,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/productsController.js] /updateProduct " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -117,6 +138,10 @@ const deleteProduct = async (req, res) => {
             payload: product,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/productsController.js] /deleteProduct " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,

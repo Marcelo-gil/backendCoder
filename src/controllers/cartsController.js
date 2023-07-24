@@ -17,7 +17,10 @@ const getCarts = async (req, res) => {
         const cart = await getCartsService();
         res.send(cart);
     } catch (error) {
-        res.status(400).send({
+        getLogger().error(
+            "[controllers/cartsController.js] /getCarts " + error.message
+        );
+        res.status(500).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
         });
@@ -39,6 +42,9 @@ const getCartById = async (req, res) => {
             res.send(cart);
         }
     } catch (error) {
+        getLogger().warning(
+            "[controllers/cartsController.js] /getCartById " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -65,6 +71,9 @@ const addCarts = async (req, res) => {
             payload: newCart,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /addCarts" + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -84,6 +93,9 @@ const updateCartPost = async (req, res) => {
             payload: cart,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /updateCartPost " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -103,6 +115,9 @@ const updateCartOne = async (req, res) => {
             payload: cart,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /updateCartOne " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -123,6 +138,10 @@ const updateCart = async (req, res) => {
             payload: cart,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /updateCartService " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -140,6 +159,9 @@ const deleteCart = async (req, res) => {
             payload: cart,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /deleteCart " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -159,6 +181,10 @@ const deleteCartProduct = async (req, res) => {
             payload: cart,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /deleteCartProduct " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -177,6 +203,10 @@ const updateTicketPurchase = async (req, res) => {
             payload: ticket,
         });
     } catch (error) {
+        getLogger().error(
+            "[controllers/cartsController.js] /updateTicketPurchase " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,

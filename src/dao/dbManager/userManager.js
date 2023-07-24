@@ -1,8 +1,9 @@
 import userModel from "../models/userModel.js";
+import { getLogger } from "../../utils/logger.js";
 
 export default class Users {
     constructor() {
-        console.log("Working users with DB");
+        getLogger().info("Working users with DB");
     }
 
     getAll = async () => {

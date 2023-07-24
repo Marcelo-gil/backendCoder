@@ -5,6 +5,7 @@ import userModel from "../dao/models/userModel.js";
 import { createHash, isValidPassword } from "../utils.js";
 import { PRIVATE_KEY } from "./contants.js";
 import jwt from "passport-jwt";
+import { getLogger } from "../utils/logger.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -30,6 +31,10 @@ const initializePassport = () => {
                 try {
                     return done(null, jwt_payload.user);
                 } catch (error) {
+                    getLogger().error(
+                        "[config/passportConfig.js] /initializePassport jwt " +
+                            error.message
+                    );
                     return done(error);
                 }
             }
@@ -64,6 +69,10 @@ const initializePassport = () => {
                     const result = await userModel.create(userToSave);
                     return done(null, result);
                 } catch (error) {
+                    getLogger().error(
+                        "[config/passportConfig.js] /initializePassport register{Error al obtener el usario:} " +
+                            error.message
+                    );
                     return done(`Error al obtener el usario: ${error}`);
                 }
             }
@@ -89,6 +98,10 @@ const initializePassport = () => {
 
                     return done(null, user);
                 } catch (error) {
+                    getLogger().error(
+                        "[config/passportConfig.js] /initializePassport login {Error al obtener el usario:} " +
+                            error.message
+                    );
                     return done(`Error al obtener el usario: ${error}`);
                 }
             }
@@ -125,6 +138,10 @@ const initializePassport = () => {
                         done(null, user);
                     }
                 } catch (error) {
+                    getLogger().error(
+                        "[config/passportConfig.js] /initializePassport github {Error al obtener el usario:} " +
+                            error.message
+                    );
                     return done(error);
                 }
             }

@@ -6,14 +6,12 @@ const generateProduct = () => {
         title: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
         price: faker.commerce.price(),
-        thumbnail: [ faker.image.image()],
+        thumbnail: [faker.image.image()],
         code: faker.random.alphaNumeric(10),
         stock: faker.random.numeric(1),
         status: true,
-        category: faker.commerce.productMaterial()
-    }
-}
+        category: faker.commerce.productMaterial(),
+    };
+};
 
-export {
-    generateProduct
-}
+export { generateProduct };

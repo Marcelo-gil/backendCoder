@@ -13,6 +13,7 @@ import {
 import { getProductById as getProductByIdRepository } from "../repositories/productsRepository.js";
 
 import emailService from "../emalService/emailService.js";
+import { getLogger } from "../utils/logger.js";
 
 const getCarts = async () => {
     const carts = await getCartsRepository();
@@ -117,7 +118,10 @@ const updateTicketPurchase = async (cid, user) => {
                 subjectEmail
             );
         } catch (error) {
-            console.log(error.message);
+            getLogger().error(
+                "[services/cartsService.js] updateTicketPurchase " +
+                    error.message
+            );
         }
     }
 

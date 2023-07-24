@@ -4,6 +4,7 @@ import {
     getByEmailUser as getByEmailUserService,
     updateOneUser as updateOneUserService,
 } from "../services/usersService.js";
+import { getLogger } from "../utils/logger.js";
 
 import { isValidPassword, generateToken, createHash } from "../utils.js";
 
@@ -39,6 +40,9 @@ const loginUser = async (req, res) => {
             httpOnly: true,
         }).send({ status: "success" });
     } catch (error) {
+        getLogger().info(
+            "[controllers/usersController.js] /loginUser " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -69,6 +73,9 @@ const registerUser = async (req, res) => {
 
         res.sendSuccess(result);
     } catch (error) {
+        getLogger().info(
+            "[controllers/usersController.js] /registerUser " + error.message
+        );
         res.sendServerError(error.message);
     }
 };
@@ -114,6 +121,9 @@ const resetUser = async (req, res) => {
 
         res.send({ status: "success", message: "Password reset" });
     } catch (error) {
+        getLogger().error(
+            "[controllers/usersController.js] /resetUser " + error.message
+        );
         res.status(500).send({ status: "error", error: error.message });
     }
 };
@@ -146,7 +156,10 @@ const getByEmailUser = async (req, res) => {
 
         return user;
     } catch (error) {
-        res.status(500).send({ status: "error", error: error.message });
+        getLogger().info(
+            "[controllers/usersController.js] /getByEmailUser " + error.message
+        );
+        res.status(400).send({ status: "error", error: error.message });
     }
 };
 

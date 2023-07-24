@@ -1,8 +1,9 @@
 import { ticketModel } from "../models/ticketModel.js";
+import { getLogger } from "../../utils/logger.js";
 
 export default class TicketManager {
     constructor() {
-        console.log("Working Ticket with DB");
+        getLogger().info("Working Ticket with DB");
     }
 
     updateTicket = async (

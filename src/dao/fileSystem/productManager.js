@@ -1,5 +1,6 @@
 import fs from "fs";
 import invalidProduct from "../dao/dbManager/validProductManager.js";
+import { getLogger } from "../../utils/logger.js";
 
 export default class ProductManager {
     constructor(path) {
@@ -19,6 +20,10 @@ export default class ProductManager {
                 return [];
             }
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/productManager.js] /getProducts " +
+                    error.message
+            );
             throw error;
         }
     };
@@ -74,6 +79,10 @@ export default class ProductManager {
 
             return product;
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/productManager.js] /getProducts " +
+                    error.message
+            );
             throw error;
         }
     };
@@ -113,9 +122,17 @@ export default class ProductManager {
                 );
                 return updatedProduct;
             } else {
+                getLogger().warning(
+                    "[dao/fileSystem/productManager.js] /updateProduct " +
+                        error.message
+                );
                 throw new Error("Product Not found");
             }
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/productManager.js] /updateProduct " +
+                    error.message
+            );
             throw error;
         }
     };
@@ -137,9 +154,17 @@ export default class ProductManager {
                     JSON.stringify(productsnew, null, "\t")
                 );
             } else {
+                getLogger().warning(
+                    "[dao/fileSystem/productManager.js] /deleteProduct " +
+                        error.message
+                );
                 throw new Error("Product Not found");
             }
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/productManager.js] /deleteProduct " +
+                    error.message
+            );
             throw error;
         }
     };

@@ -9,12 +9,11 @@ import {
 import invalidProduct from "../dao/dbManager/validProductManager.js";
 
 const addProducts = async (product) => {
-
     const validProduct = invalidProduct(product, "add");
     if (!validProduct[0]) {
-         throw new TypeError(validProduct[1]);
+        throw new TypeError(validProduct[1]);
     }
-    
+
     const result = await addProductsRepository(product);
     return result;
 };
@@ -33,10 +32,9 @@ const getProductById = async (pid) => {
 };
 
 const updateProduct = async (idProduct, productUpdate) => {
-
     const validProduct = invalidProduct(productUpdate, "update");
     if (!validProduct[0]) {
-         throw new TypeError(validProduct[1]);
+        throw new TypeError(validProduct[1]);
     }
 
     const result = await updateProductRepository(idProduct, productUpdate);
@@ -49,7 +47,7 @@ const updateProduct = async (idProduct, productUpdate) => {
 
 const deleteProduct = async (idProduct) => {
     const result = await deleteProductRepository(idProduct);
-    
+
     if (result.deletedCount === 0) {
         throw new TypeError("Producto Inexistente");
     }

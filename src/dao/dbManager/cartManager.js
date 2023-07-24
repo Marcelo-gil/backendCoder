@@ -1,15 +1,14 @@
 import { cartModel } from "../models/cartModel.js";
 import ProductManager from "./productManager.js";
 import TicketManager from "./ticketManager.js";
-import UserManager from "./userManager.js";
+import { getLogger } from "../../utils/logger.js";
 
 const productManager = new ProductManager();
 const ticketManager = new TicketManager();
-const userManager = new UserManager();
 
 export default class CartManager {
     constructor() {
-        console.log("Working Carts with DB");
+        getLogger().info("Working Carts with DB");
     }
 
     getCarts = async () => {

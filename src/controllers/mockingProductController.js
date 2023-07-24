@@ -1,10 +1,9 @@
-
 import {
     addProducts as addProductsService,
     getProducts as getProductsService,
     getProductById as getProductByIdService,
     updateProduct as updateProductService,
-    deleteProduct as deleteProductService
+    deleteProduct as deleteProductService,
 } from "../services/mockingProductService.js";
 
 const getProducts = async (req, res) => {
@@ -15,14 +14,14 @@ const getProducts = async (req, res) => {
 
     const result = await getProductsService(limit, page, query, sort);
 
-    result.totalPages= 1;
-    result.prevPage= 1;
-    result.nextPage= 1;
-    result.hasPrevPage= 1;
-    result.hasNextPage= 1;
-    result.prevLink= "";
-    result.nextLink= "";
-    const products = result 
+    result.totalPages = 1;
+    result.prevPage = 1;
+    result.nextPage = 1;
+    result.hasPrevPage = 1;
+    result.hasNextPage = 1;
+    result.prevLink = "";
+    result.nextLink = "";
+    const products = result;
 
     res.send({
         status: "success",
@@ -66,7 +65,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     const pid = req.params.pid;
-    
+
     const product = await deleteProductService(pid);
 
     res.send({
@@ -74,7 +73,7 @@ const deleteProduct = async (req, res) => {
         message: "Producto Eliminado Correctamente",
         payload: product,
     });
-}; 
+};
 
 export {
     addProducts,
@@ -83,5 +82,3 @@ export {
     updateProduct,
     deleteProduct,
 };
-
-

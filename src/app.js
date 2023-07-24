@@ -5,6 +5,7 @@ import CartsRouter from "./routes/dbRoutes/cartsRouter.js";
 import UsersRouter from "./routes/dbRoutes/usersRouter.js";
 import SessionsRouter from "./routes/dbRoutes/sessionsRouter.js";
 import mockingProductsRouter from "./routes/dbRoutes/mockingProductsRouter.js";
+import loggerTest from "./routes/fileRoutes/loggerTest.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import ViewsRouter from "./routes/viewsRouter.js";
@@ -18,6 +19,7 @@ import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 import cors from "cors";
 import errorHandler from "./middlewares/errors/index.js";
+import { addLogger, getLogger } from "./utils/logger.js";
 
 const secrets = config.secrets;
 const frontend_account = config.frontend_account;
@@ -57,6 +59,8 @@ app.use(
 );
 app.use(passport.initialize());
 
+app.use(addLogger);
+
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
@@ -69,28 +73,29 @@ app.use("/api/sessions", sessionsRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartsRouter.getRouter());
 app.use("/mockingProducts", mockingProductsRouter);
+app.use("/loggerTest", loggerTest);
 
 app.use(errorHandler);
 
 app.use((err, req, res, next) => {
-    console.log(err);
+    req.logger.fatal(err.message);
     res.status(500).send("Error no controlado");
 });
 
-const server = app.listen(8080, () => console.log("Server running"));
+const server = app.listen(8080, () => getLogger().info("Server running"));
 
 const io = new Server(server);
 
 app.set("socketio", io);
 
 io.on("connection", async () => {
-    console.log("Cliente Conectado");
+    getLogger().info("Cliente Conectado");
     io.emit("showProducts", realtimeManager);
 });
 
 const messages = [];
 io.on("connection", (socket) => {
-    console.log("Chat conectado");
+    getLogger().info("Chat conectado");
     const cargarDatos = async () => {
         const historyMessages = await messageManager.getMessages();
         historyMessages.forEach((element) => {

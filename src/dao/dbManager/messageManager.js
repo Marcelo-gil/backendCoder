@@ -1,8 +1,9 @@
 import { messageModel } from "../models/messageModel.js";
+import { getLogger } from "../../utils/logger.js";
 
 export default class MessageManager {
     constructor() {
-        console.log("Working Messages with DB");
+        getLogger().info("Working Messages with DB");
     }
 
     getMessages = async () => {

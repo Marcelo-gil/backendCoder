@@ -1,4 +1,5 @@
 import fs from "fs";
+import { getLogger } from "../../utils/logger";
 
 export default class CartManager {
     constructor(path) {
@@ -15,6 +16,9 @@ export default class CartManager {
                 return [];
             }
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/cartManager.js] /getCarts " + error.message
+            );
             throw error;
         }
     };
@@ -29,6 +33,9 @@ export default class CartManager {
         const cart = carts.find((cart) => cart.id === idCart);
 
         if (!cart) {
+            getLogger().info(
+                "[dao/fileSystem/cartManager.js] /getCartById " + error.message
+            );
             throw new Error("Not found");
         }
 
@@ -58,6 +65,9 @@ export default class CartManager {
 
             return cart;
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/cartManager.js] /addCarts " + error.message
+            );
             throw error;
         }
     };
@@ -98,6 +108,9 @@ export default class CartManager {
                 throw new Error("Carrito Inexistente");
             }
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/cartManager.js] /updateCart " + error.message
+            );
             throw error;
         }
     };
@@ -120,6 +133,9 @@ export default class CartManager {
                 throw new Error("Not found");
             }
         } catch (error) {
+            getLogger().error(
+                "[dao/fileSystem/cartManager.js] /deleteCart " + error.message
+            );
             throw error;
         }
     };

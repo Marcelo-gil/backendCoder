@@ -1,7 +1,8 @@
 import { Router } from "express";
-import {__dirname} from "../../utils.js";
+import { __dirname } from "../../utils.js";
 import CartManager from "../../dao/fileSystem/cartManager.js";
 import ProductManager from "../../dao/fileSystem/productManager.js";
+import { getLogger } from "../../utils/logger.js";
 
 const router = Router();
 
@@ -16,6 +17,9 @@ router.get("/:cid", async (req, res) => {
         const cart = await cartManager.getCartById(cid);
         res.send(cart);
     } catch (error) {
+        getLogger().error(
+            "[routes/fileRoutes/cartsRouter.js] /get " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -37,6 +41,9 @@ router.post("/", async (req, res) => {
             });
         }
     } catch (error) {
+        getLogger().error(
+            "[routes/fileRoutes/cartsRouter.js] /post " + error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
@@ -58,6 +65,10 @@ router.post("/:cid/product/:pid", async (req, res) => {
             });
         }
     } catch (error) {
+        getLogger().error(
+            "[routes/fileRoutes/cartsRouter.js] /post/:cid/product/:pid  " +
+                error.message
+        );
         res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,

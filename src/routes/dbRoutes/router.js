@@ -1,7 +1,7 @@
 import { Router as expressRouter } from "express";
 import { passportStrategiesEnum } from "../../config/enums.js";
 import passport from "passport";
-
+import { getLogger } from "../../utils/logger.js";
 export default class Router {
     constructor() {
         this.router = expressRouter();
@@ -102,6 +102,10 @@ export default class Router {
             try {
                 await callback.apply(this, params);
             } catch (error) {
+                getLogger().error(
+                    "[routes/dbRoutes/router.js] /applyCallbacks " +
+                        error.message
+                );
                 params[1].status(500).json({ error: error.message });
             }
         });

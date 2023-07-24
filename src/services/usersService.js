@@ -5,6 +5,7 @@ import {
     updateOneUser as updateOneUserRepository,
 } from "../repositories/usersRepository.js";
 import emailService from "../emalService/emailService.js";
+import { getLogger } from "../utils/logger.js";
 
 const saveUser = async (user) => {
     const result = await saveUserRepository(user);
@@ -25,7 +26,9 @@ const saveUser = async (user) => {
                 subjectEmail
             );
         } catch (error) {
-            console.log(error.message);
+            getLogger().error(
+                "[services/usersService.js] /saveUser " + error.message
+            );
         }
     }
 
