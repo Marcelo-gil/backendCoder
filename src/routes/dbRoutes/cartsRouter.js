@@ -11,40 +11,41 @@ import {
     updateTicketPurchase,
 } from "../../controllers/cartsController.js";
 import { passportStrategiesEnum } from "../../config/enums.js";
+import { CARTS_ACCESS, PRIVATE_ACCESS, ADMIN_ACCESS } from "../../config/contants.js";
 
 export default class CartsRouter extends Router {
     init() {
-        this.get("/", ["ADMIN"], passportStrategiesEnum.JWT, getCarts);
+        this.get("/", ADMIN_ACCESS, passportStrategiesEnum.JWT, getCarts);
         this.get(
             "/:cid",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             getCartById
         );
-        this.post("/", ["USER"], passportStrategiesEnum.JWT, addCarts);
+        this.post("/", CARTS_ACCESS, passportStrategiesEnum.JWT, addCarts);
         this.post(
             "/:cid/product/:pid",
-            ["USER"],
+            CARTS_ACCESS,
             passportStrategiesEnum.JWT,
             updateCartPost
         );
         this.put(
             "/:cid/product/:pid",
-            ["USER"],
+            CARTS_ACCESS,
             passportStrategiesEnum.JWT,
             updateCartOne
         );
-        this.put("/:cid", ["USER"], passportStrategiesEnum.JWT, updateCart);
-        this.delete("/:pid", ["USER"], passportStrategiesEnum.JWT, deleteCart);
+        this.put("/:cid", CARTS_ACCESS, passportStrategiesEnum.JWT, updateCart);
+        this.delete("/:pid", CARTS_ACCESS, passportStrategiesEnum.JWT, deleteCart);
         this.delete(
             "/:cid/product/:pid",
-            ["USER"],
+            CARTS_ACCESS,
             passportStrategiesEnum.JWT,
             deleteCartProduct
         );
         this.post(
             "/:cid/purchase",
-            ["USER"],
+            CARTS_ACCESS,
             passportStrategiesEnum.JWT,
             updateTicketPurchase
         );

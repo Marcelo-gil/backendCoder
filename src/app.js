@@ -24,6 +24,7 @@ import { addLogger, getLogger } from "./utils/logger.js";
 const secrets = config.secrets;
 const frontend_account = config.frontend_account;
 const frontend_external_account = config.frontend_external_account;
+const portEnv = config.portEnv;
 
 const messageManager = new MessageManager();
 const usersRouter = new UsersRouter();
@@ -82,7 +83,7 @@ app.use((err, req, res, next) => {
     res.status(500).send("Error no controlado");
 });
 
-const server = app.listen(8080, () => getLogger().info("Server running"));
+const server = app.listen(portEnv, () => getLogger().info("Server running"));
 
 const io = new Server(server);
 

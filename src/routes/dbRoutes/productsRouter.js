@@ -7,29 +7,30 @@ import {
     deleteProduct,
 } from "../../controllers/productsController.js";
 import { passportStrategiesEnum } from "../../config/enums.js";
+import { PREMIUM_ACCESS, PRIVATE_ACCESS } from "../../config/contants.js";
 
 export default class ProductsRouter extends Router {
     init() {
         this.get(
             "/",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             getProducts
         );
         this.get(
             "/:pid",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             getProductById
         );
 
-        this.post("/", ["ADMIN"], passportStrategiesEnum.JWT, addProducts);
+        this.post("/", PREMIUM_ACCESS, passportStrategiesEnum.JWT, addProducts);
 
-        this.put("/:pid", ["ADMIN"], passportStrategiesEnum.JWT, updateProduct);
+        this.put("/:pid", PREMIUM_ACCESS, passportStrategiesEnum.JWT, updateProduct);
 
         this.delete(
             "/:pid",
-            ["ADMIN"],
+            PREMIUM_ACCESS,
             passportStrategiesEnum.JWT,
             deleteProduct
         );

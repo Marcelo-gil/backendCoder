@@ -9,6 +9,7 @@ import { getLogger } from "../utils/logger.js";
 import { isValidPassword, generateToken, createHash } from "../utils.js";
 
 import variablesAmbiente from "../config/config.js";
+import { ROLES } from "../config/contants.js";
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -53,7 +54,7 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
     try {
         const { first_name, last_name, email, password } = req.body;
-        const role = "USER";
+        const role = ROLES.USER;
         if (!first_name || !last_name || !role || !email || !password)
             return res.sendClientError("incomplete values");
 

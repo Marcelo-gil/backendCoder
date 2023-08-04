@@ -2,3 +2,4 @@
 {"level":"error","message":"Prueba error"}
 {"level":"fatal","message":"Prueba fatal"}
 {"level":"error","message":"Prueba error"}
+{"level":"error","message":"[controllers/productsController.js] /addProducts E11000 duplicate key error collection: ecommerce.products index: code_1 dup key: { code: \"002023\" }"}

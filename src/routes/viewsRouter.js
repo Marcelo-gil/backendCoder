@@ -12,65 +12,66 @@ import {
 import { __dirname } from "../utils.js";
 import Router from "./dbRoutes/router.js";
 import { passportStrategiesEnum } from "../config/enums.js";
+import { PRIVATE_ACCESS, PUBLIC_ACCESS, ROLES } from "../config/contants.js";
 
 export default class ViewsRouter extends Router {
     init() {
         this.get(
             "/register",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             registerView
         );
 
         this.get(
             "/reset",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             resetView
         );
 
         this.get(
             "/login",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             loginView
         );
 
         this.get(
             "/",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             getView
         );
 
         this.get(
             "/home",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             homeView
         );
 
         this.get(
             "/carts/:cid",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             cartView
         );
 
         this.get(
             "/products",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             productsView
         );
 
         this.get(
             "/realtimeproducts",
-            ["ADMIN", "USER_PREMIUM", "USER"],
+            PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             realtimeproductsView
         );
 
-        this.get("/chat", ["USER"], passportStrategiesEnum.JWT, chatView);
+        this.get("/chat", [ROLES.USER], passportStrategiesEnum.JWT, chatView);
     }
 }

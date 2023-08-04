@@ -2,6 +2,7 @@ import { Router as expressRouter } from "express";
 import { passportStrategiesEnum } from "../../config/enums.js";
 import passport from "passport";
 import { getLogger } from "../../utils/logger.js";
+import { ROLES } from "../../config/contants.js";
 export default class Router {
     constructor() {
         this.router = expressRouter();
@@ -73,7 +74,7 @@ export default class Router {
     };
 
     handlePolicies = (policies) => (req, res, next) => {
-        if (policies[0] === "PUBLIC") return next();
+        if (policies[0] === ROLES.PUBLIC) return next();
 
         const user = req.user;
         if (typeof user === "undefined") return res.redirect("/login");

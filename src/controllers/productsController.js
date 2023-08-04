@@ -1,3 +1,4 @@
+import { ROLES } from "../config/contants.js";
 import {
     addProducts as addProductsService,
     getProducts as getProductsService,
@@ -8,40 +9,37 @@ import {
 import { getLogger } from "../utils/logger.js";
 
 const getProducts = async (req, res) => {
-    async (req, res) => {
-        const limit = parseInt(req.query.limit) || 10;
-        const page = parseInt(req.query.page) || 1;
-        const query = req.query.query || undefined;
-        const sort = req.query.sort || undefined;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const query = req.query.query || undefined;
+    const sort = req.query.sort || undefined;
 
-        try {
-            const result = await getProductsService(limit, page, query, sort);
-            const products = [...result.docs];
+    try {
+        const result = await getProductsService(limit, page, query, sort);
+        const products = [...result.docs];
 
-            const resultIo = await getProductsService(999, 1);
-            const arrayProducts = [...resultIo.docs];
-            const io = req.app.get("socketio");
-            io.emit("showProducts", arrayProducts);
+        const resultIo = await getProductsService(999, 1);
+        const arrayProducts = [...resultIo.docs];
+        const io = req.app.get("socketio");
+        io.emit("showProducts", arrayProducts);
 
-            res.send({
-                status: "success",
-                payload: products,
-                totalPages: result.totalPages,
-                prevPage: result.prevPage,
-                nextPage: result.nextPage,
-                hasPrevPage: result.hasPrevPage,
-                hasNextPage: result.hasNextPage,
-                prevLink: result.prevLink,
-                nextLink: result.nextLink,
-            });
-        } catch (error) {
-            getLogger().error(
-                "[controllers/productsController.js] /getProducts " +
-                    error.message
-            );
-            res.status(500).send({ status: "error", error: error.message });
-        }
-    };
+        res.send({
+            status: "success",
+            payload: products,
+            totalPages: result.totalPages,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink: result.prevLink,
+            nextLink: result.nextLink,
+        });
+    } catch (error) {
+        getLogger().error(
+            "[controllers/productsController.js] /getProducts " + error.message
+        );
+        res.status(500).send({ status: "error", error: error.message });
+    }
 };
 
 const getProductById = async (req, res) => {
@@ -62,8 +60,10 @@ const getProductById = async (req, res) => {
 };
 
 const addProducts = async (req, res) => {
-    const productNew = req.body;
-
+    // const productNew = req.body;
+    // const user = req.user;
+    const { body: productNew, user } = req;
+    if (user.role === ROLES.PREMIUM) productNew.owner = user.email;
     try {
         const result = await addProductsService(productNew);
         const io = req.app.get("socketio");

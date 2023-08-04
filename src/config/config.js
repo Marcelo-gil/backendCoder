@@ -13,4 +13,5 @@ export default {
     frontend_account: process.env.FRONTEND_ACCOUNT,
     frontend_external_account: process.env.FRONTEND_EXTERNAL_ACCOUNT,
     environment: process.env.NODE_ENV,
+    portEnv: process.env.PORT_ENV
 };

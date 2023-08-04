@@ -11,33 +11,34 @@ import {
 
 import passport from "passport";
 import { passportStrategiesEnum } from "../../config/enums.js";
+import { PUBLIC_ACCESS } from "../../config/contants.js";
 
 export default class UsersRouter extends Router {
     init() {
         this.post(
             "/login",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             loginUser
         );
 
         this.post(
             "/register",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             registerUser
         );
 
         this.get(
             "/fail-login",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             failLoginUser
         );
 
         this.get(
             "/github",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             passport.authenticate("github", { scope: ["user:email"] }),
             githubUser
@@ -45,7 +46,7 @@ export default class UsersRouter extends Router {
 
         this.get(
             "/github-callback",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             passport.authenticate("github", { failureRedirect: "/login" }),
             githubCallbackUser
@@ -53,14 +54,14 @@ export default class UsersRouter extends Router {
 
         this.post(
             "/reset",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             resetUser
         );
 
         this.get(
             "/logout",
-            ["PUBLIC"],
+            PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             logoutUser
         );

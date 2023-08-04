@@ -50,7 +50,7 @@ export default class ProductManager {
         if (product.status === undefined) {
             product.status = true;
         }
-
+        
         const result = await productModel.create(product);
         return result;
     };
