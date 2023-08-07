@@ -6,11 +6,11 @@ const gmail_account = config.gmail_account;
 const gmail_password = config.gmail_password;
 
 async function emailService(
-    ticket,
     email,
     messageEmail1,
     messageEmail2,
-    subjectEmail
+    subjectEmail,
+    hrefEmail
 ) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -28,6 +28,8 @@ async function emailService(
         subject: subjectEmail,
         html: `<div><h1> ${messageEmail1} </h1>
             <h2>  ${messageEmail2} </h2>
+            <br>
+                ${hrefEmail ? `<a ${hrefEmail}</a>` : ""}
             </div>`,
     });
 

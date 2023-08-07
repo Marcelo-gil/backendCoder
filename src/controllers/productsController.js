@@ -1,4 +1,4 @@
-import { ROLES } from "../config/contants.js";
+import { ROLES, PRODUCT_UPDATE_LIMITED } from "../config/constants.js";
 import {
     addProducts as addProductsService,
     getProducts as getProductsService,
@@ -60,8 +60,6 @@ const getProductById = async (req, res) => {
 };
 
 const addProducts = async (req, res) => {
-    // const productNew = req.body;
-    // const user = req.user;
     const { body: productNew, user } = req;
     if (user.role === ROLES.PREMIUM) productNew.owner = user.email;
     try {
@@ -74,7 +72,10 @@ const addProducts = async (req, res) => {
 
         res.send({ status: "success", payload: result });
     } catch (error) {
-        if (error.message === "Producto invalido") {
+        if (
+            error.message === "Producto invalido" ||
+            error.message === "Product already exists"
+        ) {
             getLogger().warning(
                 "[controllers/productsController.js] /addProducts " +
                     error.message
@@ -95,10 +96,20 @@ const addProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     const pid = req.params.pid;
-    const productUpdate = req.body;
-
+    const { body: productUpdate, user } = req;
     try {
-        const product = await updateProductService(pid, productUpdate);
+        const product = await getProductByIdService(pid);
+        if (!product) throw new Error("Product not found");
+        const noAutorizado = PRODUCT_UPDATE_LIMITED.includes(user.role);
+        if (noAutorizado) {
+            if (product.owner !== user.email) {
+                throw new Error("El producto no pertenece a " + user.email);
+            }
+        }
+        const productAfterUpdate = await updateProductService(
+            pid,
+            productUpdate
+        );
         const io = req.app.get("socketio");
         const result = await getProductsService(999, 1);
         const arrayProducts = [...result.docs];
@@ -108,7 +119,7 @@ const updateProduct = async (req, res) => {
         res.send({
             status: "success",
             message: "Producto Actualizado Correctamente",
-            payload: product,
+            payload: productAfterUpdate,
         });
     } catch (error) {
         getLogger().error(
@@ -124,8 +135,18 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     const pid = req.params.pid;
+    const user = req.user;
+
     try {
-        const product = await deleteProductService(pid);
+        const product = await getProductByIdService(pid);
+        if (!product) throw new Error("Product not found");
+        const noAutorizado = PRODUCT_UPDATE_LIMITED.includes(user.role);
+        if (noAutorizado) {
+            if (product.owner !== user.email) {
+                throw new Error("El producto no pertenece a " + user.email);
+            }
+        }
+        const deletedProduct = await deleteProductService(pid);
         const io = req.app.get("socketio");
         const result = await getProductsService(999, 1);
         const arrayProducts = [...result.docs];
@@ -135,7 +156,7 @@ const deleteProduct = async (req, res) => {
         res.send({
             status: "success",
             message: "Producto Eliminado Correctamente",
-            payload: product,
+            payload: deletedProduct,
         });
     } catch (error) {
         getLogger().error(

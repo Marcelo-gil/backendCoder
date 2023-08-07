@@ -10,6 +10,8 @@ import {
     updateTicketPurchase as updateTicketPurchaseService,
 } from "../services/cartsService.js";
 
+import { getLogger } from "../utils/logger.js";
+
 import { updateOneUser as updateOneUserService } from "../services/usersService.js";
 
 const getCarts = async (req, res) => {
@@ -63,7 +65,7 @@ const addCarts = async (req, res) => {
 
         user.carts.push({ cart: newCart._id.toString() });
 
-        const updateUser = await updateOneUserService(email, user);
+        await updateOneUserService(email, user);
 
         res.send({
             status: "success",
@@ -84,9 +86,9 @@ const addCarts = async (req, res) => {
 const updateCartPost = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
-
+    const user = req.user;
     try {
-        const cart = await updateCartPostService(cid, pid);
+        const cart = await updateCartPostService(cid, pid, user);
         res.send({
             status: "success",
             message: "Producto agregado al Carrito Correctamente",
@@ -107,8 +109,9 @@ const updateCartOne = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     const qty = Number(req.body.quantity);
+    const user = req.user;
     try {
-        const cart = await updateCartOneService(cid, pid, qty);
+        const cart = await updateCartOneService(cid, pid, qty, user);
         res.send({
             status: "success",
             message: "Producto actualizado en el Carrito Correctamente",

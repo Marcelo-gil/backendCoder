@@ -3,13 +3,20 @@ import {
     getUsers as getUsersService,
     getByEmailUser as getByEmailUserService,
     updateOneUser as updateOneUserService,
+    updateUserRole as updateUserRoleService,
+    resetEmailUser as resetEmailUserService,
 } from "../services/usersService.js";
 import { getLogger } from "../utils/logger.js";
 
-import { isValidPassword, generateToken, createHash } from "../utils.js";
+import {
+    isValidPassword,
+    generateToken,
+    createHash,
+    verifyToken,
+} from "../utils.js";
 
 import variablesAmbiente from "../config/config.js";
-import { ROLES } from "../config/contants.js";
+import { ROLES } from "../config/constants.js";
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -102,7 +109,10 @@ const githubCallbackUser = async (req, res) => {
 
 const resetUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { password, token } = req.body;
+
+        const decodedToken = await verifyToken(token);
+        const email = decodedToken.user.email;
 
         if (!email || !password)
             return res
@@ -116,14 +126,50 @@ const resetUser = async (req, res) => {
                 .status(400)
                 .send({ status: "error", error: "User not found" });
 
-        user.password = createHash(password);
+        if (isValidPassword(user, password)) {
+            return res.status(400).send({
+                status: "error",
+                error: "La contraseña no puede ser la misma",
+            });
+        }
+
+        const newPassword = createHash(password);
+        user.password = newPassword;
 
         await updateOneUserService(email, user);
 
         res.send({ status: "success", message: "Password reset" });
     } catch (error) {
+        if (error.message === "jwt expired") {
+            getLogger().warning(
+                "[controllers/usersController.js] /resetUser Token expired"
+            );
+            return res
+                .status(400)
+                .send({ status: "error", error: "Token expired" });
+        }
+
         getLogger().error(
             "[controllers/usersController.js] /resetUser " + error.message
+        );
+        res.status(500).send({ status: "error", error: error.message });
+    }
+};
+
+const resetEmailUser = async (req, res) => {
+    try {
+        const email = req.body.email;
+
+        if (!email)
+            return res
+                .status(400)
+                .send({ status: "error", error: "Incomplete values" });
+
+        await resetEmailUserService(email);
+        res.send({ status: "success", message: "Email de reset enviado" });
+    } catch (error) {
+        getLogger().error(
+            "[controllers/usersController.js] /resetEmailUser " + error.message
         );
         res.status(500).send({ status: "error", error: error.message });
     }
@@ -164,21 +210,31 @@ const getByEmailUser = async (req, res) => {
     }
 };
 
-const updateOneUser = async () => {
-    const result = await updateOneUserService(email, user);
-    return result;
+const updateUserRole = async (req, res) => {
+    const uid = req.params.uid;
+    const role = req.body.role;
+    try {
+        const result = await updateUserRoleService(uid, role);
+        res.send(result);
+    } catch (error) {
+        getLogger().info(
+            "[controllers/usersController.js] /updateUserRole " + error.message
+        );
+        res.status(400).send({ status: "error", error: error.message });
+    }
 };
 
 export {
     saveUser,
     getUsers,
     getByEmailUser,
-    updateOneUser,
+    updateUserRole,
     loginUser,
     registerUser,
     failLoginUser,
     githubUser,
     githubCallbackUser,
     resetUser,
+    resetEmailUser,
     logoutUser,
 };

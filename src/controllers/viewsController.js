@@ -2,13 +2,31 @@ import { getProducts as getProductsService } from "../services/productsService.j
 
 import { getCartById as getCartByIdService } from "../services/cartsService.js";
 import { productModel } from "../dao/models/productModel.js";
+import { verifyToken } from "../utils.js";
 
 const registerView = (req, res) => {
     res.render("register");
 };
 
 const resetView = (req, res) => {
-    res.render("reset");
+    const errorMessage = req.query.err;
+    res.render("reset", { err: errorMessage });
+};
+
+const resetPasswordView = async (req, res) => {
+    const token = req.query.token;
+    try {
+        const decodedToken = await verifyToken(token);
+        const email = decodedToken.user.email;
+
+        return res.render("resetPassword", { email, token });
+    } catch (error) {
+        const errorMessage = error.message;
+        if (error.message === "jwt expired") {
+            errorMessage = "Token expired";
+        }
+        return res.redirect("/reset?err=" + encodeURIComponent(errorMessage));
+    }
 };
 
 const loginView = (req, res) => {
@@ -76,6 +94,7 @@ const chatView = async (req, res) => {
 export {
     registerView,
     resetView,
+    resetPasswordView,
     loginView,
     getView,
     homeView,

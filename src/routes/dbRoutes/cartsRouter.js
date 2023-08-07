@@ -11,7 +11,11 @@ import {
     updateTicketPurchase,
 } from "../../controllers/cartsController.js";
 import { passportStrategiesEnum } from "../../config/enums.js";
-import { CARTS_ACCESS, PRIVATE_ACCESS, ADMIN_ACCESS } from "../../config/contants.js";
+import {
+    CARTS_ACCESS,
+    PRIVATE_ACCESS,
+    ADMIN_ACCESS,
+} from "../../config/constants.js";
 
 export default class CartsRouter extends Router {
     init() {
@@ -36,7 +40,12 @@ export default class CartsRouter extends Router {
             updateCartOne
         );
         this.put("/:cid", CARTS_ACCESS, passportStrategiesEnum.JWT, updateCart);
-        this.delete("/:pid", CARTS_ACCESS, passportStrategiesEnum.JWT, deleteCart);
+        this.delete(
+            "/:pid",
+            CARTS_ACCESS,
+            passportStrategiesEnum.JWT,
+            deleteCart
+        );
         this.delete(
             "/:cid/product/:pid",
             CARTS_ACCESS,

@@ -6,7 +6,7 @@ form.addEventListener("submit", (e) => {
     const obj = {};
     data.forEach((value, key) => (obj[key] = value));
     const errMessage = document.getElementById("errorMessage");
-    fetch("/api/users/reset", {
+    fetch("/api/users/resetUserPassword", {
         method: "POST",
         body: JSON.stringify(obj),
         headers: {

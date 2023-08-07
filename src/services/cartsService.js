@@ -12,8 +12,9 @@ import {
 
 import { getProductById as getProductByIdRepository } from "../repositories/productsRepository.js";
 
-import emailService from "../emalService/emailService.js";
+import emailService from "../emailService/emailService.js";
 import { getLogger } from "../utils/logger.js";
+import { PRODUCT_UPDATE_LIMITED } from "../config/constants.js";
 
 const getCarts = async () => {
     const carts = await getCartsRepository();
@@ -36,10 +37,17 @@ const addCarts = async (cart) => {
     return newCart;
 };
 
-const updateCartOne = async (cid, pid, qty) => {
+const updateCartOne = async (cid, pid, qty, user) => {
     const existProduct = await getProductByIdRepository(pid);
     if (existProduct.status === "Error") {
         throw new TypeError(existProduct.error);
+    }
+
+    const noAutorizado = PRODUCT_UPDATE_LIMITED.includes(user.role);
+    if (noAutorizado) {
+        if (existProduct.owner === user.email) {
+            throw new Error("No puede agregar un producto que le pertenece");
+        }
     }
     const result = await updateCartOneRepository(cid, pid, qty);
 
@@ -62,11 +70,19 @@ const updateCart = async (cid, pid, products) => {
     return result;
 };
 
-const updateCartPost = async (cid, pid) => {
+const updateCartPost = async (cid, pid, user) => {
     const existProduct = await getProductByIdRepository(pid);
     if (existProduct.status === "Error") {
         throw new TypeError(existProduct.error);
     }
+
+    const noAutorizado = PRODUCT_UPDATE_LIMITED.includes(user.role);
+    if (noAutorizado) {
+        if (existProduct.owner === user.email) {
+            throw new Error("No puede agregar un producto que le pertenece");
+        }
+    }
+
     const result = await updateCartPostRepository(cid, pid);
     if (!result.modifiedCount === 0) {
         throw new TypeError("No se pudo agregar el producto al Carrito");
@@ -111,7 +127,6 @@ const updateTicketPurchase = async (cid, user) => {
         const subjectEmail = "Ticket Exitoso";
         try {
             await emailService(
-                ticket,
                 user.email,
                 messageEmail1,
                 messageEmail2,

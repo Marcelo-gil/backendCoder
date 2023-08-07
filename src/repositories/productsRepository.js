@@ -15,6 +15,11 @@ const getProductById = async (pid) => {
     return product;
 };
 
+const getProductByCode = async (codeFind) => {
+    const product = await PRODUCTSDAO.getProductByCode(codeFind);
+    return product;
+};
+
 const updateProduct = async (idProduct, productUpdate) => {
     const result = await PRODUCTSDAO.updateProduct(idProduct, productUpdate);
     return result;
@@ -28,6 +33,7 @@ export {
     addProducts,
     getProducts,
     getProductById,
+    getProductByCode,
     updateProduct,
     deleteProduct,
 };

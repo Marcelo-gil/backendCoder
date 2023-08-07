@@ -3,3 +3,31 @@
 {"level":"fatal","message":"Prueba fatal"}
 {"level":"error","message":"Prueba error"}
 {"level":"error","message":"[controllers/productsController.js] /addProducts E11000 duplicate key error collection: ecommerce.products index: code_1 dup key: { code: \"002023\" }"}
+{"level":"error","message":"[controllers/productsController.js] /addProducts E11000 duplicate key error collection: ecommerce.products index: code_1 dup key: { code: \"002024\" }"}
+{"level":"error","message":"[controllers/productsController.js] /deleteProduct El producto no pertenece a marceloalgil@gmail.com"}
+{"level":"error","message":"[controllers/productsController.js] /updateProduct El producto no pertenece a marceloalgil@gmail.com"}
+{"level":"error","message":"[controllers/usersController.js] /resetEmailUser Cannot set headers after they are sent to the client"}
+{"level":"fatal","message":"Cannot set headers after they are sent to the client"}
+{"level":"fatal","message":"Cannot set headers after they are sent to the client"}
+{"level":"fatal","message":"Cannot set headers after they are sent to the client"}
+{"level":"fatal","message":"Cannot set headers after they are sent to the client"}
+{"level":"fatal","message":"Cannot set headers after they are sent to the client"}
+{"level":"error","message":"[controllers/usersController.js] /resetUser jwt must be provided"}
+{"level":"error","message":"[controllers/usersController.js] /resetUser jwt must be provided"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[controllers/productsController.js] /deleteProduct El producto no pertenece a marceloalgil@gmail.com"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks getLogger is not defined"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cannot read properties of undefined (reading 'find')"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cannot read properties of undefined (reading 'find')"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cannot read properties of undefined (reading 'find')"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cannot read properties of undefined (reading 'find')"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne product is not defined"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne product is not defined"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne product is not defined"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No puede agregar un producto que le pertenece"}

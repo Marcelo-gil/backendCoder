@@ -1,6 +1,6 @@
 import Router from "./router.js";
 import { passportStrategiesEnum } from "../../config/enums.js";
-import { PRIVATE_ACCESS } from "../../config/contants.js";
+import { PRIVATE_ACCESS } from "../../config/constants.js";
 
 export default class SessionsRouter extends Router {
     init() {

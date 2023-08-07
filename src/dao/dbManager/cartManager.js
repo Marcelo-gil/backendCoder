@@ -48,6 +48,9 @@ export default class CartManager {
      */
     updateCartOne = async (cid, pid, qty) => {
         const cart = await this.getCartById(cid);
+        if (cart.error) {
+            throw new Error(cart.error);
+        }
         let product = cart.products.find(
             (pcart) => pcart.product._id.toString() === pid
         );

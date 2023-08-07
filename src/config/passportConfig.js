@@ -3,7 +3,7 @@ import local from "passport-local";
 import GitHubStrategy from "passport-github2";
 import userModel from "../dao/models/userModel.js";
 import { createHash, isValidPassword } from "../utils.js";
-import { PRIVATE_KEY } from "./contants.js";
+import { PRIVATE_KEY } from "./constants.js";
 import jwt from "passport-jwt";
 import { getLogger } from "../utils/logger.js";
 

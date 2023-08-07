@@ -1,16 +1,42 @@
+import config from "../config/config.js";
 import {
     saveUser as saveUserRepository,
     getUsers as getUsersRepository,
     getByEmailUser as getByEmailUserRepository,
     updateOneUser as updateOneUserRepository,
+    updateUserRole as updateUserRoleRepository,
 } from "../repositories/usersRepository.js";
-import emailService from "../emalService/emailService.js";
+import emailService from "../emailService/emailService.js";
 import { getLogger } from "../utils/logger.js";
+import { generateToken } from "../utils.js";
 
+const emailUrl = config.email_url;
+
+const resetEmailUser = async (email) => {
+    const user = await getByEmailUserRepository(email);
+    if (!user) throw new Error("Email not found");
+    const accessToken = generateToken({ email }, "1h");
+    const today = new Date();
+    const fechaHora = today.toLocaleString();
+    const messageEmail1 =
+        user.first_name.trim() +
+        " Has pedido el reseteo de tu contraseña en nuestra API";
+    const messageEmail2 = " Fecha: " + fechaHora;
+    const subjectEmail = "¡Reseteo de Contraseña!";
+    const hrefEmail = `href='${emailUrl}/resetPassword?token=${encodeURIComponent(
+        accessToken
+    )}'>Haz click aqui para crear una nueva contraseña`;
+    await emailService(
+        email,
+        messageEmail1,
+        messageEmail2,
+        subjectEmail,
+        hrefEmail
+    );
+};
 const saveUser = async (user) => {
     const result = await saveUserRepository(user);
     if (result) {
-        const ticket = {};
         const today = new Date();
         const fechaHora = today.toLocaleString();
         const messageEmail1 =
@@ -19,7 +45,6 @@ const saveUser = async (user) => {
         const subjectEmail = "¡Nuevo usuario!";
         try {
             await emailService(
-                ticket,
                 user.email,
                 messageEmail1,
                 messageEmail2,
@@ -50,4 +75,16 @@ const updateOneUser = async (email, user) => {
     return result;
 };
 
-export { saveUser, getUsers, getByEmailUser, updateOneUser };
+const updateUserRole = async (uid, role) => {
+    const result = await updateUserRoleRepository(uid, role);
+    return result;
+};
+
+export {
+    saveUser,
+    getUsers,
+    getByEmailUser,
+    updateOneUser,
+    updateUserRole,
+    resetEmailUser,
+};

@@ -46,11 +46,21 @@ export default class ProductManager {
         return product;
     };
 
+    /**
+     * Busca un Producto por Code
+     * @param {*} codeFind
+     * @returns Producto o undefined
+     */
+    getProductByCode = async (codeFind) => {
+        const product = await productModel.findOne({ code: codeFind }).lean();
+        return product;
+    };
+
     addProducts = async (product) => {
         if (product.status === undefined) {
             product.status = true;
         }
-        
+
         const result = await productModel.create(product);
         return result;
     };

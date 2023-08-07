@@ -6,12 +6,14 @@ import {
     githubUser,
     githubCallbackUser,
     resetUser,
+    resetEmailUser,
     logoutUser,
+    updateUserRole,
 } from "../../controllers/usersController.js";
 
 import passport from "passport";
 import { passportStrategiesEnum } from "../../config/enums.js";
-import { PUBLIC_ACCESS } from "../../config/contants.js";
+import { ADMIN_ACCESS, PUBLIC_ACCESS } from "../../config/constants.js";
 
 export default class UsersRouter extends Router {
     init() {
@@ -56,14 +58,27 @@ export default class UsersRouter extends Router {
             "/reset",
             PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
-            resetUser
+            resetEmailUser
         );
 
+        this.post(
+            "/resetUserPassword",
+            PUBLIC_ACCESS,
+            passportStrategiesEnum.NOTHING,
+            resetUser
+        );
         this.get(
             "/logout",
             PUBLIC_ACCESS,
             passportStrategiesEnum.NOTHING,
             logoutUser
+        );
+
+        this.put(
+            "/premium/:uid",
+            ADMIN_ACCESS,
+            passportStrategiesEnum.JWT,
+            updateUserRole
         );
     }
 }

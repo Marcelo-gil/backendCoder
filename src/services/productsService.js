@@ -4,11 +4,14 @@ import {
     getProductById as getProductByIdRepository,
     updateProduct as updateProductRepository,
     deleteProduct as deleteProductRepository,
+    getProductByCode as getProductByCodeRepository,
 } from "../repositories/productsRepository.js";
 
 import invalidProduct from "../dao/dbManager/validProductManager.js";
 
 const addProducts = async (product) => {
+    const exist = await getProductByCodeRepository(product.code);
+    if (exist) throw new Error("Product already exists");
     const validProduct = invalidProduct(product, "add");
     if (!validProduct[0]) {
         throw new TypeError(validProduct[1]);
@@ -28,6 +31,11 @@ const getProductById = async (pid) => {
     if (!product) {
         throw new TypeError("Producto Inexistente");
     }
+    return product;
+};
+
+const getProductByCode = async (codeFind) => {
+    const product = await getProductByCodeRepository(codeFind);
     return product;
 };
 
@@ -58,6 +66,7 @@ export {
     addProducts,
     getProducts,
     getProductById,
+    getProductByCode,
     updateProduct,
     deleteProduct,
 };

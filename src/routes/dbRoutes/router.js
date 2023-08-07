@@ -2,7 +2,7 @@ import { Router as expressRouter } from "express";
 import { passportStrategiesEnum } from "../../config/enums.js";
 import passport from "passport";
 import { getLogger } from "../../utils/logger.js";
-import { ROLES } from "../../config/contants.js";
+import { ROLES } from "../../config/constants.js";
 export default class Router {
     constructor() {
         this.router = expressRouter();

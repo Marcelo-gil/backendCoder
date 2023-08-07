@@ -2,12 +2,6 @@ import winston from "winston";
 import config from "../config/config.js";
 const ENVIRONMENT = config.environment;
 
-//import * as dotenv from "dotenv";
-
-//dotenv.config();
-
-//const ENVIRONMENT = process.env.NODE_ENV;
-
 const customLevelOptions = {
     levels: {
         fatal: 0,
