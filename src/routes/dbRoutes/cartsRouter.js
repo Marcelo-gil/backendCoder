@@ -41,7 +41,7 @@ export default class CartsRouter extends Router {
         );
         this.put("/:cid", CARTS_ACCESS, passportStrategiesEnum.JWT, updateCart);
         this.delete(
-            "/:pid",
+            "/:cid",
             CARTS_ACCESS,
             passportStrategiesEnum.JWT,
             deleteCart

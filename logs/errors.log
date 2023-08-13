@@ -31,3 +31,4 @@
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne product is not defined"}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne product is not defined"}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No puede agregar un producto que le pertenece"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cannot read properties of null (reading '_id')"}

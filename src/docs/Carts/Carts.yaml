@@ -1,0 +1,329 @@
+paths:
+    /api/carts:
+        get:
+            summary: Obtiene todos los carrritos
+            tags:
+                - Carts
+            parameters:
+            responses:
+                "200":
+                    description: Los Carritos se obtuvieron satisfactoriamente de la BDD
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#components/schemas/getCarts"
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        post:
+            summary: Agrega un carrito vacio a la BDD
+            tags:
+                - Carts
+            responses:
+                "200":
+                    description: Carrito creado correctamente en la BDD
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#components/schemas/cartadd"
+                "400":
+                    description: Error de validación del producto
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+    /api/carts/{cid}:
+        get:
+            summary: Obtiene un Carrito por su id
+            tags:
+                - Carts
+            parameters:
+                - name: cid
+                  in: path
+                  required: true
+                  description: El id del carrito
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: El carrito fue obtenido satisfactoriamente de la BDD
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/getCarts"
+                "400":
+                    description: Error de validación del carrito
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        put:
+            summary: Actualiza un array de productos desde body al Carrito por su id
+            tags:
+                - Carts
+            parameters:
+                - name: cid
+                  in: path
+                  required: true
+                  description: El id del carrito
+                  schema:
+                      $type: String
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#components/requestBodies/updateArrayCartProducts"
+            responses:
+                "200":
+                    description: Productos actualizados en el Carrito Correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/updateCartProducts"
+                "400":
+                    description: Errores de validación y permisos
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        delete:
+            summary: Elimina un Carrito por su id
+            tags:
+                - Carts
+            parameters:
+                - name: cid
+                  in: path
+                  required: true
+                  description: El id del carrito
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: Carrito Eliminado Correctamente de la BDD
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/deleteCarts"
+                "400":
+                    description: Error de validación del carrito
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+    /api/carts/{cid}/product{pid}:
+        post:
+            summary: Agrega un producto al carrito
+            tags:
+                - Carts
+            parameters:
+                - in: path
+                  name: cid
+                  required: true
+                  description: id del carrito
+                - in: path
+                  name: pid
+                  required: true
+                  description: id del producto
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: Producto agregado al Carrito Correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/updateCarts"
+                "400":
+                    description: Errores de validación
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        put:
+            summary: Actualiza o agrega un producto al carrito
+            tags:
+                - Carts
+            parameters:
+                - in: path
+                  name: cid
+                  required: true
+                  description: id del carrito
+                - in: path
+                  name: pid
+                  required: true
+                  description: id del producto
+                  schema:
+                      $type: String
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#components/requestBodies/updateCartProduct"
+            responses:
+                "200":
+                    description: El producto fue actualizado correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/updateCarts"
+                "400":
+                    description: Errores de validación y permisos
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        delete:
+            summary: Elimina un producto del carrito por su ID
+            tags:
+                - Carts
+            parameters:
+                - in: path
+                  name: cid
+                  required: true
+                  description: id del carrito
+                - in: path
+                  name: pid
+                  required: true
+                  description: id del producto
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: Producto Borrado del Carrito Correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/deleteCartProduct"
+                "400":
+                    description: Errores de validación y permisos
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+    /api/carts/{cid}/purchase:
+        post:
+            summary: Genera ticket de compra
+            tags:
+                - Carts
+            parameters:
+                - in: path
+                  name: cid
+                  required: true
+                  description: id del carrito
+            responses:
+                "200":
+                    description: Ticket conformado Correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/purchase"
+                "400":
+                    description: Errores de validación
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+components:
+    schemas:
+        updateCarts:
+            type: object
+            example:
+                status: success
+                message: Producto actualizado en el Carrito Correctamente
+                payload:
+                    acknowledged: true
+                    modifiedCount: 1
+                    upsertedId: null
+                    upsertedCount: 0,
+                    matchedCount: 1
+        deleteCarts:
+            type: object
+            example:
+                status: success
+                message: Carrito Eliminado Correctamente
+                payload:
+                    acknowledged: true
+                    deletedCount: 1
+        deleteCartProduct:
+            type: object
+            example:
+                status: success
+                message: Producto Borrado del Carrito Correctamente
+                payload:
+                    acknowledged: true,
+                    modifiedCount: 1,
+                    upsertedId: null,
+                    upsertedCount: 0,
+                    matchedCount: 1
+        cartadd:
+            type: object
+            example:
+                status: success
+                message: Carrito Creado Correctamente
+                payload:
+                    products: []
+                    _id: 64d799d2537a17c7456995f0
+        purchase:
+            type: object
+            example:
+                status: success
+                message: Ticket conformado Correctamente
+                payload:
+                    code: 1691886149809
+                    purchase_datetime: 12/8/2023, 21:21:21
+                    amount: 3598
+                    purchaser: mg@gmail.com
+                    products: []
+        updateCartProducts:
+            type: object
+            example:
+                status: success
+                message: Productos actualizados en el Carrito Correctamente
+                payload:
+                    acknowledged: true
+                    modifiedCount: 1
+                    upsertedId: null
+                    upsertedCount: 0
+                    matchedCount: 1
+        getCarts:
+            type: object
+            properties:
+                _id:
+                    type: ObjectId
+                    description: Id autogenerado de mongodb
+                products:
+                    type: array
+                    description: Array de productos del carrito
+                    objects:
+                        type: object
+                        description: Objeto de un producto del carrito
+                        products:
+                            type: ObjectId
+                            description: Id autogenerado del producto
+                        quantity:
+                            type: integer
+                            description: Cantidad del producto
+                        _id:
+                            type: ObjectId
+                            description: Id autogenerado de mongodb
+            example:
+                _id: ObjectId(646a818f9f850baff01b6c3b)
+                products:
+                    product:
+                        _id: ObjectId(649d860d3412062977b0a6b6)
+                        title: ANILLOS DE DULCE
+                        description: ANILLOS DE TERRABUSI POR 300 GRS
+                        price: 376
+                        thumbnail: []
+                        code: 001989
+                        stock: 18
+                        status: true
+                        category: Galletitas
+                        owner: ADMIN
+                    quantity: 1
+                    _id: ObjectId(64d01477e1f28a191a9914a4)
+    requestBodies:
+        updateCartProduct:
+            type: object
+            properties:
+                quantity:
+                    type: Number
+                    description: cantidad del producto
+            example:
+                quantity: 1
+        updateArrayCartProducts:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Id del producto
+                quantity:
+                    type: Number
+                    description: cantidad del producto

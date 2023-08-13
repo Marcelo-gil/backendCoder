@@ -1,0 +1,287 @@
+paths:
+    /api/products:
+        get:
+            summary: Obtiene todos los productos
+            tags:
+                - Products
+            parameters:
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                  description: Se refiere al número página (sino se indica asume 1)
+                - in: query
+                  name: limit
+                  schema:
+                      type: integer
+                  description: Sin límite de productos por página se inicializa en 10
+                - in: query
+                  name: category
+                  schema:
+                      type: character
+                  description: Si no se indica categoría trae todas
+                - in: query
+                  name: sort
+                  schema:
+                      type: character
+                  description: asc/des ordena la consulta, si no se indica viene desordenada
+            responses:
+                "200":
+                    description: Los productos se obtuvieron satisfactoriamente de la BDD
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#components/schemas/getproducts"
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        post:
+            summary: Agrega un producto a la BDD
+            tags:
+                - Products
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#components/requestBodies/updateProduct"
+            responses:
+                "200":
+                    description: Producto agregado correctamente en la BDD
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#components/schemas/Product"
+                "400":
+                    description: Error de validación del producto
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+    /api/products/{pid}:
+        get:
+            summary: Obtiene un solo producto a partir de su pid
+            tags:
+                - Products
+            parameters:
+                - name: pid
+                  in: path
+                  required: true
+                  description: El id del producto
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: El producto fue obtenido satisfactoriamente de la BDD
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/Product"
+                "400":
+                    description: Error de validación del producto
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        put:
+            summary: Actualiza el producto a partir de su pid
+            tags:
+                - Products
+            parameters:
+                - name: pid
+                  in: path
+                  required: true
+                  description: El id del producto
+                  schema:
+                      $type: String
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#components/requestBodies/updateProduct"
+            responses:
+                "200":
+                    description: El producto fue actualizado correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/updateproducts"
+                "400":
+                    description: Errores de validación
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+        delete:
+            summary: Elimina un producto a partir de su pid
+            tags:
+                - Products
+            parameters:
+                - name: pid
+                  in: path
+                  required: true
+                  description: El id del producto
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: Producto Eliminado Correctamente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#components/schemas/deleteproduct"
+                "400":
+                    description: Errores de validación
+                "500":
+                    description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+components:
+    schemas:
+        Product:
+            type: object
+            properties:
+                _id:
+                    type: ObjectId
+                    description: Id autogenerado de mongodb
+                title:
+                    type: String
+                    description: Titulo del producto
+                description:
+                    type: Number
+                    description: Nombre del producto
+                price:
+                    type: String
+                    description: Precio del producto
+                thumbnail:
+                    type: array
+                    description: Fotos del producto
+                code:
+                    type: String
+                    description: código de producto
+                stock:
+                    type: Number
+                    description: Stock del producto
+                status:
+                    type: logical
+                    description: Status del producto
+                category:
+                    type: string
+                    description: Categoria del producto
+                owner:
+                    type: string
+                    description: email del propietario por defecto ADMIN
+            example:
+                status: success
+                payload:
+                    _id: ObjectId(649d860d3412062977b0a6b6)
+                    title: ANILLOS DE DULCE
+                    description: ANILLOS DE TERRABUSI POR 300 GRS
+                    price: 376
+                    thumbnail: []
+                    code: 001989
+                    stock: 18
+                    status: true
+                    category: Galletitas
+                    owner: ADMIN
+        updateproducts:
+            type: object
+            example:
+                status: success
+                message: Producto Actualizado Correctamente
+                payload:
+                    acknowledged: true
+                    modifiedCount: 0
+                    upsertedId: null
+                    upsertedCount: 0,
+                    matchedCount: 1
+        deleteproduct:
+            type: object
+            example:
+                status: success
+                message: Producto Eliminado Correctamente
+                payload:
+                    acknowledged: true
+                    deletedCount: 1
+        getproducts:
+            type: object
+            properties:
+                _id:
+                    type: ObjectId
+                    description: Id autogenerado de mongodb
+                title:
+                    type: String
+                    description: Titulo del producto
+                description:
+                    type: Number
+                    description: Nombre del producto
+                price:
+                    type: String
+                    description: Precio del producto
+                thumbnail:
+                    type: array
+                    description: Fotos del producto
+                code:
+                    type: String
+                    description: código de producto
+                stock:
+                    type: Number
+                    description: Stock del producto
+                status:
+                    type: logical
+                    description: Status del producto
+                category:
+                    type: string
+                    description: Categoria del producto
+                owner:
+                    type: string
+                    description: email del propietario por defecto ADMIN
+            example:
+                status: success
+                payload:
+                    _id: ObjectId(649d860d3412062977b0a6b6)
+                    title: ANILLOS DE DULCE
+                    description: ANILLOS DE TERRABUSI POR 300 GRS
+                    price: 376
+                    thumbnail: []
+                    code: 001989
+                    stock: 18
+                    status: true
+                    category: Galletitas
+                    owner: ADMIN
+                totalPages: 3
+                prevPage: null
+                nextPage: 2
+                hasPrevPage: false
+                hasNextPage: true
+    requestBodies:
+        updateProduct:
+            type: object
+            properties:
+                title:
+                    type: String
+                    description: titulo del producto
+                description:
+                    type: String
+                    description: Nombre del producto
+                price:
+                    type: Number
+                    description: Precio del producto
+                thumbnail:
+                    type: Array
+                    description: Fotos del producto
+                code:
+                    type: String
+                    description: Código del producto
+                stock:
+                    type: String
+                    description: Stock del producto
+                status:
+                    type: Logical
+                    description: Status del producto true / false
+                category:
+                    type: String
+                    description: Categoria del producto
+            example:
+                title: BOLSA MENTA CRISTAL X 810 GRS.
+                description: CARAM. ARCOR MENTA CRISTAL X 810
+                price: 1537
+                thumbnail: []
+                code: 000965
+                stock: 11
+                status: true
+                category: CARAMELOS

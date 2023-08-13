@@ -21,6 +21,9 @@ import cors from "cors";
 import errorHandler from "./middlewares/errors/index.js";
 import { addLogger, getLogger } from "./utils/logger.js";
 
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+
 const secrets = config.secrets;
 const frontend_account = config.frontend_account;
 const frontend_external_account = config.frontend_external_account;
@@ -46,6 +49,21 @@ if (frontend_external_account) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: "Documentación del proyecto de Backend de Coderhouse",
+            description: "API pensada para resolver el proceso de un ecommerce",
+        },
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJsdoc(swaggerOptions);
+
+app.use("/api/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use(cookieParser());
 

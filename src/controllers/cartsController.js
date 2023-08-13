@@ -153,9 +153,9 @@ const updateCart = async (req, res) => {
 };
 
 const deleteCart = async (req, res) => {
-    const pid = req.params.pid;
+    const cid = req.params.cid;
     try {
-        const cart = await deleteCartService(pid);
+        const cart = await deleteCartService(cid);
         res.send({
             status: "success",
             message: "Carrito Eliminado Correctamente",
