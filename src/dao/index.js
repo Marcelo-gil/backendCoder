@@ -1,4 +1,3 @@
-
 import config from "../config/config.js";
 
 const persistence = config.persistence;
@@ -21,4 +20,3 @@ export const PRODUCTSDAO = MongoProductDao;
 export const USERSDAO = MongoUserDao;
 export const CARTSDAO = MongoCartDao;
 export const TICKETSDAO = MongoTicketDao;
-

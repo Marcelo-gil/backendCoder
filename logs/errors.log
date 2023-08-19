@@ -40,3 +40,6 @@
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}

@@ -4,10 +4,13 @@ import supertest from "supertest";
 const expect = chai.expect;
 const requester = supertest("http://localhost:8080");
 
-describe("Testing session", () => {
+describe("Testing Products", () => {
     let cookie;
     let idProduct;
 
+    /**
+     * se hace uso de un usuario PREMIUM para poder registrar los productos
+     */
     const emailMock = "gmaplicaciones@yahoo.com.ar";
     const passwordMock = "1234";
 
@@ -40,7 +43,7 @@ describe("Testing session", () => {
         };
     });
 
-    it("Enviar la cookie en el servicio get y entregar la información de los productos", async () => {
+    it("GET a /api/products y verificar que se reciban los productos correctamente", async () => {
         const { statusCode, _body } = await requester
             .get("/api/products/")
             .set("Cookie", [`${cookie.name}=${cookie.value}`]);
@@ -50,7 +53,7 @@ describe("Testing session", () => {
         expect(Array.isArray(_body.payload)).to.be.eql(true);
     });
 
-    it("Registrar correctamente un producto y recibir el ID", async () => {
+    it("POST a /api/products para registrar correctamente un producto y recibir el ID", async () => {
         const { statusCode, _body } = await requester
             .post("/api/products/")
             .send(productMock)
@@ -62,7 +65,7 @@ describe("Testing session", () => {
         idProduct = _body.payload._id;
     });
 
-    it("Intentar Registrar el mismo producto y recibir error 400", async () => {
+    it("POST a /api/products e Intentar Registrar el mismo producto y recibir error 400", async () => {
         const { statusCode, _body } = await requester
             .post("/api/products/")
             .send(productMock)
@@ -71,7 +74,7 @@ describe("Testing session", () => {
         expect(statusCode).to.be.eql(400);
     });
 
-    it("Intentar borrar el producto creado por su Id", async () => {
+    it("DELETE a /api/products e intentar borrar el producto creado desde su Id", async () => {
         const deleteResult = await requester
             .delete(`/api/products/${idProduct}`)
             .set("Cookie", [`${cookie.name}=${cookie.value}`]);
@@ -79,7 +82,7 @@ describe("Testing session", () => {
         expect(deleteResult.statusCode).to.be.eql(200);
     });
 
-    it("Intentar leer el producto borrado por su Id", async () => {
+    it("GET a /api/products e intentar leer el producto borrado por su Id", async () => {
         const { statusCode } = await requester
             .get(`/api/products/${idProduct}`)
             .set("Cookie", [`${cookie.name}=${cookie.value}`]);

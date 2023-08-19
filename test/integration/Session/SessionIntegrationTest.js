@@ -4,11 +4,15 @@ import supertest from "supertest";
 const expect = chai.expect;
 const requester = supertest("http://localhost:8080");
 
-describe("Testing Users", () => {
+describe("Testing Session", () => {
     let cookie;
-    const emailMock = "gmaplicaciones@yahoo.com.ar";
+    const emailMock = "gm@yahoo.com.ar";
     const passwordMock = "1234";
 
+    /**
+     * Al no existir un metodo para borrar un usuario se debe cambiar la
+     * constante emailMock para que no falle el test
+     */
     it("Registrar un usuario correctamente", async () => {
         const userMock = {
             first_name: "Juan",

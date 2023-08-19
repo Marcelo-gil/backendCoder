@@ -22,6 +22,6 @@ const updateOneUser = async (email, user) => {
 const updateUserRole = async (uid, roler) => {
     const result = await USERSDAO.updateUserRole(uid, roler);
     return result;
-}
+};
 
 export { saveUser, getUsers, getByEmailUser, updateOneUser, updateUserRole };
