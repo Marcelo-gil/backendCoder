@@ -12,7 +12,7 @@ import {
 
 import { getLogger } from "../utils/logger.js";
 
-import { updateOneUser as updateOneUserService } from "../services/usersService.js";
+import { getByEmailUser as getByEmailUserService, updateOneUser as updateOneUserService } from "../services/usersService.js";
 
 const getCarts = async (req, res) => {
     try {
@@ -32,8 +32,10 @@ const getCarts = async (req, res) => {
 const getCartById = async (req, res) => {
     try {
         const cid = req.params.cid;
-        const user = req.user;
-        const found = user.carts.find((element) => element.cart._id === cid);
+        const email = req.user.email;
+        const user = await getByEmailUserService(email); 
+
+        const found = user.carts.find((element) => element.cart !== null && element.cart._id.toString() === cid);
         if (found === undefined) {
             res.status(400).send({
                 status: "error",

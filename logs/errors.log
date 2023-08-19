@@ -32,3 +32,11 @@
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne product is not defined"}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No puede agregar un producto que le pertenece"}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cannot read properties of null (reading '_id')"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Cast to ObjectId failed for value \"64cc1ba3ebd341576d96e6d1uhkhj\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}

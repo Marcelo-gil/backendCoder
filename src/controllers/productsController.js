@@ -52,7 +52,7 @@ const getProductById = async (req, res) => {
             "[controllers/productsController.js] /getProductById " +
                 error.message
         );
-        res.status(400).send({
+        return res.status(400).send({
             status: "error",
             error: "Ocurrio un error: " + error.message,
         });

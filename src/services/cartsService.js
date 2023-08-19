@@ -50,7 +50,6 @@ const updateCartOne = async (cid, pid, qty, user) => {
         }
     }
     const result = await updateCartOneRepository(cid, pid, qty);
-
     if (result.modifiedCount === 0) {
         throw new TypeError("No se pudo Actualizar el Producto en el Carrito");
     }
