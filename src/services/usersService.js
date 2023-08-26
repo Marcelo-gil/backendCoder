@@ -5,12 +5,13 @@ import {
     getByEmailUser as getByEmailUserRepository,
     updateOneUser as updateOneUserRepository,
     updateUserRole as updateUserRoleRepository,
+    updateUserDocument as updateUserDocumentRepository,
 } from "../repositories/usersRepository.js";
 import emailService from "../emailService/emailService.js";
 import { getLogger } from "../utils/logger.js";
 import { generateToken } from "../utils.js";
 
-const emailUrl = config.email_url;
+const httpUrl = config.http_url;
 
 const resetEmailUser = async (email) => {
     const user = await getByEmailUserRepository(email);
@@ -23,7 +24,7 @@ const resetEmailUser = async (email) => {
         " Has pedido el reseteo de tu contraseña en nuestra API";
     const messageEmail2 = " Fecha: " + fechaHora;
     const subjectEmail = "¡Reseteo de Contraseña!";
-    const hrefEmail = `href='${emailUrl}/resetPassword?token=${encodeURIComponent(
+    const hrefEmail = `href='${httpUrl}/resetPassword?token=${encodeURIComponent(
         accessToken
     )}'>Haz click aqui para crear una nueva contraseña`;
     await emailService(
@@ -80,6 +81,11 @@ const updateUserRole = async (uid, role) => {
     return result;
 };
 
+const updateUserDocument = async (uid, filename) => {
+    const result = await updateUserDocumentRepository(uid, filename);
+    return result;
+};
+
 export {
     saveUser,
     getUsers,
@@ -87,4 +93,5 @@ export {
     updateOneUser,
     updateUserRole,
     resetEmailUser,
+    updateUserDocument,
 };

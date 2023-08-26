@@ -32,6 +32,16 @@ const userSchema = new mongoose.Schema({
         ],
         default: [],
     },
+    documents: {
+        type: Array,
+        default: [],
+    },
+    last_connection: {
+        type: String,
+    },
+    profile:{
+        type: String,
+    },
 });
 
 userSchema.pre("find", function () {

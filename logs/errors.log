@@ -43,3 +43,16 @@
 {"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
 {"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
 {"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}

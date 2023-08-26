@@ -9,11 +9,13 @@ import {
     resetEmailUser,
     logoutUser,
     updateUserRole,
+    updateUserDocument,
 } from "../../controllers/usersController.js";
 
 import passport from "passport";
 import { passportStrategiesEnum } from "../../config/enums.js";
-import { ADMIN_ACCESS, PUBLIC_ACCESS } from "../../config/constants.js";
+import { ADMIN_ACCESS, PRIVATE_ACCESS, PUBLIC_ACCESS } from "../../config/constants.js";
+import { uploader } from "../../utils.js";
 
 export default class UsersRouter extends Router {
     init() {
@@ -69,8 +71,8 @@ export default class UsersRouter extends Router {
         );
         this.get(
             "/logout",
-            PUBLIC_ACCESS,
-            passportStrategiesEnum.NOTHING,
+            PRIVATE_ACCESS,
+            passportStrategiesEnum.JWT,
             logoutUser
         );
 
@@ -79,6 +81,20 @@ export default class UsersRouter extends Router {
             ADMIN_ACCESS,
             passportStrategiesEnum.JWT,
             updateUserRole
+        );
+
+        this.post(
+            "/:uid/documents",
+            PRIVATE_ACCESS,
+            passportStrategiesEnum.JWT,
+            uploader.fields([
+                { name: "products" },
+                { name: "profile", maxCount: 1 },
+                { name: "identification", maxCount: 1 },
+                { name: "address", maxCount: 1 },
+                { name: "account_state", maxCount: 1 },
+            ]),
+            updateUserDocument
         );
     }
 }

@@ -5,6 +5,7 @@ import {
     updateOneUser as updateOneUserService,
     updateUserRole as updateUserRoleService,
     resetEmailUser as resetEmailUserService,
+    updateUserDocument as updateUserDocumentService,
 } from "../services/usersService.js";
 import { getLogger } from "../utils/logger.js";
 
@@ -17,6 +18,7 @@ import {
 
 import variablesAmbiente from "../config/config.js";
 import { ROLES } from "../config/constants.js";
+
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -40,6 +42,8 @@ const loginUser = async (req, res) => {
             if (!comparePassword) {
                 return res.sendClientError("incorrect credentials");
             }
+            user.last_connection = new Date().toISOString();
+            await updateOneUserService(email, user);
         }
         const accessToken = generateToken(user);
 
@@ -175,8 +179,15 @@ const resetEmailUser = async (req, res) => {
     }
 };
 
-const logoutUser = (req, res) => {
+const logoutUser = async (req, res) => {
     if (req.cookies["coderCookieToken"]) {
+        const email = req.user.email;
+        const user = req.user;
+        if (email !== variablesAmbiente.adminEmail) {
+            user.last_connection = new Date().toISOString();
+            await updateOneUserService(email, user);
+        }
+
         res.clearCookie("coderCookieToken").redirect("/");
     } else {
         res.status(401).json({
@@ -224,6 +235,20 @@ const updateUserRole = async (req, res) => {
     }
 };
 
+const updateUserDocument = async (req, res) => {
+    const uid = req.params.uid;
+    const filename = req.files;
+    try {
+        const result = await updateUserDocumentService(uid, filename);
+        res.send(result);
+    } catch (error) {
+        getLogger().info(
+            "[controllers/usersController.js] /updateUserDocument " + error.message
+        );
+        res.status(400).send({ status: "error", error: error.message });
+    }
+}
+
 export {
     saveUser,
     getUsers,
@@ -237,4 +262,5 @@ export {
     resetUser,
     resetEmailUser,
     logoutUser,
+    updateUserDocument,
 };
