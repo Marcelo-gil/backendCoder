@@ -14,7 +14,11 @@ import {
 
 import passport from "passport";
 import { passportStrategiesEnum } from "../../config/enums.js";
-import { ADMIN_ACCESS, PRIVATE_ACCESS, PUBLIC_ACCESS } from "../../config/constants.js";
+import {
+    ADMIN_ACCESS,
+    PRIVATE_ACCESS,
+    PUBLIC_ACCESS,
+} from "../../config/constants.js";
 import { uploader } from "../../utils.js";
 
 export default class UsersRouter extends Router {

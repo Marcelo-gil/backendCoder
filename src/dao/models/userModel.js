@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
     last_connection: {
         type: String,
     },
-    profile:{
+    profile: {
         type: String,
     },
 });

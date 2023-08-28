@@ -94,12 +94,12 @@ export default class Users {
             }
             const pathfilename = `${httplUrl}/src/public/img/documents/${files.account_state[0].filename}`;
             if (indice != -1) {
-                documents[indice] = { 
+                documents[indice] = {
                     name: "account_state",
-                    reference: pathfilename,                    
+                    reference: pathfilename,
                 };
             } else {
-                documents.push({ 
+                documents.push({
                     name: "account_state",
                     reference: pathfilename,
                 });
@@ -115,9 +115,9 @@ export default class Users {
             }
             const pathfilename = `${httplUrl}/src/public/img/documents/${files.address[0].filename}`;
             if (indice != -1) {
-                documents[indice] = { 
+                documents[indice] = {
                     name: "address",
-                    reference: pathfilename,                    
+                    reference: pathfilename,
                 };
             } else {
                 documents.push({

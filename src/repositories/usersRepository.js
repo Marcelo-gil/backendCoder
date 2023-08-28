@@ -23,8 +23,15 @@ const updateUserRole = async (uid, roler) => {
     const result = await USERSDAO.updateUserRole(uid, roler);
     return result;
 };
-const updateUserDocument= async (uid, filename) => {
+const updateUserDocument = async (uid, filename) => {
     const result = await USERSDAO.updateUserDocument(uid, filename);
     return result;
-}
-export { saveUser, getUsers, getByEmailUser, updateOneUser, updateUserRole, updateUserDocument };
+};
+export {
+    saveUser,
+    getUsers,
+    getByEmailUser,
+    updateOneUser,
+    updateUserRole,
+    updateUserDocument,
+};
