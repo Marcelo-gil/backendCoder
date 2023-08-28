@@ -19,7 +19,6 @@ import {
 import variablesAmbiente from "../config/config.js";
 import { ROLES } from "../config/constants.js";
 
-
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
     let user = {};
@@ -226,7 +225,10 @@ const updateUserRole = async (req, res) => {
     const role = req.body.role;
     try {
         const result = await updateUserRoleService(uid, role);
-        res.send(result);
+        res.send({
+            status: "success",
+            message: "El usuario fue actualizado correctamente",
+        });
     } catch (error) {
         getLogger().info(
             "[controllers/usersController.js] /updateUserRole " + error.message
@@ -237,17 +239,22 @@ const updateUserRole = async (req, res) => {
 
 const updateUserDocument = async (req, res) => {
     const uid = req.params.uid;
-    const filename = req.files;
+    const files = req.files;
     try {
-        const result = await updateUserDocumentService(uid, filename);
-        res.send(result);
+        const result = await updateUserDocumentService(uid, files);
+
+        res.send({
+            status: "success",
+            message: "El usuario fue actualizado correctamente",
+        });
     } catch (error) {
         getLogger().info(
-            "[controllers/usersController.js] /updateUserDocument " + error.message
+            "[controllers/usersController.js] /updateUserDocument " +
+                error.message
         );
         res.status(400).send({ status: "error", error: error.message });
     }
-}
+};
 
 export {
     saveUser,

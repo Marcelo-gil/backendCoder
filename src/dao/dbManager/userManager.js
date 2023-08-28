@@ -33,14 +33,14 @@ export default class Users {
         if (role === "PREMIUM") {
             const documents = user.documents ? user.documents : [];
             let indice = 0;
-            for (let i = 0; i < documents.length - 1; i++) {
-                if (documents[i] === "identification") {
+            for (let i = 0; i < documents.length; i++) {
+                if (documents[i].name === "identification") {
                     indice++;
                 }
-                if (documents[i] === "account_state") {
+                if (documents[i].name === "account_state") {
                     indice++;
                 }
-                if (documents[i] === "address") {
+                if (documents[i].name === "address") {
                     indice++;
                 }
             }
@@ -55,59 +55,75 @@ export default class Users {
         return result;
     };
 
-    updateUserDocument = async (uid, filename) => {
+    updateUserDocument = async (uid, files) => {
         const httplUrl = config.http_url;
 
         const user = await userModel.findOne({ _id: uid }).lean();
         if (!user) throw new Error("User not found");
         const documents = user.documents ? user.documents : [];
 
-        if (filename.profile) {
-            user.profile = `${httplUrl}/src/public/img/profiles/${filename.profile[0].filename}`;
+        if (files.profile) {
+            user.profile = `${httplUrl}/src/public/img/profiles/${files.profile[0].filename}`;
         }
-        if (filename.identification) {
+        if (files.identification) {
             let indice = -1;
-            for (let i = 0; i < documents.length - 1; i++) {
-                if (documents[i] === "identification") {
+            for (let i = 0; i < documents.length; i++) {
+                if (documents[i].name === "identification") {
                     indice = i;
                     break;
                 }
             }
-            const pathfilename = `${httplUrl}/src/public/img/documents/${filename.identification[0].filename}`;
+            const pathfilename = `${httplUrl}/src/public/img/documents/${files.identification[0].filename}`;
             if (indice != -1) {
-                documents[indice] = { identification: pathfilename };
+                documents[indice].name = "identification";
+                documents[indice].reference = pathfilename;
             } else {
-                documents.push({ identification: pathfilename });
+                documents.push({
+                    name: "identification",
+                    reference: pathfilename,
+                });
             }
         }
-        if (filename.account_state) {
+        if (files.account_state) {
             let indice = -1;
-            for (let i = 0; i < documents.length - 1; i++) {
-                if (documents[i] === "account_state") {
+            for (let i = 0; i < documents.length; i++) {
+                if (documents[i].name === "account_state") {
                     indice = i;
                     break;
                 }
             }
-            const pathfilename = `${httplUrl}/src/public/img/documents/${filename.account_state[0].filename}`;
+            const pathfilename = `${httplUrl}/src/public/img/documents/${files.account_state[0].filename}`;
             if (indice != -1) {
-                documents[indice] = { account_state: pathfilename };
+                documents[indice] = { 
+                    name: "account_state",
+                    reference: pathfilename,                    
+                };
             } else {
-                documents.push({ account_state: pathfilename });
+                documents.push({ 
+                    name: "account_state",
+                    reference: pathfilename,
+                });
             }
         }
-        if (filename.address) {
+        if (files.address) {
             let indice = -1;
-            for (let i = -1; i < documents.length - 1; i++) {
-                if (documents[i] === "address") {
+            for (let i = 0; i < documents.length; i++) {
+                if (documents[i].name === "address") {
                     indice = i;
                     break;
                 }
             }
-            const pathfilename = `${httplUrl}/src/public/img/documents/${filename.address[0].filename}`;
+            const pathfilename = `${httplUrl}/src/public/img/documents/${files.address[0].filename}`;
             if (indice != -1) {
-                documents[indice] = { address: pathfilename };
+                documents[indice] = { 
+                    name: "address",
+                    reference: pathfilename,                    
+                };
             } else {
-                documents.push({ address: pathfilename });
+                documents.push({
+                    name: "address",
+                    reference: pathfilename,
+                });
             }
         }
         user.documents = documents;

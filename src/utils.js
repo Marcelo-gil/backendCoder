@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
         let filePath = "";
         if (req.files.products) {
             filePath="products";
-        } else if (req.files.profiles) {
+        } else if (req.files.profile) {
             filePath="profiles";
         } else {
             filePath="documents";

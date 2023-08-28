@@ -37,7 +37,7 @@ paths:
         "500":
           description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
     put:
-      summary: Actualiza el usuario a partir de su uid
+      summary: Actualiza el rol del usuario a partir de su uid
       tags:
         - Users
       parameters:
@@ -52,7 +52,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/requestBodies/updateUser'
+              $ref: '#components/requestBodies/updateUserRole'
       responses:
         "200":
           description: El usuario fue actualizado correctamente
@@ -60,6 +60,31 @@ paths:
           description: El usuario no fue encontrado en la BDD
         "500":
           description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+  /api/users/{uid}/documents:
+    post:
+      summary: subir uno o múltiples archivos del usuario a partir de su uid
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: El id del usuario
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/documentUser'
+      responses:
+        "200":
+          description: El usuario fue actualizado correctamente
+        "404":
+          description: El usuario no fue encontrado en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD    
 components:
   schemas:
     User:
@@ -99,6 +124,14 @@ components:
         role: USER
         carts: []
   requestBodies:
+    updateUserRole:
+      type: object
+      properties:
+        role:
+          type: string
+          description: Rol del Usuario USER o PREMIUM 
+      example:
+        role: USER
     updateUser:
       type: object
       properties:
@@ -123,3 +156,23 @@ components:
         email: jp@gmail.com
         password: $2b$10$uiJ3T3K7et7USdqwyrbQFeCQvskkF6L.jm30nKcf3fXSgtUY2EgK.
         role: USER
+    documentUser:
+      type: file
+      properties:
+        profile:
+          type: file
+          description: Foto de Perfil
+        identification:
+          type: file
+          description: Identificación
+        account_state:
+          type: file
+          description: Comprobante de estado de cuenta
+        address:
+          type: file
+          description: Comprobante de domicilio
+      example:
+        profile: profile.jpg
+        identification: identification.doc
+        account_state: estadoDeCeunta.doc
+        address: domicilio.doc
