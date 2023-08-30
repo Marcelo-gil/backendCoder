@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+/* import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -15,4 +15,20 @@ export default {
     environment: process.env.NODE_ENV,
     portEnv: process.env.PORT_ENV,
     http_url: process.env.HTTP_URL,
+};
+ */
+
+export default {
+    persistence: process.PERSISTENCE,
+    mongoUrl: process.MONGO_URL,
+    adminEmail: process.ADMIN_EMAIL,
+    adminPassword: process.ADMIN_PASSWORD,
+    secrets: process.SECRETS,
+    gmail_account: process.GMAIL_ACCOUNT,
+    gmail_password: process.GMAIL_PASSWORD,
+    frontend_account: process.FRONTEND_ACCOUNT,
+    frontend_external_account: process.FRONTEND_EXTERNAL_ACCOUNT,
+    environment: process.NODE_ENV,
+    portEnv: process.PORT_ENV,
+    http_url: process.HTTP_URL,
 };

@@ -1,6 +1,6 @@
-import config from "../config/config.js";
+//import config from "../config/config.js";
 
-const persistence = config.persistence;
+//const persistence = config.persistence;
 
 //Import del dao de manejo de datos con archivos
 
