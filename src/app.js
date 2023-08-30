@@ -101,7 +101,7 @@ app.use((err, req, res, next) => {
     res.status(500).send("Error no controlado");
 });
 
-const server = app.listen(portEnv, () => getLogger().info("Server running"));
+const server = app.listen(portEnv, "0.0.0.0", () => getLogger().info("Server running at 0.0.0.0:" + portEnv));
 
 const io = new Server(server);
 
