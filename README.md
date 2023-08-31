@@ -2,7 +2,7 @@
 
 Proyecto de Backend en cumplimiento al curso de "Programación Backend de CoderHouse".
 
-# Link al gif de navegación:
+# Link de navegación:
 
 https://backendcoder-production-cc7a.up.railway.app/
 
