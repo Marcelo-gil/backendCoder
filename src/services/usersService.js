@@ -1,4 +1,5 @@
 import config from "../config/config.js";
+import moment from "moment";
 import {
     saveUser as saveUserRepository,
     getUsers as getUsersRepository,
@@ -6,12 +7,15 @@ import {
     updateOneUser as updateOneUserRepository,
     updateUserRole as updateUserRoleRepository,
     updateUserDocument as updateUserDocumentRepository,
+    deleteUser as deleteUserRepository,
 } from "../repositories/usersRepository.js";
+
 import emailService from "../emailService/emailService.js";
 import { getLogger } from "../utils/logger.js";
 import { generateToken } from "../utils.js";
 
 const httpUrl = config.http_url;
+const inactivityTime = config.inactivity_time;
 
 const resetEmailUser = async (email) => {
     const user = await getByEmailUserRepository(email);
@@ -66,6 +70,51 @@ const getUsers = async () => {
     return users;
 };
 
+const deleteUsers = async () => {
+    const users = await getUsersRepository();
+    const formatTime = inactivityTime.substring(0, 1);
+    let unitedTime = "days";
+    if (formatTime === "h") {
+        unitedTime = "hours";
+    } else if (formatTime === "m") {
+        unitedTime = "minutes";
+    } else if (formatTime === "s") {
+        unitedTime = "seconds";
+    }
+    const timeInactivity = inactivityTime.substring(1, inactivityTime.length);
+    try {
+        const hoy = moment();
+        const usersInact = users.filter(
+            (user) =>
+                hoy.diff(moment(user.last_connection), unitedTime) >
+                timeInactivity
+        );
+        for (const user of usersInact) {
+            const result = await deleteUserRepository(user._id);
+            if (result) {
+                const today = new Date();
+                const fechaHora = today.toLocaleString();
+                const messageEmail1 =
+                    user.first_name.trim() +
+                    "Tu Usuario fue dado de baja por Inactividad de nuestra API";
+                const messageEmail2 = " Fecha: " + fechaHora;
+                const subjectEmail = "¡Usuario Eliminado!";
+                await emailService(
+                    user.email,
+                    messageEmail1,
+                    messageEmail2,
+                    subjectEmail
+                );
+            }
+        }
+        return usersInact;
+    } catch (error) {
+        getLogger().error(
+            "[services/usersService.js] /saveUser " + error.message
+        );
+    }
+};
+
 const getByEmailUser = async (email) => {
     const user = await getByEmailUserRepository(email);
     return user;
@@ -94,4 +143,5 @@ export {
     updateUserRole,
     resetEmailUser,
     updateUserDocument,
+    deleteUsers,
 };

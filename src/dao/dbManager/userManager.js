@@ -17,6 +17,11 @@ export default class Users {
         return user;
     };
 
+    deleteUser = async (id)=> {
+        const user = await userModel.deleteOne({_id: id})
+        return user;
+    }
+
     save = async (user) => {
         const result = await userModel.create(user);
         return result;

@@ -27,6 +27,11 @@ const updateUserDocument = async (uid, filename) => {
     const result = await USERSDAO.updateUserDocument(uid, filename);
     return result;
 };
+const deleteUser = async (id) => {
+    const result = await USERSDAO.deleteUser(id);
+    return result;
+}
+
 export {
     saveUser,
     getUsers,
@@ -34,4 +39,5 @@ export {
     updateOneUser,
     updateUserRole,
     updateUserDocument,
+    deleteUser
 };

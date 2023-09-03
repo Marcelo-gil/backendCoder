@@ -15,4 +15,5 @@ export default {
     environment: process.env.NODE_ENV,
     portEnv: process.env.PORT_ENV,
     http_url: process.env.HTTP_URL,
+    inactivity_time: process.env.INACTIVITY_TIME
 };

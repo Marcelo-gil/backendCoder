@@ -15,6 +15,19 @@ paths:
                   $ref: '#components/schemas/User'
         "500":
           description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+    delete:
+      summary: Limpia a todos los usuarios que no hayan tenido conexión en determinado tiempo
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Usuarios sin Actividad borrados correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/UserDelete'
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
   /api/users/{uid}:
     get:
       summary: Obtiene un solo usuario a partir de su uid
@@ -123,6 +136,25 @@ components:
         password: $2b$10$uiJ3T3K7et7USdqwyrbQFeCQvskkF6L.jm30nKcf3fXSgtUY2EgK.
         role: USER
         carts: []
+    UserDelete:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Correo del usuario
+      example:
+        status: success
+        message: Usuarios sin actividad borrados correctamente
+        payload: 
+          first_name: Juan
+          last_name: Perez
+          email: jp@gmail.com
   requestBodies:
     updateUserRole:
       type: object

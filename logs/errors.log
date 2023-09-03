@@ -56,3 +56,7 @@
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks email is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks user is not defined"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Assignment to constant variable."}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Assignment to constant variable."}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Assignment to constant variable."}

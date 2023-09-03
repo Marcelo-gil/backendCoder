@@ -6,6 +6,7 @@ import {
     updateUserRole as updateUserRoleService,
     resetEmailUser as resetEmailUserService,
     updateUserDocument as updateUserDocumentService,
+    deleteUsers as deleteUsersService,
 } from "../services/usersService.js";
 import { getLogger } from "../utils/logger.js";
 
@@ -203,7 +204,15 @@ const saveUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
     const users = await getUsersService();
-    res.send(users);
+
+    const resUsers = users.map((user) => ({
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        role: user.role,
+    }));
+
+    res.send(resUsers);
 };
 
 const getByEmailUser = async (req, res) => {
@@ -256,6 +265,30 @@ const updateUserDocument = async (req, res) => {
     }
 };
 
+const deleteUsers = async (req, res) => {
+    try {
+        const result = await deleteUsersService();
+
+        const resUsers = result.map((user) => ({
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+        }));
+
+        res.send({
+            status: "success",
+            message: "Usuarios sin actividad borrados correctamente",
+            payload: resUsers,
+        });
+    } catch (error) {
+        getLogger().info(
+            "[controllers/usersController.js] /updateUserDocument " +
+                error.message
+        );
+        res.status(400).send({ status: "error", error: error.message });
+    }
+};
+
 export {
     saveUser,
     getUsers,
@@ -270,4 +303,5 @@ export {
     resetEmailUser,
     logoutUser,
     updateUserDocument,
+    deleteUsers,
 };
