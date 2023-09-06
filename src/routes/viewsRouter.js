@@ -9,6 +9,7 @@ import {
     productsView,
     realtimeproductsView,
     chatView,
+    productView,
 } from "../controllers/viewsController.js";
 import { __dirname } from "../utils.js";
 import Router from "./dbRoutes/router.js";
@@ -61,6 +62,13 @@ export default class ViewsRouter extends Router {
             PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             productsView
+        );
+
+        this.get(
+            "/product/:pid",
+            PRIVATE_ACCESS,
+            passportStrategiesEnum.JWT,
+            productView
         );
 
         this.get(

@@ -22,7 +22,8 @@
                             <!-- <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#myModal" id="btnCarrito" type="submit"></button> -->
                             <button class="btn btn-outline-dark" id="btnCarrito" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
-                                Carrito
+                                <img src="/img/carrito.png w-10 h-10">
+                                {{!-- Carrito --}}
                                 <span id="idContadorCarrito" class="badge  bg-dark2 text-dark ms-1 rounded-pill">0</span>
                                 {{!-- <span id="idSubTotalCarrito" class="ms-1 rounded-pill">Subtotal: 0.00 $</span>
                                 <span id="idIvaCarrito" class="ms-1 rounded-pill">Iva: 0.00 $</span> --}}
@@ -49,42 +50,49 @@
     <h4 style="text-align:center">Email: {{user.email}}         Role: {{user.role}}</h4>
 </div> --}}
 <section class="container">
-    <table class="table table-success table-striped">
-        <thead>
-            <tr>
-                {{!-- <th scope="col">Id</th> --}}
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col">Code</th>
-                <th scope="col">Stock</th>
-                {{!-- <th scope="col">Status</th> --}}
-                {{!-- <th scope="col">Category</th> --}}
-                <th scope="col">Agregar</th>    
-
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-                <tr>
-                    {{!-- <td>{{this._id}}</td> --}}
-                    <td>{{this.title}}</td>
-                    <td>{{this.description}}</td>
-                    <td>{{this.price}}</td>
-                    <td>{{this.code}}</td>
-                    <td>{{this.stock}}</td>
-                    {{!-- <td>{{this.status}}</td> --}}
-                    {{!-- <td>{{this.category}}</td> --}}
-                    <td style="text-align:center"><a href="/product/{{this._id}}"><button id="btnAgregar" class="rounded-pill">Agregar</button></a></td>
-                </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}&limit=10"><button class="rounded-pill" >Anterior</button></a>
-    {{/if}}
-    {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}&limit=10"><button class="rounded-pill" >Siguiente</button></a>
-    {{/if}}
-    <a href="/api/users/logout"><button class="rounded-pill" >Salir</button></a>
+    <div class="row align-items-center ">
+        <div class="col rounded-1">
+            <figure class="figure">
+                {{#if product.thumbnail}}
+                    {{#if product.thumbnail.[0]}}
+                        <img class="figure-img img-fluid rounded" src="{{product.thumbnail.[0]}}" alt="Imagen de Articulo">
+                    {{else}}
+                        <img src="/img/Imagen_no_disponible.png" class="figure-img img-fluid rounded" alt="Imagen de Articulo">
+                    {{/if}}
+                {{else}}
+                    <img src="/img/Imagen_no_disponible.png" class="figure-img img-fluid rounded" alt="Imagen de Articulo">
+                {{/if}}
+            </figure>
+        </div>
+        <div class="col border border-dark rounded-1">
+            <p>SKU: {{product.code}}</p>
+            <br>
+            <p>{{product.title}}</p>
+            <br>
+            <h5 class="fw-bolder" style="color: black">{{product.description}}</h5>
+            <br>
+            <p>Stock: {{product.stock}}</p>
+            <br>
+            <p class="text-center">$ {{product.price}}</p>
+        </div>
+        <div class="col rounded-1">
+            <div class="text-center">
+                <a onclick="sumarCantidad({{product.stock}})" id="idsumaProducto1" class="btn  mt-auto">
+                    <img src="/img/sumar.png">
+                </a>
+                <span id="idContadorProducto" class="badge bg-dark2 text-dark ms-1">0</span>
+                <a onclick="restarCantidad()" id="idRestaProducto1" class="btn  mt-auto">
+                    <img src="/img/restar.png">
+                </a>
+            </div>
+            <div class="text-center">
+                <button onclick="agregarProducto('{{product._id}}')" type="button" class="btn btn-secondary">Agregar al Carrito</button>
+            </div>
+            <br>
+            <div class="text-center">
+                <a href="/products"><button type="button" class="btn btn-secondary">Volver a la Tienda</button></a>
+            </div>
+        </div>
+    </div>
 </section>
+<script src="/js/product.js"></script>

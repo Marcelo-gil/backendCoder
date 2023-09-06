@@ -4,6 +4,7 @@ import {
     saveUser as saveUserRepository,
     getUsers as getUsersRepository,
     getByEmailUser as getByEmailUserRepository,
+    getByIdUser as getByIdUserRepository,
     updateOneUser as updateOneUserRepository,
     updateUserRole as updateUserRoleRepository,
     updateUserDocument as updateUserDocumentRepository,
@@ -61,7 +62,6 @@ const saveUser = async (user) => {
             );
         }
     }
-
     return result;
 };
 
@@ -70,6 +70,21 @@ const getUsers = async () => {
     return users;
 };
 
+const deleteUser = async (uid) => {
+    const user = await getByIdUserRepository(uid);
+    if (!user) {
+        throw new Error("Not found");
+    }
+    const result = await deleteUserRepository(uid);
+    const today = new Date();
+    const fechaHora = today.toLocaleString();
+    const messageEmail1 =
+        user.first_name.trim() + "Tu Usuario fue dado de baja de nuestra API";
+    const messageEmail2 = " Fecha: " + fechaHora;
+    const subjectEmail = "¡Usuario Eliminado!";
+    await emailService(user.email, messageEmail1, messageEmail2, subjectEmail);
+    return result;
+};
 const deleteUsers = async () => {
     const users = await getUsersRepository();
     const formatTime = inactivityTime.substring(0, 1);
@@ -82,37 +97,30 @@ const deleteUsers = async () => {
         unitedTime = "seconds";
     }
     const timeInactivity = inactivityTime.substring(1, inactivityTime.length);
-    try {
-        const hoy = moment();
-        const usersInact = users.filter(
-            (user) =>
-                hoy.diff(moment(user.last_connection), unitedTime) >
-                timeInactivity
-        );
-        for (const user of usersInact) {
-            const result = await deleteUserRepository(user._id);
-            if (result) {
-                const today = new Date();
-                const fechaHora = today.toLocaleString();
-                const messageEmail1 =
-                    user.first_name.trim() +
-                    "Tu Usuario fue dado de baja por Inactividad de nuestra API";
-                const messageEmail2 = " Fecha: " + fechaHora;
-                const subjectEmail = "¡Usuario Eliminado!";
-                await emailService(
-                    user.email,
-                    messageEmail1,
-                    messageEmail2,
-                    subjectEmail
-                );
-            }
+    const hoy = moment();
+    const usersInact = users.filter(
+        (user) =>
+            hoy.diff(moment(user.last_connection), unitedTime) > timeInactivity
+    );
+    for (const user of usersInact) {
+        const result = await deleteUserRepository(user._id);
+        if (result) {
+            const today = new Date();
+            const fechaHora = today.toLocaleString();
+            const messageEmail1 =
+                user.first_name.trim() +
+                "Tu Usuario fue dado de baja por Inactividad de nuestra API";
+            const messageEmail2 = " Fecha: " + fechaHora;
+            const subjectEmail = "¡Usuario Eliminado!";
+            await emailService(
+                user.email,
+                messageEmail1,
+                messageEmail2,
+                subjectEmail
+            );
         }
-        return usersInact;
-    } catch (error) {
-        getLogger().error(
-            "[services/usersService.js] /saveUser " + error.message
-        );
     }
+    return usersInact;
 };
 
 const getByEmailUser = async (email) => {
@@ -144,4 +152,5 @@ export {
     resetEmailUser,
     updateUserDocument,
     deleteUsers,
+    deleteUser,
 };

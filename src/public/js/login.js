@@ -12,8 +12,10 @@ form.addEventListener("submit", (e) => {
             "Content-Type": "application/json",
         },
     })
-        .then((result) => {
+        .then(async (result) => {
             if (result.status === 200) {
+                const { payload } = await result.json();
+                localStorage.setItem("user", JSON.stringify(payload.user));
                 window.location.replace("/");
             } else {
                 Swal.fire({

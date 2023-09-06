@@ -12,6 +12,7 @@ import {
     updateUserDocument,
     getUsers,
     deleteUsers,
+    deleteUser,
 } from "../../controllers/usersController.js";
 
 import passport from "passport";
@@ -85,6 +86,8 @@ export default class UsersRouter extends Router {
         this.get("/", ADMIN_ACCESS, passportStrategiesEnum.JWT, getUsers);
 
         this.delete("/", ADMIN_ACCESS, passportStrategiesEnum.JWT, deleteUsers);
+
+        this.delete("/:uid", ADMIN_ACCESS, passportStrategiesEnum.JWT, deleteUser);
 
         this.put(
             "/premium/:uid",

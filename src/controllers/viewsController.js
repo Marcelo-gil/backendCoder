@@ -1,4 +1,7 @@
-import { getProducts as getProductsService } from "../services/productsService.js";
+import {
+    getProducts as getProductsService,
+    getProductById,
+} from "../services/productsService.js";
 
 import { getCartById as getCartByIdService } from "../services/cartsService.js";
 import { productModel } from "../dao/models/productModel.js";
@@ -80,6 +83,13 @@ const productsView = async (req, res) => {
     });
 };
 
+const productView = async (req, res) => {
+    const pid = req.params.pid;
+    const user = req.user;
+    const product = await getProductById(pid);    
+    res.render("product", { product, user });
+};
+
 const realtimeproductsView = async (req, res) => {
     const result = await getProductsService();
     const arrayProducts = [...result.docs];
@@ -102,4 +112,5 @@ export {
     productsView,
     realtimeproductsView,
     chatView,
+    productView,
 };

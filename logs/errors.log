@@ -60,3 +60,11 @@
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Assignment to constant variable."}
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Assignment to constant variable."}
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Assignment to constant variable."}
+{"level":"error","message":"[services/usersService.js] /deleteUsers _id is not defined"}
+{"level":"error","message":"[services/usersService.js] /deleteUsers user is not defined"}
+{"level":"error","message":"[services/usersService.js] /deleteUser Cannot read properties of null (reading 'first_name')"}
+{"level":"error","message":"[services/usersService.js] /deleteUser Not found"}
+{"level":"error","message":"[services/usersService.js] /deleteUser Not found"}
+{"level":"error","message":"[services/usersService.js] /deleteUser Not found"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cast to ObjectId failed for value \"alt=\"Imagen\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cast to ObjectId failed for value \"alt=\"Imagen\" (type string) at path \"_id\" for model \"products\""}

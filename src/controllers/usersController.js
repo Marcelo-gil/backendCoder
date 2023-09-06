@@ -7,6 +7,7 @@ import {
     resetEmailUser as resetEmailUserService,
     updateUserDocument as updateUserDocumentService,
     deleteUsers as deleteUsersService,
+    deleteUser as deleteUserService,
 } from "../services/usersService.js";
 import { getLogger } from "../utils/logger.js";
 
@@ -50,7 +51,20 @@ const loginUser = async (req, res) => {
         res.cookie("coderCookieToken", accessToken, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
-        }).send({ status: "success" });
+        }).send({
+            status: "success",
+            payload: {
+                user: {
+                    id: user._id,
+                    email: user.email,
+                    role: user.role,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    profile: user.profile,
+                    carts: user.carts
+                },
+            },
+        });
     } catch (error) {
         getLogger().info(
             "[controllers/usersController.js] /loginUser " + error.message
@@ -265,6 +279,22 @@ const updateUserDocument = async (req, res) => {
     }
 };
 
+const deleteUser = async (req, res) => {
+    const uid = req.params.uid;
+    try {
+        await deleteUserService(uid);
+        res.send({
+            status: "success",
+            message: "Usuario borrado correctamente",
+        });
+    } catch (error) {
+        getLogger().info(
+            "[controllers/usersController.js] /deleteUser " + error.message
+        );
+        res.status(400).send({ status: "error", error: error.message });
+    }
+};
+
 const deleteUsers = async (req, res) => {
     try {
         const result = await deleteUsersService();
@@ -282,8 +312,7 @@ const deleteUsers = async (req, res) => {
         });
     } catch (error) {
         getLogger().info(
-            "[controllers/usersController.js] /updateUserDocument " +
-                error.message
+            "[controllers/usersController.js] /deleteUsers " + error.message
         );
         res.status(400).send({ status: "error", error: error.message });
     }
@@ -304,4 +333,5 @@ export {
     logoutUser,
     updateUserDocument,
     deleteUsers,
+    deleteUser,
 };

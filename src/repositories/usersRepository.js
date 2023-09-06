@@ -15,6 +15,11 @@ const getByEmailUser = async (email) => {
     return user;
 };
 
+const getByIdUser = async (uid) => {
+    const user = await USERSDAO.getById(uid);
+    return user;
+};
+
 const updateOneUser = async (email, user) => {
     const result = await USERSDAO.updateOne(email, user);
     return result;
@@ -36,6 +41,7 @@ export {
     saveUser,
     getUsers,
     getByEmailUser,
+    getByIdUser,
     updateOneUser,
     updateUserRole,
     updateUserDocument,

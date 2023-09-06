@@ -32,6 +32,11 @@ export default class Users {
         return result;
     };
 
+    getById = async (uid) => {
+        const user = await userModel.findOne({ _id: uid }).lean();
+        return user;
+    };
+
     updateUserRole = async (uid, role) => {
         const user = await userModel.findOne({ _id: uid }).lean();
         if (!user) throw new Error("User not found");
