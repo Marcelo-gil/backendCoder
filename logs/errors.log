@@ -68,3 +68,12 @@
 {"level":"error","message":"[services/usersService.js] /deleteUser Not found"}
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cast to ObjectId failed for value \"alt=\"Imagen\" (type string) at path \"_id\" for model \"products\""}
 {"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cast to ObjectId failed for value \"alt=\"Imagen\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}

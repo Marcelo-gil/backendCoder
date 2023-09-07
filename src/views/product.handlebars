@@ -22,12 +22,13 @@
                             <!-- <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#myModal" id="btnCarrito" type="submit"></button> -->
                             <button class="btn btn-outline-dark" id="btnCarrito" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
-                                <img src="/img/carrito.png w-10 h-10">
+                                <img src="/img/carrito.png">
                                 {{!-- Carrito --}}
                                 <span id="idContadorCarrito" class="badge  bg-dark2 text-dark ms-1 rounded-pill">0</span>
                                 {{!-- <span id="idSubTotalCarrito" class="ms-1 rounded-pill">Subtotal: 0.00 $</span>
                                 <span id="idIvaCarrito" class="ms-1 rounded-pill">Iva: 0.00 $</span> --}}
-                                <span id="idTotalCarrito" class="ms-1 rounded-pill">Total: 0.00 $</span>
+                                <span class="ms-1 rounded-pill">Total: <span id="idTotalCarrito">0</span> $</span>
+                                
                             </button>
                     <!-- </form> -->
             </div>
@@ -96,3 +97,4 @@
     </div>
 </section>
 <script src="/js/product.js"></script>
+<script src="/js/cart.js"></script>

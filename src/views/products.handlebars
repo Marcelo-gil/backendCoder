@@ -26,7 +26,7 @@
                                 <span id="idContadorCarrito" class="badge  bg-dark2 text-dark ms-1 rounded-pill">0</span>
                                 {{!-- <span id="idSubTotalCarrito" class="ms-1 rounded-pill">Subtotal: 0.00 $</span>
                                 <span id="idIvaCarrito" class="ms-1 rounded-pill">Iva: 0.00 $</span> --}}
-                                <span id="idTotalCarrito" class="ms-1 rounded-pill">Total: 0.00 $</span>
+                                <span class="ms-1 rounded-pill">Total: <span id="idTotalCarrito">0</span> $</span>
                             </button>
                     <!-- </form> -->
             </div>
@@ -88,3 +88,4 @@
     {{/if}}
     <a href="/api/users/logout"><button class="rounded-pill" >Salir</button></a>
 </section>
+<script src="/js/cart.js"></script>

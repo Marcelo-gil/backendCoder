@@ -1,9 +1,32 @@
 async function displayCarrito() {
-    // traer carrito actual de local storage
+    let cart = localStorage.getItem("cart")
+    try {
+        if (!cart){
+            return 
+        }
+        const result = await fetch(`/api/carts/${cart}`, {
+                method: "GET",
+        });
+        if (result.status !== 200){
+            throw new Error("Error reading cart");
+        }
+        const carrito = await result.json();
+        let total = 0
+        let cant = 0
+        for (const {product,quantity} of carrito.products) {
+            total += product.price * quantity
+            cant += quantity
+        }
 
-    // traer informacion del carrito del server
+        const cantidadCarrito = document.getElementById("idContadorCarrito");
+        cantidadCarrito.innerHTML = cant;
 
-    // sumar articulos y calcular total
+        const totalCarrito = document.getElementById("idTotalCarrito");
+        totalCarrito.innerHTML = total;
 
-    // actualizar html
+        return result;
+    } catch (error) {
+        throw new Error("Error reading cart");
+    }
 }
+displayCarrito()

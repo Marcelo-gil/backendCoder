@@ -63,8 +63,8 @@ const getCartById = async (req, res) => {
 };
 
 const addCarts = async (req, res) => {
-    const user = req.user;
     const email = user.email;
+    const user = await getByEmailUserService(email);
     try {
         const cart = {
             products: [],

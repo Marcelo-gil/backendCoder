@@ -15,16 +15,19 @@ function restarCantidad() {
 
 function getUserUltimoCarrito() {
     let cart = localStorage.getItem("cart")
-    if(cart) {
+    const email = localStorage.getItem("email")
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if(cart && email===user.email) {
         return cart;
     }
-
-    const user = JSON.parse(localStorage.getItem("user"));
+    
     if (user.carts.length === 0) {
         return undefined
     } else {        
-        cart = user.carts[user.carts.length - 1].cart;
+        cart = user.carts[user.carts.length - 1].cart._id;
         localStorage.setItem("cart", cart);
+        localStorage.setItem("email", user.email);
         return cart;
     }
 }
@@ -39,7 +42,9 @@ async function getCarrito() {
 
             if (result.status === 200) {
                 cart = (await result.json()).payload._id;
+                const user = JSON.parse(localStorage.getItem("user"));
                 localStorage.setItem("cart", cart);
+                localStorage.setItem("email", user.email);
             } else {
                 throw new Error("Error creating cart");
             }
