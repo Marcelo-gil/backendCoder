@@ -41,15 +41,17 @@ const getView = async (req, res) => {
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } =
         await productModel.paginate({}, { limit, page, lean: true });
 
+    const user = req.user;
+    const userAdmin = (user.role==="ADMIN") 
     const products = docs;
-
     res.render("products", {
-        user: req.user,
+        user,
         products,
         hasPrevPage,
         hasNextPage,
         nextPage,
         prevPage,
+        userAdmin
     });
 };
 
@@ -72,7 +74,7 @@ const productsView = async (req, res) => {
         await productModel.paginate({}, { limit, page, lean: true });
     const user = req.user;
     const products = docs;
-
+    const userAdmin = (user.role==="ADMIN") 
     res.render("products", {
         products,
         hasPrevPage,
@@ -80,6 +82,7 @@ const productsView = async (req, res) => {
         nextPage,
         prevPage,
         user,
+        userAdmin
     });
 };
 

@@ -77,3 +77,4 @@
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}

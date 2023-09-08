@@ -71,9 +71,10 @@ async function agregarProducto(pid) {
             Swal.fire({
                 title: "Producto agregado correctamente",
                 icon: "success",
-                text: "Atencion",
+                text: "Atencion",                                
+            }).then(() => {
+                window.location.replace("/")
             });
-            // window.location.replace("/")
         } else {
             throw new Error();
         }
