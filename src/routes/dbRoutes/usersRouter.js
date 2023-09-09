@@ -87,7 +87,12 @@ export default class UsersRouter extends Router {
 
         this.delete("/", ADMIN_ACCESS, passportStrategiesEnum.JWT, deleteUsers);
 
-        this.delete("/:uid", ADMIN_ACCESS, passportStrategiesEnum.JWT, deleteUser);
+        this.delete(
+            "/:uid",
+            ADMIN_ACCESS,
+            passportStrategiesEnum.JWT,
+            deleteUser
+        );
 
         this.put(
             "/premium/:uid",

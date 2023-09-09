@@ -78,3 +78,8 @@
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\""}
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateTicketPurchase No se pudo crear el ticket No se Proceso ningun producto"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /deleteCartProduct No existe el Producto en el Carrito"}
+{"level":"error","message":"[controllers/cartsController.js] /deleteCartProduct No existe el Producto en el Carrito"}

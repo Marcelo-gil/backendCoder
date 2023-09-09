@@ -44,7 +44,7 @@ const loginUser = async (req, res) => {
                 return res.sendClientError("incorrect credentials");
             }
             user.last_connection = new Date().toISOString();
-            await updateOneUserService(email, user);            
+            await updateOneUserService(email, user);
         }
 
         const accessToken = generateToken({
@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
             email: user.email,
             role: user.role,
             first_name: user.first_name,
-            last_name: user.last_name,            
+            last_name: user.last_name,
             last_connection: user.last_connection,
             age: user.age,
         });
@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
                     last_connection: user.last_connection,
                     age: user.age,
                     profile: user.profile,
-                    carts: user.carts
+                    carts: user.carts,
                 },
             },
         });
@@ -208,7 +208,7 @@ const logoutUser = async (req, res) => {
     if (req.cookies["coderCookieToken"]) {
         const email = req.user.email;
         const user = await getByEmailUserService(email);
-    
+
         if (email !== variablesAmbiente.adminEmail) {
             user.last_connection = new Date().toISOString();
             await updateOneUserService(email, user);

@@ -5,6 +5,7 @@ import {
 
 import { getCartById as getCartByIdService } from "../services/cartsService.js";
 import { productModel } from "../dao/models/productModel.js";
+import { getByEmailUser as getByEmailUserService } from "../services/usersService.js";
 import { verifyToken } from "../utils.js";
 
 const registerView = (req, res) => {
@@ -63,9 +64,14 @@ const homeView = async (req, res) => {
 
 const cartView = async (req, res) => {
     const cid = req.params.cid;
+    const user = await getByEmailUserService(req.user.email);
+    if (!user.carts.find(({cart}) => cid ===cart._id.toString())) {
+        return  res.redirect("/");
+    }
     const result = await getCartByIdService(cid);
     const cart = result;
-    res.render("carts", { cart: cart });
+    
+    res.render("carts", { cart: cart, user: req.user });
 };
 
 const productsView = async (req, res) => {

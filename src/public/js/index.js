@@ -25,22 +25,22 @@ socket.on("showProducts", (data) => {
 // chat
 let user;
 const chatbox = document.getElementById("chatBox");
-    Swal.fire({
-        title: "Identificate",
-        input: "email",
-        text: "Ingresa tu dirección de email para ingresar al chat",
-        inputValidator: (value) => {
-            return (
-                !value.includes("@") &&
-                "Necesitas escribir un correo eléctronico para comenzar a chatear"
-            );
-        },
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-    }).then((result) => {
-        user = result.value;
-        socket.emit("authenticated", user);
-    });
+Swal.fire({
+    title: "Identificate",
+    input: "email",
+    text: "Ingresa tu dirección de email para ingresar al chat",
+    inputValidator: (value) => {
+        return (
+            !value.includes("@") &&
+            "Necesitas escribir un correo eléctronico para comenzar a chatear"
+        );
+    },
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+}).then((result) => {
+    user = result.value;
+    socket.emit("authenticated", user);
+});
 
 chatbox.addEventListener("keyup", (evt) => {
     if (evt.key === "Enter") {

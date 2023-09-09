@@ -14,17 +14,17 @@ function restarCantidad() {
 }
 
 function getUserUltimoCarrito() {
-    let cart = localStorage.getItem("cart")
-    const email = localStorage.getItem("email")
+    let cart = localStorage.getItem("cart");
+    const email = localStorage.getItem("email");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if(cart && email===user.email) {
+    if (cart && email === user.email) {
         return cart;
     }
-    
+
     if (user.carts.length === 0) {
-        return undefined
-    } else {        
+        return undefined;
+    } else {
         cart = user.carts[user.carts.length - 1].cart._id;
         localStorage.setItem("cart", cart);
         localStorage.setItem("email", user.email);
@@ -56,29 +56,37 @@ async function getCarrito() {
 }
 
 async function agregarProducto(pid) {
+    if (cant < 1) {
+        Swal.fire({
+            title: "La cantidad no puede ser menor que 1",
+            icon: "warning",
+            text: "Atencion",
+        });
+        return;
+    }
     const cart = await getCarrito();
-    try {        
+    try {
         const result = await fetch(`/api/carts/${cart}/product/${pid}`, {
             method: "PUT",
             body: JSON.stringify({
-                quantity: cant
+                quantity: cant,
             }),
             headers: {
                 "Content-Type": "application/json",
             },
-        })
+        });
         if (result.status === 200) {
             Swal.fire({
                 title: "Producto agregado correctamente",
                 icon: "success",
-                text: "Atencion",                                
+                text: "Atencion",
             }).then(() => {
-                window.location.replace("/")
+                window.location.replace("/");
             });
         } else {
             throw new Error();
         }
-    } catch (error) {        
+    } catch (error) {
         Swal.fire({
             title: "Error agregando el producto al carrito",
             icon: "warning",
