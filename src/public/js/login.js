@@ -15,10 +15,19 @@ form.addEventListener("submit", (e) => {
         .then(async (result) => {
             const response = await result.json();
             if (result.status === 200) {
+                const { user } = response.payload;
                 localStorage.setItem(
                     "user",
-                    JSON.stringify(response.payload.user)
+                    JSON.stringify(user)
                 );
+                
+                const currentEmail = localStorage.getItem("email");                
+                if(currentEmail !== user.email) {
+                    localStorage.setItem("email", user.email);
+                    localStorage.removeItem("cart");
+                    localStorage.removeItem("carrito");
+                }
+
                 window.location.replace("/");
             } else {
                 Swal.fire({

@@ -37,9 +37,9 @@ async function finalizarCompra(cid) {
             const textSwal =
                 "Su Codigo de compra es " + response.payload.payload.code;
             let titleSwal = "Compra Completada";
-            if (response.error) {
+            if (response.payload.error) {
                 iconsSwal = "warning";
-                titleSwal = response.error;
+                titleSwal = response.payload.error;
             }
             Swal.fire({
                 title: titleSwal,

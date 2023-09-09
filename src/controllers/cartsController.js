@@ -63,7 +63,7 @@ const getCartById = async (req, res) => {
 };
 
 const addCarts = async (req, res) => {
-    const email = user.email;
+    const email = req.user.email;
     const user = await getByEmailUserService(email);
     try {
         const cart = {
