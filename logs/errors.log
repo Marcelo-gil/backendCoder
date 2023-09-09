@@ -83,3 +83,14 @@
 {"level":"error","message":"[controllers/cartsController.js] /updateCartOne No se pudo Actualizar el Producto en el Carrito"}
 {"level":"error","message":"[controllers/cartsController.js] /deleteCartProduct No existe el Producto en el Carrito"}
 {"level":"error","message":"[controllers/cartsController.js] /deleteCartProduct No existe el Producto en el Carrito"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of null (reading 'carts')"}
+{"level":"error","message":"[routes/dbRoutes/router.js] /applyCallbacks Cannot read properties of null (reading 'carts')"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No puede agregar un producto que le pertenece"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No puede agregar un producto que le pertenece"}
+{"level":"error","message":"[controllers/cartsController.js] /updateTicketPurchase No se pudo crear el ticket No se Proceso ningun producto"}
+{"level":"error","message":"[controllers/cartsController.js] /updateCartOne No puede agregar un producto que le pertenece"}
+{"level":"error","message":"[controllers/cartsController.js] /updateTicketPurchase No se pudo crear el ticket No se Proceso ningun producto"}
+{"level":"error","message":"[controllers/productsController.js] /deleteProduct El producto no pertenece a marceloalgil@gmail.com"}
+{"level":"error","message":"[controllers/productsController.js] /updateProduct Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /updateProduct Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /updateProduct Producto invalido, El Stock debe ser mayor a Cero"}

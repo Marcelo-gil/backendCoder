@@ -11,9 +11,17 @@ form.addEventListener("submit", (e) => {
         headers: {
             "Content-Type": "application/json",
         },
-    }).then((result) => {
-        if (result.status === 200) {
-            window.location.replace("/");
-        }
-    });
+    })
+        .then((result) => {
+            if (result.status === 200) {
+                window.location.replace("/");
+            }
+        })
+        .catch((err) => {
+            Swal.fire({
+                title: "Error registrando Usuario",
+                icon: "warning",
+                text: "Atencion, " + err.message,
+            });
+        });
 });

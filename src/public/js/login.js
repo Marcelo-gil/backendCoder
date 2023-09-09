@@ -13,19 +13,26 @@ form.addEventListener("submit", (e) => {
         },
     })
         .then(async (result) => {
+            const response = await result.json();
             if (result.status === 200) {
-                const { payload } = await result.json();
-                localStorage.setItem("user", JSON.stringify(payload.user));
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.payload.user)
+                );
                 window.location.replace("/");
             } else {
                 Swal.fire({
-                    title: result,
+                    title: response.error || "Error iniciando sesión",
                     icon: "warning",
                     text: "Atencion",
                 });
             }
         })
         .catch((err) => {
-            console.error("Error:" + err);
+            Swal.fire({
+                title: "Error iniciando sesión",
+                icon: "warning",
+                text: "Atencion, " + err.message,
+            });
         });
 });

@@ -80,7 +80,18 @@ app.use(passport.initialize());
 
 app.use(addLogger);
 
-app.engine("handlebars", handlebars.engine());
+const hbs = handlebars.create({
+    helpers: {
+        ifEquals: (arg1, arg2, options) => {
+            return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+        },
+        ifNotEquals: (arg1, arg2, options) => {
+            return arg1 != arg2 ? options.fn(this) : options.inverse(this);
+        },
+    },
+});
+
+app.engine("handlebars", hbs.engine);
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
 

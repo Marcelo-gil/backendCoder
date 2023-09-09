@@ -32,7 +32,5 @@ HTTP_URL=<connection url>
 INACTIVITY_TIME=<inactivity time> example d2/h1/m10/s30
 ```
 
-# Observaciones: puntos a Mejorar
 
-    En las vistas de handlebars falta mostrar los mensajes de error recibidos desde el backend
-
+    

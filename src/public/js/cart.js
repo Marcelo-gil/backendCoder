@@ -14,6 +14,10 @@ function calculaCarrito(carrito) {
 }
 
 async function displayCarrito() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.role === "ADMIN") {
+        return;
+    }
     let cart = localStorage.getItem("cart");
     try {
         if (!cart) {
@@ -36,7 +40,11 @@ async function displayCarrito() {
 
         return result;
     } catch (error) {
-        throw new Error("Error reading cart");
+        Swal.fire({
+            title: "Error obteniendo el carrito",
+            icon: "warning",
+            text: "Atencion, " + error.message,
+        });
     }
 }
 
@@ -72,14 +80,15 @@ botonVaciarCarrito.onclick = async () => {
                 }
             );
             if (result.status != 200) {
-                throw new Error();
+                const response = await result.json();
+                throw new Error(response.error || "Error fetching");
             }
         }
     } catch (error) {
         Swal.fire({
-            title: "Error borrando el producto del carrito",
+            title: "Error vaciando el carrito",
             icon: "warning",
-            text: "Atencion",
+            text: "Atencion, " + error.message,
         });
     }
     Swal.fire({

@@ -5,8 +5,12 @@ import {
 
 import { getCartById as getCartByIdService } from "../services/cartsService.js";
 import { productModel } from "../dao/models/productModel.js";
-import { getByEmailUser as getByEmailUserService } from "../services/usersService.js";
+import {
+    getByEmailUser as getByEmailUserService,
+    getUsers as getUsersService,
+} from "../services/usersService.js";
 import { verifyToken } from "../utils.js";
+import { CARTS_ACCESS } from "../config/constants.js";
 
 const registerView = (req, res) => {
     res.render("register");
@@ -43,7 +47,8 @@ const getView = async (req, res) => {
         await productModel.paginate({}, { limit, page, lean: true });
 
     const user = req.user;
-    const userAdmin = (user.role==="ADMIN") 
+    const userAdmin = user.role === "ADMIN";
+    const notUserAdmin = user.role != "ADMIN";
     const products = docs;
     res.render("products", {
         user,
@@ -52,7 +57,8 @@ const getView = async (req, res) => {
         hasNextPage,
         nextPage,
         prevPage,
-        userAdmin
+        userAdmin,
+        notUserAdmin,
     });
 };
 
@@ -65,13 +71,20 @@ const homeView = async (req, res) => {
 const cartView = async (req, res) => {
     const cid = req.params.cid;
     const user = await getByEmailUserService(req.user.email);
-    if (!user.carts.find(({cart}) => cid ===cart._id.toString())) {
-        return  res.redirect("/");
+    if (!user.carts.find(({ cart }) => cid === cart._id.toString())) {
+        return res.redirect("/");
     }
     const result = await getCartByIdService(cid);
     const cart = result;
-    
-    res.render("carts", { cart: cart, user: req.user });
+
+        let total = 0;
+    let cant = 0;
+    for (const { product, quantity } of cart.products) {
+        total += product.price * quantity;
+        cant += quantity;
+    }
+
+    res.render("carts", { cart: cart, user: req.user, total, cant });
 };
 
 const productsView = async (req, res) => {
@@ -80,7 +93,8 @@ const productsView = async (req, res) => {
         await productModel.paginate({}, { limit, page, lean: true });
     const user = req.user;
     const products = docs;
-    const userAdmin = (user.role==="ADMIN") 
+    const userAdmin = user.role === "ADMIN";
+    const notUserAdmin = user.role != "ADMIN";
     res.render("products", {
         products,
         hasPrevPage,
@@ -88,14 +102,15 @@ const productsView = async (req, res) => {
         nextPage,
         prevPage,
         user,
-        userAdmin
+        userAdmin,
+        notUserAdmin,
     });
 };
 
 const productView = async (req, res) => {
     const pid = req.params.pid;
     const user = req.user;
-    const product = await getProductById(pid);    
+    const product = await getProductById(pid);
     res.render("product", { product, user });
 };
 
@@ -103,6 +118,16 @@ const realtimeproductsView = async (req, res) => {
     const result = await getProductsService();
     const arrayProducts = [...result.docs];
     res.render("realTimeProducts", { products: arrayProducts });
+};
+
+const usersView = async (req, res) => {
+    const users = (await getUsersService()).map((user) => ({
+        name: user.first_name.trim() + " " + user.last_name.trim(),
+        email: user.email,
+        role: user.role,
+        id: user._id,
+    }));
+    res.render("rolUsers", { user: req.user, users, roles: CARTS_ACCESS });
 };
 
 const chatView = async (req, res) => {
@@ -122,4 +147,5 @@ export {
     realtimeproductsView,
     chatView,
     productView,
+    usersView,
 };

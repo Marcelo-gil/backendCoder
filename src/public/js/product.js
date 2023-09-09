@@ -46,16 +46,26 @@ async function getCarrito() {
                 localStorage.setItem("cart", cart);
                 localStorage.setItem("email", user.email);
             } else {
-                throw new Error("Error creating cart");
+                const response = await result.json();
+                throw new Error(response.error || "Error creating cart");
             }
         } catch (error) {
-            throw new Error("Error creating cart");
+            throw new Error(error.message);
         }
     }
     return cart;
 }
 
 async function agregarProducto(pid) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.role === "ADMIN") {
+        Swal.fire({
+            title: "Usuario no habilitado",
+            icon: "warning",
+            text: "Atencion",
+        });
+        return;
+    }
     if (cant < 1) {
         Swal.fire({
             title: "La cantidad no puede ser menor que 1",
@@ -84,13 +94,14 @@ async function agregarProducto(pid) {
                 window.location.replace("/");
             });
         } else {
-            throw new Error();
+            const response = await result.json();
+            throw new Error(response.error || "Error inesperado");
         }
     } catch (error) {
         Swal.fire({
             title: "Error agregando el producto al carrito",
             icon: "warning",
-            text: "Atencion",
+            text: "Atencion, " + error.message,
         });
     }
 }

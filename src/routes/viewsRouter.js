@@ -10,11 +10,18 @@ import {
     realtimeproductsView,
     chatView,
     productView,
+    usersView,
 } from "../controllers/viewsController.js";
 import { __dirname } from "../utils.js";
 import Router from "./dbRoutes/router.js";
 import { passportStrategiesEnum } from "../config/enums.js";
-import { PRIVATE_ACCESS, PUBLIC_ACCESS, ROLES } from "../config/constants.js";
+import {
+    ADMIN_ACCESS,
+    PRIVATE_ACCESS,
+    CARTS_ACCESS,
+    PUBLIC_ACCESS,
+    ROLES,
+} from "../config/constants.js";
 
 export default class ViewsRouter extends Router {
     init() {
@@ -66,7 +73,7 @@ export default class ViewsRouter extends Router {
 
         this.get(
             "/product/:pid",
-            PRIVATE_ACCESS,
+            CARTS_ACCESS,
             passportStrategiesEnum.JWT,
             productView
         );
@@ -76,6 +83,13 @@ export default class ViewsRouter extends Router {
             PRIVATE_ACCESS,
             passportStrategiesEnum.JWT,
             realtimeproductsView
+        );
+
+        this.get(
+            "/usersAdmin",
+            ADMIN_ACCESS,
+            passportStrategiesEnum.JWT,
+            usersView
         );
 
         this.get("/chat", [ROLES.USER], passportStrategiesEnum.JWT, chatView);

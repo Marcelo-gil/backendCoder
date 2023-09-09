@@ -3,28 +3,21 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/products">Home</a></li>
                     {{#if userAdmin}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tienda</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="" id="todosProductos">Todos los Productos</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" id="promoProductos">Articulos en Promoción</a></li>
-                                <li><a class="dropdown-item" id="novedades">Novedades</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="./html/contacto.html">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/usersAdmin">Administración de Usuarios</a></li>
                     {{/if}}
                 </ul>
-                <button class="btn btn-outline-dark" id="btnVaciarCarrito" type="submit">
-                    <i class="bi bi-recycle"></i> Vaciar Carrito
-                </button>
-                <button class="btn btn-outline-dark" id="btnCarrito" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    <span id="idContadorCarrito" class="ms-1 rounded-pill">0</span>
-                    <span class="ms-1 rounded-pill">Total: <span id="idTotalCarrito">0</span> $</span>
-                </button>
+                {{#if notUserAdmin}}
+                    <button class="btn btn-outline-dark" id="btnVaciarCarrito" type="submit">
+                        <i class="bi bi-recycle"></i> Vaciar Carrito
+                    </button>
+                    <button class="btn btn-outline-dark" id="btnCarrito" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        <span id="idContadorCarrito" class="ms-1 rounded-pill">0</span>
+                        <span class="ms-1 rounded-pill">Total: <span id="idTotalCarrito">0</span> $</span>
+                    </button>
+                {{/if}}
             </div>
         </div>
 </nav>
@@ -49,7 +42,9 @@
                 <th scope="col">Precio</th>
                 <th scope="col">SKU</th>
                 <th scope="col">Stock</th>
-                <th scope="col">Agregar</th>    
+                {{#if notUserAdmin}}
+                    <th scope="col">Agregar</th>
+                {{/if}}
 
             </tr>
         </thead>
@@ -58,9 +53,9 @@
                 <tr style="vertical-align: middle; text-align:center;">
                     <td>
                         <div class="d-flex align-items-center">
-                            {{#if this.product.thumbnail}}
-                                {{#if this.product.thumbnail.[0]}}
-                                    <img class="rounded-circle" src="{{this.product.thumbnail.[0]}}" width="50" alt="Imagen de Articulo">
+                            {{#if this.thumbnail}}
+                                {{#if this.thumbnail.[0]}}
+                                    <img class="rounded-circle" src="{{this.thumbnail.[0]}}" width="50" alt="Imagen de Articulo">
                                 {{else}}
                                     <img class="rounded-circle" src="/img/Imagen_no_disponible.png" width="50" alt="Imagen de Articulo">
                                 {{/if}}
@@ -74,7 +69,9 @@
                     <td>{{this.price}}</td>
                     <td>{{this.code}}</td>
                     <td>{{this.stock}}</td>
-                    <td style="text-align:center"><a href="/product/{{this._id}}"><button id="btnAgregar" class="rounded-pill">Agregar</button></a></td>
+                    {{#if ../notUserAdmin}}
+                        <td style="text-align:center"><a href="/product/{{this._id}}"><button id="btnAgregar" class="rounded-pill">Agregar</button></a></td>
+                    {{/if}}
                 </tr>
             {{/each}}
         </tbody>
