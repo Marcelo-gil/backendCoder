@@ -13,7 +13,8 @@ import { verifyToken } from "../utils.js";
 import { CARTS_ACCESS } from "../config/constants.js";
 
 const registerView = (req, res) => {
-    res.render("register");
+    const errorMessage = req.query.err;
+    res.render("register", { err: errorMessage });
 };
 
 const resetView = (req, res) => {
@@ -77,7 +78,7 @@ const cartView = async (req, res) => {
     const result = await getCartByIdService(cid);
     const cart = result;
 
-        let total = 0;
+    let total = 0;
     let cant = 0;
     for (const { product, quantity } of cart.products) {
         total += product.price * quantity;

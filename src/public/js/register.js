@@ -17,7 +17,6 @@ form.addEventListener("submit", (e) => {
                 window.location.replace("/");
             } else {
                 result.json().then((r) => {
-                    errMessage.innerHTML = r.error;
                     Swal.fire({
                         title: "Error registrando Usuario",
                         icon: "warning",

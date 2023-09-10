@@ -5,7 +5,6 @@ form.addEventListener("submit", (e) => {
     const data = new FormData(form);
     const obj = {};
     data.forEach((value, key) => (obj[key] = value));
-    const errMessage = document.getElementById("errorMessage");
     fetch("/api/users/reset", {
         method: "POST",
         body: JSON.stringify(obj),
@@ -18,7 +17,6 @@ form.addEventListener("submit", (e) => {
                 window.location.replace("/");
             } else {
                 result.json().then((r) => {
-                    errMessage.innerHTML = r.error;
                     Swal.fire({
                         title: "Error reseteando la contraseña",
                         icon: "warning",
@@ -28,7 +26,6 @@ form.addEventListener("submit", (e) => {
             }
         })
         .catch((err) => {
-            errMessage.innerHTML = err.message;
             Swal.fire({
                 title: "Error reseteando la contraseña",
                 icon: "warning",

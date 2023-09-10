@@ -35,6 +35,10 @@
                                 <input name="password" type="password" class="form-control">
                             </div>
                         </div>
+                        {{#if this.err}}
+                            <br/>
+                            <p id="errorMessage" class="col-md-12 text-danger mt-3">{{this.err}}</p>
+                        {{/if}}
                         <div class="form-group">
                             <div class="col-md-12 text-center mt-3">
                                 <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
