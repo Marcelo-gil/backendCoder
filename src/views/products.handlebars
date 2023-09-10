@@ -70,7 +70,17 @@
                     <td>{{this.code}}</td>
                     <td>{{this.stock}}</td>
                     {{#if ../notUserAdmin}}
-                        <td style="text-align:center"><a href="/product/{{this._id}}"><button id="btnAgregar" class="rounded-pill">Agregar</button></a></td>
+                        {{!-- {{#ifEquals ../this.stock 0}}
+                            <td style="text-align:center"><a disabled href="/product/{{../this._id}}"><button disabled id="btnAgregar" class="rounded-pill">Agregar</button></a></td>
+                        {{/ifEquals}} --}}
+                        <td style="text-align:center">
+                            {{#ifNotEquals this.stock 0}}
+                                <a href="/product/{{../this._id}}"><button class="rounded-pill">Agregar</button></a>
+                            {{/ifNotEquals}}
+                            {{#ifEquals this.stock 0}}
+                                Sin Stock
+                            {{/ifEquals}}
+                        </td>
                     {{/if}}
                 </tr>
             {{/each}}

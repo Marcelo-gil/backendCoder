@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "express-compression";
 import "./dao/dbManager/dbConfig.js";
 import ProductsRouter from "./routes/dbRoutes/productsRouter.js";
 import CartsRouter from "./routes/dbRoutes/cartsRouter.js";
@@ -49,6 +50,7 @@ if (frontend_external_account) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
+app.use(compression());
 
 const swaggerOptions = {
     definition: {

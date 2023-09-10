@@ -15,6 +15,15 @@ form.addEventListener("submit", (e) => {
         .then((result) => {
             if (result.status === 200) {
                 window.location.replace("/");
+            } else {
+                result.json().then((r) => {
+                    errMessage.innerHTML = r.error;
+                    Swal.fire({
+                        title: "Error registrando Usuario",
+                        icon: "warning",
+                        text: "Atencion, " + r.error,
+                    });
+                });
             }
         })
         .catch((err) => {

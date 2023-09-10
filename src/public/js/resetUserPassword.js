@@ -19,10 +19,20 @@ form.addEventListener("submit", (e) => {
             } else {
                 result.json().then((r) => {
                     errMessage.innerHTML = r.error;
+                    Swal.fire({
+                        title: "Error reseteando la contraseña",
+                        icon: "warning",
+                        text: "Atencion, " + r.error,
+                    });
                 });
             }
         })
         .catch((err) => {
             errMessage.innerHTML = err.message;
+            Swal.fire({
+                title: "Error reseteando la contraseña",
+                icon: "warning",
+                text: "Atencion, " + err.message,
+            });
         });
 });
