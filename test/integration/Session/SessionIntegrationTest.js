@@ -16,11 +16,6 @@ describe("Testing Session", () => {
     const emailAdmin = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
-    /**
-     * Al no existir un metodo para borrar un usuario se debe cambiar la
-     * constante emailMock para que no falle el test
-     */
-
     it("Intentar crear un usuario con Role Premium", async () => {
         const userMock = {
             first_name: "Juan",
