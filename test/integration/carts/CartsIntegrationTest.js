@@ -25,6 +25,7 @@ describe("Testing Carts", () => {
         const loginResult = await requester
             .post("/api/users/login")
             .send(credentialsMock);
+
         const cookieResult = loginResult.headers["set-cookie"][0];
 
         const cookieResultSplit = cookieResult.split("=");

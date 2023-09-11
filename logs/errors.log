@@ -1,2 +1,8 @@
 {"level":"error","message":"[controllers/usersController.js] /resetEmailUser Email not found"}
 {"level":"error","message":"[controllers/usersController.js] /resetEmailUser Email not found"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}
+{"level":"error","message":"[controllers/productsController.js] /getProductById Producto Inexistente"}

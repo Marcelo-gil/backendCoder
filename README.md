@@ -10,6 +10,9 @@ https://backendcoder-production-cc7a.up.railway.app/
 
 `npm run start`
 
+# Ejecucion de test:
+`npm run test`
+
 # Documentacion del proyecto:
 
 https://backendcoder-production-cc7a.up.railway.app/api/docs/

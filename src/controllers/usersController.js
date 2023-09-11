@@ -38,6 +38,7 @@ const loginUser = async (req, res) => {
             };
         } else {
             user = await getByEmailUserService(email);
+            if (!user) throw new Error ("Email not found")
 
             const comparePassword = isValidPassword(user, password);
             if (!comparePassword) {
@@ -90,7 +91,10 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
     try {
         const { first_name, last_name, email, password } = req.body;
-        const role = ROLES.USER;
+        const role = (req.body.role) ? req.body.role : ROLES.USER;
+        
+        if (role!=ROLES.USER) return res.sendClientError("Rol incorrecto, faltan credenciales");
+        
         if (!first_name || !last_name || !role || !email || !password)
             return res.sendClientError("incomplete values");
 
